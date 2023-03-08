@@ -27,6 +27,7 @@
 
 ### Admin
 - [Keefe] Dashboard (Overall Sales)
+- [Keefe] Update Staff account - CRUD users
 - [Shawn] Order History (Filter by Customer)
 
 
