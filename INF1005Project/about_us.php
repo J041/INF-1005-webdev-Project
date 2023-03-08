@@ -15,7 +15,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
         ?>
         <div class="container">
             <div class="row">
-                <img src="/static/assets/img/logo.png" class="img-fluid" alt="Responsive image">
+                <div class="col-md-6 mx-auto my-5">
+                    <img src="/static/assets/img/logo.png" class="img-fluid" alt="Responsive image">
+                </div>
                 <div class="col-md-6 mx-auto my-5">
                     <h2>About Us</h2>
                     <p>We are a company that specializes in providing high-quality services and products to our customers. With years of experience and a team of dedicated professionals, we strive to meet the needs and exceed the expectations of our clients.</p>
