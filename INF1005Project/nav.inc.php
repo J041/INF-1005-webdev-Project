@@ -6,9 +6,12 @@
         </div>
 
         <div class="navb-items d-none d-xl-flex">
-            <div class="item">
-                <a href="/index.php">Home</a>
-            </div>
+            <form action="catalogue.php" method="GET">
+                <div class="search-container">
+                    <input class="search-bar" id="search_bar" type="search" name="search_bar" placeholder="Search for Products..." aria-labelledby="search_bar">
+                    <label class="search-bar-icon" for="search_bar"><i class="fa-solid fa-magnifying-glass"></i></label>
+                </div>
+            </form>
             <div class="item">
                 <a href="/catalogue.php">Catalogue</a>
             </div>
@@ -19,7 +22,7 @@
                 <a href="/about_us.php">About Us</a>
             </div>
             <div class="item">
-                <a href="/login.php">Login/Register</a>
+                <a href="/login.php"><i class="fa-solid fa-right-to-bracket"></i></a>
             </div>
         </div>
 
@@ -41,7 +44,10 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-item">
-                            <a href="/index.php"><i class="fa-solid fa-house"></i> Home</a>
+                            <form action="catalogue.php" method="GET">
+                                <input id="search_bar_modal" type="search" name="search_bar_modal" placeholder="Search for Products..." aria-labelledby="search_bar_compressed">
+                                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </form>
                         </div>
                         <div class="modal-item">
                             <a href="/catalogue.php"><i class="fa-solid fa-shop"></i> Catalogue</a>

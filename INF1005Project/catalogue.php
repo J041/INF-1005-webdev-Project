@@ -27,28 +27,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
           echo "Connected successfully";
          */
         ?>
-
+        
         <div class="container">
-            <div class="catalogue-search">
-                <div class="row">
-                    <div class="input-group">
-                        <div class="col-sm-1">
-                            <label class="form-label align-middle" for="catalogue_search">Search</label>
-                        </div>
-                        <div class="col-sm-10">
-                            <div class="form-outline">
-                                <input id="search-focus" type="search" id="catalogue_search" placeholder="E.g. Enter your search term here... (E.g. Cards)" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="col-sm-1">
-                            <button type="button" class="btn btn-primary">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
+            <!-- 
+            List of Product Categories:
+            - Eggs and Diary Products
+            - Dry and Canned Goods
+            - Meats and Produce
+            - Drinks and Alcohol
+            - Sweets and Snacks
+            - Miscellaneous
+            -->
+            <div class="row">
+                <div class="container catalogue-display">
+                    <h1>Home/Products/Eggs and Dairy Products</h1>
+                    <h2>Eggs and Dairy Products</h2>
                 </div>
             </div>
-
+            
             <div class="row">
                 <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
                     <div class="catalogue-items">
