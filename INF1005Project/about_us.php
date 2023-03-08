@@ -20,7 +20,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                     <h2>About Us</h2>
                     <p>We are a company that specializes in providing high-quality services and products to our customers. With years of experience and a team of dedicated professionals, we strive to meet the needs and exceed the expectations of our clients.</p>
                     <p>Our mission is to deliver exceptional value and customer satisfaction through innovative solutions and superior customer service.</p>
-                    <p>Thank you for considering us for your needs. We look forward to working with you!</p>gfnhf
+                    <p>Thank you for considering us for your needs. We look forward to working with you!</p>
                 </div>
             </div>
         </div>
