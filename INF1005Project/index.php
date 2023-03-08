@@ -16,7 +16,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
         <div class="container">
             <div class="row">
                 <h1>Welcome to Value Convenience Store</h1>
-                hello
+                <h1>hello</h1>
             </div>
         </div>
         <?php
