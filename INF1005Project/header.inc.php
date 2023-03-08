@@ -5,12 +5,12 @@
           integrity=
           "sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="static/assets/fontawesome/css/all.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css  "/>
     <link rel="stylesheet" href="static/assets/css/main.css">
 
     <!--jQuery-->
     <script defer
-            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            src="https://code.jquery.com/jquery-3.4.1.min.js"x
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous">
     </script>
