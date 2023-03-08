@@ -15,21 +15,23 @@
 	-> Product Description
 	-> Number of items left
 - [Joel] About Us
-- [Shawn] Order History (Filter by Staff/Customer)
-- [Ray Son] Customer Feedback/Review (Can view w/o login but need to login to leave review) -> both Staff and Customer can leave review
+- [Shawn] Order History (Filter by Customer)
+- [Ray Son] Customer Feedback/Review (Can view w/o login but need to login to leave review)
 
 ### Customers
 - [Ray Son] Checkout page
 - [Ray Son] Payment Page
 
+### Staff + Admin
+- [Finn] Update Product Catalogue - CRUD Product Items
+
 ### Admin
 - [Keefe] Dashboard (Overall Sales)
-- [Finn] Standard Table - CRUD Product Items
-- [Shawn] Order History (Filter by Staff/Customer)
+- [Shawn] Order History (Filter by Customer)
 
 
 ## \<Roles\>:
-- Admin (Root) - Manage privileges
+- Admin: View dashboard
 - Staff: Maintain catalogs
 - Customers
 
