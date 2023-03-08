@@ -24,7 +24,7 @@
         </div>
 
         <!-- Compressed Navigation Bar Toggle -->
-        <div class="mobile-navb d-lg-none">
+        <div class="mobile-navb d-xl-none">
             <a href="#" data-toggle="modal" data-target="#navbCompress">
                 <i class="fa-solid fa-bars"></i>
             </a>
