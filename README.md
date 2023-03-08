@@ -1,12 +1,12 @@
-Website Theme: E-commerce (Mama Shop)
+# Website Theme: E-commerce (Mama Shop)
 
-Standarized Features:
+## Standarized Features:
 - Navigation Bar w/ Search Bar (Home, Search Bar, Catalogue, Order History, Cart Icon --> redirect if not login, Login/Register)
 - All pages to be responsive (Bootstrap)
 - Parameterized Query for all inputs
 
-Features - 1 page/feature:
-Common Pages - All users
+## Features - 1 page/feature:
+### Common Pages - All users
 - [Keefe] Home Page (Carousell of Promotions Items, Icons of Products Categories --> link to product catalogue)
 - [Shawn] Login (Customer/Staff/Admin)
 - [Shawn] Register (Customer)
@@ -18,22 +18,22 @@ Common Pages - All users
 - [Shawn] Order History (Filter by Manager/Customer)
 - [Ray Son] Customer Feedback/Review (Can view w/o login but need to login to leave review) -> both Manager and Customer can leave review
 
-Customers
+### Customers
 - [Ray Son] Checkout page
 - [Ray Son] Payment Page
 
-DB Admin
+### Admin
 - [Keefe] Dashboard (Overall Sales)
 - [Finn] Standard Table - CRUD Product Items
 - [Shawn] Order History (Filter by Manager/Customer)
 
 
-<Roles>:
+## \<Roles\>:
 - Admin (Root) - Manage privileges
 - Staff: Maintain catalogs
 - Customers
 
-[Joel] DB Schemas (CRUD for all)
+## [Joel] DB Schemas (CRUD for all)
 - Products (Has a promo column) 
 	[product_id (INT 4), product_img (BLOB), product_name (VARCHAR 255), product_desc (TEXT), quantity (INT 6), price (FLOAT), is_active (INT 1), created_at (DATETIME), promo (FLOAT)]
 - Users
