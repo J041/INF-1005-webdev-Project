@@ -20,9 +20,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                 </div>
                 <div class="col-md-6 mx-auto my-5">
                     <h2>About Us</h2>
-                    <p>We are a company that specializes in providing high-quality services and products to our customers. With years of experience and a team of dedicated professionals, we strive to meet the needs and exceed the expectations of our clients.</p>
-                    <p>Our mission is to deliver exceptional value and customer satisfaction through innovative solutions and superior customer service.</p>
-                    <p>Thank you for considering us for your needs. We look forward to working with you!</p>
+                    <p>Welcome to our online Mama Shop! We are a family-owned business that aims to provide you with a convenient and hassle-free shopping experience for all your daily necessities.</p>
+                    <p>Our Mama Shop is based on the traditional concept of the local convenience store, but we have adapted it to the modern world by creating an online platform that allows you to shop from the comfort of your own home. We offer a wide range of products, from household essentials to snacks and beverages, and we are constantly adding new items to our inventory.</p>
+                    <p>At our Mama Shop, we believe that quality and affordability should go hand in hand. We work directly with suppliers to bring you the best prices on high-quality products, and we are committed to ensuring that our customers are always satisfied with their purchases.</p>
+                    <p>Our team is dedicated to providing you with exceptional customer service. If you have any questions or concerns, we are always here to help. We pride ourselves on our responsiveness and our ability to address any issues that may arise.</p>
+                    <p>Thank you for choosing our Mama Shop for your online shopping needs. We are grateful for your support and look forward to providing you with an excellent shopping experience!</p>
                 </div>
             </div>
         </div>
