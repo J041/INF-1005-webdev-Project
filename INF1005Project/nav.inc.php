@@ -21,32 +21,32 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCatalogue">
                         <form action="/catalogue.php" method="GET">
                             <div class="dropdown-item">
-                                <input type="submit" name="Eggs and Diary Products" value="Eggs and Diary Products" />
+                                <input type="submit" name="search_bar" value="Eggs and Diary Products" />
+                            </div>
+                            <!-- To replace this with a loop -->
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item">
+                                <input type="submit" name="search_bar" value="Dry and Canned Goods" />
                             </div>
                             <div class="dropdown-divider"></div>
                             
                             <div class="dropdown-item">
-                                <input type="submit" name="Dry and Canned Goods" value="Dry and Canned Goods" />
+                                <input type="submit" name="search_bar" value="Meats and Produce" />
                             </div>
                             <div class="dropdown-divider"></div>
                             
                             <div class="dropdown-item">
-                                <input type="submit" name="Meats and Produce" value="Meats and Produce" />
+                                <input type="submit" name="search_bar" value="Drinks and Alcohol" />
                             </div>
                             <div class="dropdown-divider"></div>
                             
                             <div class="dropdown-item">
-                                <input type="submit" name="Drinks and Alcohol" value="Drinks and Alcohol" />
+                                <input type="submit" name="search_bar" value="Sweets and Snacks" />
                             </div>
                             <div class="dropdown-divider"></div>
                             
                             <div class="dropdown-item">
-                                <input type="submit" name="Sweets and Snacks" value="Sweets and Snacks" />
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            
-                            <div class="dropdown-item">
-                                <input type="submit" name="Miscellaneous" value="Miscellaneous" />
+                                <input type="submit" name="search_bar" value="Miscellaneous" />
                             </div>
                         </form>
                     </div>
@@ -82,7 +82,7 @@
                     <div class="modal-body">
                         <div class="modal-item">
                             <form action="catalogue.php" method="GET">
-                                <input id="search_bar_modal" type="search" name="search_bar_modal" placeholder="Search for Products..." aria-labelledby="search_bar_compressed">
+                                <input id="search_bar_modal" type="search" name="search_bar" placeholder="Search for Products..." aria-labelledby="search_bar_compressed">
                                 <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </form>
                         </div>

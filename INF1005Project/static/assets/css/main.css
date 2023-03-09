@@ -72,8 +72,13 @@ header .item {
 }
 
 header .item:hover {
+    color: #F0B36A;
     border-bottom: 3px solid #64d6f4;
     border-top: 3px solid #64d6f4;
+}
+
+header .item a:hover {
+    text-decoration: none;
 }
 
 /* Navigation - Search Bar */
@@ -120,14 +125,20 @@ header .search-bar-icon {
 
 /* Dropdown Catalogue Menu */
 header .item .dropdown-menu {
+    background-color: #f6f6f6;
     margin-top: 10px;
 }
 
 header .item .dropdown-item input{
     border: none;
-    background-color: #fff;
+    background-color: #f6f6f6;
     letter-spacing: 1px;
     padding: 3px;
+}
+
+header .item .dropdown-item input:hover, header .item .dropdown-item:hover {
+    background-color: #fff;
+    color: #F0B36A;
 }
 
 /* Navigation Bar - Compressed */

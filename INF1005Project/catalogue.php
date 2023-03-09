@@ -13,29 +13,44 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
         <?php
         include "nav.inc.php";
         /*
-          $servername = "localhost";
-          $username = "username";
-          $password = "password";
-
-          // Create connection
-          $conn = mysqli_connect($servername, $username, $password);
-
-          // Check connection
-          if (!$conn) {
-          die("Connection failed: " . mysqli_connect_error());
-          }
-          echo "Connected successfully";
+        global $fname, $lname, $email, $pwd_hashed, $errorMsg, $success;
+        // Create database connection.
+        $config = parse_ini_file('../../private/db-config.ini');
+        $conn = new mysqli($config['servername'], $config['username'],
+                $config['password'], $config['dbname']);
+        // Check connection
+        if ($conn->connect_error) {
+            $errorMsg = "Connection failed: " . $conn->connect_error;
+            $success = false;
+        } else {
+            
+        }
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        echo "Connected successfully";
          */
         ?>
-        
+
         <div class="container">
             <div class="row">
                 <div class="container catalogue-display">
-                    <h1>Home/Products/Eggs and Dairy Products</h1>
-                    <h2>Eggs and Dairy Products</h2>
+                    <?php
+                    $search_query = $_GET['search_bar'];
+                    // To replace array with SQL Query for unique Product Categories
+                    $category_array = array("Eggs and Diary Products", "Dry and Canned Goods", "Meats and Produce", "Drinks and Alcohol", "Sweets and Snacks", "Miscellaneous");
+                    if (in_array($search_query, $category_array)) {
+                        echo"<h1>Home/Products/". $search_query ."</h1>";
+                        echo"<h2>". $search_query ."</h2>";
+                    } else {
+                        echo"<h1>Search result for </h1>";
+                        echo"<h2>\"". $search_query ."\"</h2>";
+                    }
+                    ?>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
                     <div class="catalogue-items">
@@ -56,7 +71,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                         </button>
                     </div>
                 </div>
-                
+
                 <!<!-- Testing - To be removed -->
                 <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
                     <div class="catalogue-items">
@@ -77,7 +92,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
                     <div class="catalogue-items">
                         <img src="static/assets/img/logo.png" alt="img">
@@ -97,7 +112,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
                     <div class="catalogue-items">
                         <img src="static/assets/img/logo.png" alt="img">
