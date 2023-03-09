@@ -29,15 +29,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
         ?>
         
         <div class="container">
-            <!-- 
-            List of Product Categories:
-            - Eggs and Diary Products
-            - Dry and Canned Goods
-            - Meats and Produce
-            - Drinks and Alcohol
-            - Sweets and Snacks
-            - Miscellaneous
-            -->
             <div class="row">
                 <div class="container catalogue-display">
                     <h1>Home/Products/Eggs and Dairy Products</h1>

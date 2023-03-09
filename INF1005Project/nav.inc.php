@@ -13,7 +13,44 @@
                 </div>
             </form>
             <div class="item">
-                <a href="/catalogue.php">Catalogue</a>
+                <div class="dropdown show">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Catalogue
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCatalogue">
+                        <form action="/catalogue.php" method="GET">
+                            <div class="dropdown-item">
+                                <input type="submit" name="Eggs and Diary Products" value="Eggs and Diary Products" />
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            
+                            <div class="dropdown-item">
+                                <input type="submit" name="Dry and Canned Goods" value="Dry and Canned Goods" />
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            
+                            <div class="dropdown-item">
+                                <input type="submit" name="Meats and Produce" value="Meats and Produce" />
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            
+                            <div class="dropdown-item">
+                                <input type="submit" name="Drinks and Alcohol" value="Drinks and Alcohol" />
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            
+                            <div class="dropdown-item">
+                                <input type="submit" name="Sweets and Snacks" value="Sweets and Snacks" />
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            
+                            <div class="dropdown-item">
+                                <input type="submit" name="Miscellaneous" value="Miscellaneous" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="item">
                 <a href="/cart.php">Cart</a>

@@ -76,6 +76,7 @@ header .item:hover {
     border-top: 3px solid #64d6f4;
 }
 
+/* Navigation - Search Bar */
 header .search-container {
     position: relative;
     display: inline-block;
@@ -115,6 +116,18 @@ header .search-bar-icon {
     -moz-transition-duration: 0.4s;
     -webkit-transition-duration: 0.4s;
     -o-transition-duration: 0.4s;
+}
+
+/* Dropdown Catalogue Menu */
+header .item .dropdown-menu {
+    margin-top: 10px;
+}
+
+header .item .dropdown-item input{
+    border: none;
+    background-color: #fff;
+    letter-spacing: 1px;
+    padding: 3px;
 }
 
 /* Navigation Bar - Compressed */
