@@ -8,7 +8,7 @@
 ## Features - 1 page/feature:
 ### Common Pages - All users
 - [Keefe] Home Page (Carousell of Promotions Items, Icons of Products Categories --> link to product catalogue)
-- [Shawn] Login (Customer/Staff/Admin)
+- [Shawn] Login/Logout (Customer/Staff/Admin)
 - [Shawn] Register (Customer)
 - [Joel] Update Profile
 - [Finn] Product Catalogue w/ shopping cart
