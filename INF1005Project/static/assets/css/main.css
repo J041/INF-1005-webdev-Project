@@ -337,3 +337,22 @@ div .catalogue-button {
 */
 
 
+/*Payment Page*/
+#creditcardinfo .form-group, #cardname .form-group, #paybtn .form-group{
+    display:inline-block;
+    padding-right:3%;
+}
+#cardnumber{
+    width: 18%;
+}
+
+#cancelpayment {
+    border-radius:5px;
+    background-color: red;
+    color:white;
+    padding:9px 45px 9px 45px;
+}
+#securitycode{
+    width:100px;
+}
+
