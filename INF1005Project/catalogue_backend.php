@@ -12,7 +12,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
     <body>
         <?php
         include "nav.inc.php";
-        /*
           global $fname, $lname, $email, $pwd_hashed, $errorMsg, $success;
           // Create database connection.
           $config = parse_ini_file('../../private/db-config.ini');
@@ -30,7 +29,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
           die("Connection failed: " . mysqli_connect_error());
           }
           echo "Connected successfully";
-         */
         ?>
 
         <div class="container-fluid">
@@ -87,11 +85,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                                         <option value="Active">Active</option>
                                         <option value="Inactive">Inactive</option>
                                     </select>
-                                </div>
-
-                                <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
-                                    <label class="" for="product_name">Product Image: </label>
-                                    <input class="" type="image" name="product_img" placeholder="E.g. Calendar" aria-labelledby="product_name">
                                 </div>
                             </div>
                         </div>
