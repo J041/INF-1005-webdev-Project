@@ -14,7 +14,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
         include "nav.inc.php";
         ?>
         <div class="container">
-            <form action="process_updateprofile.php" method="post">
+            <form action="process_updateprofile.php" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="email">Username:</label>
                     <input class="form-control" type="username" id="username"
@@ -29,7 +29,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                     <label for="profilepic">Profile Picture</label>
                     <br>
                     <input type="file" id="profilepic" 
-                           name="filename">
+                           name="profilepic">
                 </div>
                 <div class="form-group">
                         <button class="btn btn-primary" type="submit">Update</button>
