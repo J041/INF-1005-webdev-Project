@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edit this template
--->
 <html>
     <head>
         <?php
@@ -15,158 +11,104 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
         ?>
 
         <div class="container">
-            <div class="row">
-                <div class="container catalogue-display">
-                    <?php
-                    $search_query = $_GET['search_bar'];
+            <?php
+            // Establishing Global Variables
+            global $search_query, $logic;
+            $search_query = $_GET['search_bar'];
 
-                    // To replace array with SQL Query for unique Product Categories
-                    $category_array = array("Eggs and Diary Products", "Dry and Canned Goods", "Meats and Produce", "Drinks and Alcohol", "Sweets and Snacks", "Miscellaneous");
-                    if (in_array($search_query, $category_array)) {
-                        echo"<h1>Home/Products/" . $search_query . "</h1>";
-                        echo"<h2>" . $search_query . "</h2>";
-                    } elseif ($search_query == "") {
-                        echo"<h1>Returning results for </h1>";
-                        echo"<h2>All Products</h2>";
-                    } else {
-                        echo"<h1>Search result for </h1>";
-                        echo"<h2>\"" . $search_query . "\"</h2>";
-                    }
-                    ?>
-                </div>
-            </div>
+            // Create database connection.
+            $config = parse_ini_file('../private/db-config.ini');
+            $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
 
-            <div class="row">
-                <?php
-                // Defining SQL Product Columns
-<<<<<<< HEAD
-                //global $product_id, $product_name, $product_desc, $product_category, $quantity, $price, , $created_at, $promo;
-                
-=======
-                global $product_id, $product_name, $product_desc, $product_category, $quantity, $price, $is_active, $created_at, $promo;
-                $is_active = 1;
->>>>>>> ee5cf67db92d1b51e850fdc8f969435ea597d0a4
-                // Create database connection.
-                $config = parse_ini_file('../private/db-config.ini');
-                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+            // Check connection
+            if ($conn->connect_error) {
+                $errorMsg = "Connection failed: " . $conn->connect_error;
+                $success = false;
+            }
 
-                // Check connection
-                if ($conn->connect_error) {
-                    $errorMsg = "Connection failed: " . $conn->connect_error;
-                    $success = false;
-                }
-                echo "Connected successfully";
-                // Prepare query statement:
-                $stmt = $conn->prepare("SELECT * FROM mydb.Products WHERE is_active=?");
+            // Prepare, Bind & Execute SELECT statement to retrieve all active products
+            $is_active = 1;
 
-                // Bind & execute the query statement:
-                $is_active = 1;
+            // SQL Query Logic
+            if (count($category_array) == 0) {
+                // No active product categories found --> Logic = 0
+                $logic = 0;
+            } elseif (in_array($search_query, $category_array)) {
+                // Users clicks on product category in the dropdown --> Logic = 1
+                $logic = 1;
+                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_category=?");
+                $stmt->bind_param("is", $is_active, $search_query);
+            } elseif ($search_query == "") {
+                // Manually enters catalogue.php in URL --> Logic = 2
+                $logic = 2;
+                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
                 $stmt->bind_param("i", $is_active);
-                
-                
-                $stmt->execute();
-                $result = $stmt->get_result();
-                echo "<p>" . $result . "</p>";
-                if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<p>" . $row["product_name"] . "</p>";
-                        echo "<p>" . $row["price"] . "</p>";
-                    }
+            } else {
+                // Search for specific items --> Logic = 3
+                $logic = 3;
+                $param = "%{$search_query}%";
+                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_name LIKE ?");
+                $stmt->bind_param("is", $is_active, $param);
+            }
+            $stmt->execute();
+
+            // Output Header of Catalogue Page
+            echo "<div class=\"row\">";
+            echo "<div class=\"container catalogue-display\">";
+            if ($logic == 0) {
+                echo"<h1>Please try a different search term/product category.</h1>";
+                echo"<h2>No results found! </h2>";
+            } elseif ($logic == 1) {
+                echo"<h1>Home/Products/" . $search_query . "</h1>";
+                echo"<h2>" . $search_query . "</h2>";
+            } elseif ($logic == 2) {
+                echo"<h1>Returning results for </h1>";
+                echo"<h2>All Products</h2>";
+            } else {
+                echo"<h1>Search result for </h1>";
+                echo"<h2>\"" . $search_query . "\"</h2>";
+            }
+            echo "</div>";
+            echo "</div>";
+
+            // Output Query Results into HTML
+            $result = $stmt->get_result();
+            echo "<div class=\"row\">";
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    // Formatting of display price
+                    $price_string = floatval($row["price"]);
+
+                    echo "<div class=\"catalogue-box col-sm-12 col-md-6 col-lg-4\">";
+                    echo "<div class=\"catalogue-items\">";
+                    echo "<img src=\"static/assets/img/products/" . $row["product_name"] . ".jpg\" alt=\"img_" . $row["product_name"] . "\">";
+                    echo "</div>";
+                    echo "<div class=\"catalogue-items\">";
+                    echo "<p>" . $row["product_name"] . "</p>";
+                    echo "</div>";
+                    echo "<div class=\"catalogue-items\">";
+                    echo "<p> SGD $" . number_format($price_string, 2, '.', '') . "</p>";
+                    echo "</div>";
+                    echo "<div class=\"catalogue-button\">";
+                    echo "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#catalogue_item\">";
+                    echo "More Details";
+                    echo "</button>";
+                    echo "<button type=\"button\" class=\"btn btn-outline-success btn-sm\">";
+                    echo "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>";
+                    echo "</button>";
+                    echo "</div>";
+                    echo "</div>";
                 }
-                // Check connection
-                if (!$conn) {
-                    die("Connection failed: " . mysqli_connect_error());
-                } else {
-                    $conn ->close();
-                }
+            }
+            echo "</div>";
 
-                /*
-                  <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">
-                  <div class="catalogue-items">
-                  <img src="static/assets/img/products/ferrero_rocher.jpg" alt="img">
-                  </div>
-                  <div class="catalogue-items">
-                  <p>Item 1</p>
-                  </div>
-                  <div class="catalogue-items">
-                  <p>SGD $1.00</p>
-                  </div>
-                  <div class="catalogue-button">
-                  <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
-                  More Details
-                  </button>
-                  <button type="button" class="btn btn-outline-success btn-sm">
-                  + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
-                  </button>
-                  </div>
-                  </div>
-                 */
-                ?>
-
-                <!<!-- Testing - To be removed -->
-                <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
-                    <div class="catalogue-items">
-                        <img src="static/assets/img/products/meiji_fresh_milk.jpg" alt="img">
-                    </div>
-                    <div class="catalogue-items">
-                        <p>Item 2</p>
-                    </div>
-                    <div class="catalogue-items">
-                        <p>SGD $2.00</p>
-                    </div>
-                    <div class="catalogue-button">
-                        <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
-                            More Details
-                        </button>
-                        <button type="button" class="btn btn-outline-success btn-sm">
-                            + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
-                    <div class="catalogue-items">
-                        <img src="static/assets/img/products/salted_peanuts.jpg" alt="img">
-                    </div>
-                    <div class="catalogue-items">
-                        <p>Item 3</p>
-                    </div>
-                    <div class="catalogue-items">
-                        <p>SGD $3.00</p>
-                    </div>
-                    <div class="catalogue-button">
-                        <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
-                            More Details
-                        </button>
-                        <button type="button" class="btn btn-outline-success btn-sm">
-                            + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
-                    <div class="catalogue-items">
-                        <img src="static/assets/img/logo.png" alt="img">
-                    </div>
-                    <div class="catalogue-items">
-                        <p>Item 4</p>
-                    </div>
-                    <div class="catalogue-items">
-                        <p>SGD $4.00</p>
-                    </div>
-                    <div class="catalogue-button">
-                        <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
-                            More Details
-                        </button>
-                        <button type="button" class="btn btn-outline-success btn-sm">
-                            + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-
+            // Check connection
+            if (!$conn) {
+                die("Connection failed: " . mysqli_connect_error());
+            } else {
+                $conn->close();
+            }
+            ?>
 
             <!-- Modal -->
             <div class="modal fade" id="catalogue_item" tabindex="-1" role="dialog" aria-labelledby="catalogue_item" aria-hidden="true">
@@ -178,10 +120,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                     </div>
                 </div>
             </div>
-        </div>    
 
-        <?php
-        include "footer.inc.php";
-        ?>
+            <?php
+            include "footer.inc.php";
+            ?>
+        </div>
     </body>
 </html>
