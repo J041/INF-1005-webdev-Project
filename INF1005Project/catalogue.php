@@ -65,11 +65,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                 $stmt->execute();
                 $result = $stmt->get_result();
 //                echo "<p>" . $result . "</p>";
-                $row = $result->fetch_assoc();
+//                $row = $result->fetch_assoc();
 //                echo "<p>" . $row["product_name"] . "</p>";
 //                echo "Connection still successfully";
                 if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
+//                    $row = $result->fetch_assoc();
 //                    echo "<p>" . $row["product_name"] . "</p>";
                     while ($row = $result->fetch_assoc()) {
                         echo "<p>" . $row["product_name"] . "</p>";
