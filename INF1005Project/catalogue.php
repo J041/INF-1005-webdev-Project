@@ -39,137 +39,144 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
             <div class="row">
                 <?php
                 // Defining SQL Product Columns
-                global $product_id, $product_name, $product_desc, $product_category, $quantity, $price, $is_active, $created_at, $promo;
-                $is_active = 1
+                //global $product_id, $product_name, $product_desc, $product_category, $quantity, $price, , $created_at, $promo;
+                
                 // Create database connection.
                 $config = parse_ini_file('../private/db-config.ini');
                 $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
-                
+
                 // Check connection
                 if ($conn->connect_error) {
                     $errorMsg = "Connection failed: " . $conn->connect_error;
                     $success = false;
+                }
+                echo "Connected successfully";
+                // Prepare query statement:
+                $stmt = $conn->prepare("SELECT * FROM mydb.Products WHERE is_active=?");
+
+                // Bind & execute the query statement:
+                $is_active = 1;
+                $stmt->bind_param("i", $is_active);
+                
+                
+                $stmt->execute();
+                $result = $stmt->get_result();
+                echo "<p>" . $result . "</p>";
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<p>" . $row["product_name"] . "</p>";
+                        echo "<p>" . $row["price"] . "</p>";
+                    }
+                }
+                // Check connection
+                if (!$conn) {
+                    die("Connection failed: " . mysqli_connect_error());
                 } else {
-                    // Prepare query statement:
-                    $stmt = $conn->prepare("SELECT * FROM mydb.Products WHERE is_active=?");
+                    $conn ->close();
+                }
 
-                    // Bind & execute the query statement:
-                    $stmt->bind_param("i", $is_active);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    if ($result->num_rows > 0) {
-                        $row = $result->fetch_assoc();
-                        $product_name = $row["product_name"];
-                        $price = $row["price"];
-                    }
-                    // Check connection
-                    if (!$conn) {
-                        die("Connection failed: " . mysqli_connect_error());
-                    }
-                    echo "Connected successfully";
-                    echo ". $product_name .";
-                    echo ". $price .";
-                    /*
-                      <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">
-                      <div class="catalogue-items">
-                      <img src="static/assets/img/products/ferrero_rocher.jpg" alt="img">
-                      </div>
-                      <div class="catalogue-items">
-                      <p>Item 1</p>
-                      </div>
-                      <div class="catalogue-items">
-                      <p>SGD $1.00</p>
-                      </div>
-                      <div class="catalogue-button">
-                      <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
-                      More Details
-                      </button>
-                      <button type="button" class="btn btn-outline-success btn-sm">
-                      + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
-                      </button>
-                      </div>
-                      </div>
-                     */
-                    ?>
+                /*
+                  <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">
+                  <div class="catalogue-items">
+                  <img src="static/assets/img/products/ferrero_rocher.jpg" alt="img">
+                  </div>
+                  <div class="catalogue-items">
+                  <p>Item 1</p>
+                  </div>
+                  <div class="catalogue-items">
+                  <p>SGD $1.00</p>
+                  </div>
+                  <div class="catalogue-button">
+                  <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
+                  More Details
+                  </button>
+                  <button type="button" class="btn btn-outline-success btn-sm">
+                  + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
+                  </button>
+                  </div>
+                  </div>
+                 */
+                ?>
 
-                    <!<!-- Testing - To be removed -->
-                    <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
-                        <div class="catalogue-items">
-                            <img src="static/assets/img/products/meiji_fresh_milk.jpg" alt="img">
-                        </div>
-                        <div class="catalogue-items">
-                            <p>Item 2</p>
-                        </div>
-                        <div class="catalogue-items">
-                            <p>SGD $2.00</p>
-                        </div>
-                        <div class="catalogue-button">
-                            <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
-                                More Details
-                            </button>
-                            <button type="button" class="btn btn-outline-success btn-sm">
-                                + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
-                            </button>
-                        </div>
+                <!<!-- Testing - To be removed -->
+                <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
+                    <div class="catalogue-items">
+                        <img src="static/assets/img/products/meiji_fresh_milk.jpg" alt="img">
                     </div>
-
-                    <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
-                        <div class="catalogue-items">
-                            <img src="static/assets/img/products/salted_peanuts.jpg" alt="img">
-                        </div>
-                        <div class="catalogue-items">
-                            <p>Item 3</p>
-                        </div>
-                        <div class="catalogue-items">
-                            <p>SGD $3.00</p>
-                        </div>
-                        <div class="catalogue-button">
-                            <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
-                                More Details
-                            </button>
-                            <button type="button" class="btn btn-outline-success btn-sm">
-                                + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
-                            </button>
-                        </div>
+                    <div class="catalogue-items">
+                        <p>Item 2</p>
                     </div>
-
-                    <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
-                        <div class="catalogue-items">
-                            <img src="static/assets/img/logo.png" alt="img">
-                        </div>
-                        <div class="catalogue-items">
-                            <p>Item 4</p>
-                        </div>
-                        <div class="catalogue-items">
-                            <p>SGD $4.00</p>
-                        </div>
-                        <div class="catalogue-button">
-                            <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
-                                More Details
-                            </button>
-                            <button type="button" class="btn btn-outline-success btn-sm">
-                                + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
-                            </button>
-                        </div>
+                    <div class="catalogue-items">
+                        <p>SGD $2.00</p>
+                    </div>
+                    <div class="catalogue-button">
+                        <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
+                            More Details
+                        </button>
+                        <button type="button" class="btn btn-outline-success btn-sm">
+                            + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
+                        </button>
                     </div>
                 </div>
 
+                <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
+                    <div class="catalogue-items">
+                        <img src="static/assets/img/products/salted_peanuts.jpg" alt="img">
+                    </div>
+                    <div class="catalogue-items">
+                        <p>Item 3</p>
+                    </div>
+                    <div class="catalogue-items">
+                        <p>SGD $3.00</p>
+                    </div>
+                    <div class="catalogue-button">
+                        <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
+                            More Details
+                        </button>
+                        <button type="button" class="btn btn-outline-success btn-sm">
+                            + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="catalogue-box col-sm-12 col-md-6 col-lg-4">              
+                    <div class="catalogue-items">
+                        <img src="static/assets/img/logo.png" alt="img">
+                    </div>
+                    <div class="catalogue-items">
+                        <p>Item 4</p>
+                    </div>
+                    <div class="catalogue-items">
+                        <p>SGD $4.00</p>
+                    </div>
+                    <div class="catalogue-button">
+                        <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#catalogue_item">
+                            More Details
+                        </button>
+                        <button type="button" class="btn btn-outline-success btn-sm">
+                            + Add to Cart <i class="fa-solid fa-cart-shopping"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
 
-                <!-- Modal -->
-                <div class="modal fade" id="catalogue_item" tabindex="-1" role="dialog" aria-labelledby="catalogue_item" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                Item Content
-                            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="catalogue_item" tabindex="-1" role="dialog" aria-labelledby="catalogue_item" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            Item Content
                         </div>
                     </div>
                 </div>
-            </div>    
+            </div>
+        </div>    
 
-    <?php
-    include "footer.inc.php";
-    ?>
+        <?php
+        include "footer.inc.php";
+        ?>
     </body>
 </html>
