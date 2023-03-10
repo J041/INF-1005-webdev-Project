@@ -18,38 +18,61 @@
                         Catalogue
                     </a>
 
+                    <?php
+                    // Global Array to store Product Catagories
+                    global $category_array;
+                    $category_array = [];
+
+                    // Create database connection.
+                    $config = parse_ini_file('../private/db-config.ini');
+                    $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+
+                    // Check connection
+                    if ($conn->connect_error) {
+                        $errorMsg = "Connection failed: " . $conn->connect_error;
+                        $success = false;
+                    }
+
+                    // Prepare, Bind & Execute SELECT statement to retrieve all active products categories:
+                    $stmt = $conn->prepare("SELECT DISTINCT product_category FROM Products WHERE is_active=?");
+                    $is_active = 1;
+                    $stmt->bind_param("i", $is_active);
+                    $stmt->execute();
+
+                    // Output Query Results into HTML
+                    $result = $stmt->get_result();
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            array_push($category_array, $row["product_category"]);
+                        }
+                    }
+
+                    echo "<div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"dropdownCatalogue\">";
+                    echo "<form action=\"/catalogue.php\" method=\"GET\">";
+                    for ($i = 0; $i < count($category_array); $i++) {
+                        echo "<div class=\"dropdown-item\">";
+                        echo "<input type=\"submit\" name=\"search_bar\" value=\"". $category_array[$i] ."\" />";
+                        echo "</div>";
+                    }
+                    echo "</form>";
+                    echo "</div>";
+
+                    // Check connection
+                    if (!$conn) {
+                        die("Connection failed: " . mysqli_connect_error());
+                    } else {
+                        $conn->close();
+                    }
+                    ?>
+                    <!--
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCatalogue">
                         <form action="/catalogue.php" method="GET">
                             <div class="dropdown-item">
                                 <input type="submit" name="search_bar" value="Eggs and Diary Products" />
                             </div>
-                            <!-- To replace this with a loop -->
-                            <div class="dropdown-divider"></div>
-                            <div class="dropdown-item">
-                                <input type="submit" name="search_bar" value="Dry and Canned Goods" />
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            
-                            <div class="dropdown-item">
-                                <input type="submit" name="search_bar" value="Meats and Produce" />
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            
-                            <div class="dropdown-item">
-                                <input type="submit" name="search_bar" value="Drinks and Alcohol" />
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            
-                            <div class="dropdown-item">
-                                <input type="submit" name="search_bar" value="Sweets and Snacks" />
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            
-                            <div class="dropdown-item">
-                                <input type="submit" name="search_bar" value="Miscellaneous" />
-                            </div>
                         </form>
                     </div>
+                    -->
                 </div>
             </div>
             <div class="item">
