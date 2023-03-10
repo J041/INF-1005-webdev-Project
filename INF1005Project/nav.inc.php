@@ -8,72 +8,93 @@
         <div class="navb-items d-none d-xl-flex">
             <form action="/catalogue.php" method="GET">
                 <div class="search-container">
-                    <input class="search-bar" id="search_bar" type="search" name="search_bar" placeholder="Search for Products..." aria-labelledby="search_bar">
+                    <input class="search-bar" id="search_bar" type="search" name="search_bar" placeholder="Search for Products..." aria-labelledby="search_bar" data-toggle="tooltip" data-placement="bottom" title="Only alphanumeric and whitespaces allowed.">
                     <label class="search-bar-icon" for="search_bar"><i class="fa-solid fa-magnifying-glass"></i></label>
+
+                    <?php
+                    // Input Sanitization Function
+                    function sanitize_input($data) {
+                        // Strips whitespace on both sides of string, slashes and converts special characters to HTML format
+                        $data = trim($data);
+                        $data = stripslashes($data);
+                        $data = htmlspecialchars($data);
+
+                        // Regular Expression that only allow accepts alphanumeric and whitespace characters
+                        if ($data == " ") {
+                            $data = "";
+                        } elseif (preg_match('/[^A-Za-z0-9 ]/', $data)) {
+                            echo preg_match('/[^A-Za-z0-9 ]/', $data);
+                            return "Unidentified Character";
+                        } else {
+                            echo preg_match('/[^A-Za-z0-9 ]/', $data);
+                            return "No Issues!";
+                        }
+                    }
+                    ?>
                 </div>
             </form>
             <div class="item">
-                <div class="dropdown show">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Catalogue
-                    </a>
+                <?php
+                // Global Array to store Product Catagories
+                global $category_array;
+                $category_array = [];
 
-                    <?php
-                    // Global Array to store Product Catagories
-                    global $category_array;
-                    $category_array = [];
+                // Create database connection.
+                $config = parse_ini_file('../private/db-config.ini');
+                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
 
-                    // Create database connection.
-                    $config = parse_ini_file('../private/db-config.ini');
-                    $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+                // Check connection
+                if ($conn->connect_error) {
+                    $errorMsg = "Connection failed: " . $conn->connect_error;
+                    $success = false;
+                }
 
-                    // Check connection
-                    if ($conn->connect_error) {
-                        $errorMsg = "Connection failed: " . $conn->connect_error;
-                        $success = false;
+                // Prepare, Bind & Execute SELECT statement to retrieve all active products categories:
+                $stmt = $conn->prepare("SELECT DISTINCT product_category FROM Products WHERE is_active=?");
+                $is_active = 1;
+                $stmt->bind_param("i", $is_active);
+                $stmt->execute();
+
+                // Storing Product Categories into a list
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        array_push($category_array, $row["product_category"]);
                     }
+                }
 
-                    // Prepare, Bind & Execute SELECT statement to retrieve all active products categories:
-                    $stmt = $conn->prepare("SELECT DISTINCT product_category FROM Products WHERE is_active=?");
-                    $is_active = 1;
-                    $stmt->bind_param("i", $is_active);
-                    $stmt->execute();
-
-                    // Output Query Results into HTML
-                    $result = $stmt->get_result();
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            array_push($category_array, $row["product_category"]);
-                        }
-                    }
-
+                // Output Query Results into HTML
+                if (sizeof($category_array) == 0) {
+                    echo "<div>";
+                    echo "<a href=\"/catalogue.php\" role=\"dropdownCatalogue\" id=\"dropdownCatalogue\">";
+                    echo "Catalogue";
+                    echo "</a>";
+                    echo "</div>";
+                } else {
+                    echo "<div class=\"dropdown show\">";
+                    echo "<a class=\"dropdown-toggle\" href=\"#\" role=\"dropdownCatalogue\" id=\"dropdownCatalogue\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
+                    echo "Catalogue";
+                    echo "</a>";
                     echo "<div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"dropdownCatalogue\">";
                     echo "<form action=\"/catalogue.php\" method=\"GET\">";
                     for ($i = 0; $i < count($category_array); $i++) {
                         echo "<div class=\"dropdown-item\">";
-                        echo "<input type=\"submit\" name=\"search_bar\" value=\"". $category_array[$i] ."\" />";
+                        echo "<input type=\"submit\" name=\"search_bar\" value=\"" . $category_array[$i] . "\" />";
                         echo "</div>";
                     }
                     echo "</form>";
                     echo "</div>";
+                    echo "</div>";
+                }
 
-                    // Check connection
-                    if (!$conn) {
-                        die("Connection failed: " . mysqli_connect_error());
-                    } else {
-                        $conn->close();
-                    }
-                    ?>
-                    <!--
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCatalogue">
-                        <form action="/catalogue.php" method="GET">
-                            <div class="dropdown-item">
-                                <input type="submit" name="search_bar" value="Eggs and Diary Products" />
-                            </div>
-                        </form>
-                    </div>
-                    -->
-                </div>
+                // Check connection
+                if (!$conn) {
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    $conn->close();
+                }
+                ?>
+
             </div>
             <div class="item">
                 <a href="/cart.php">Cart</a>

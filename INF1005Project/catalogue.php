@@ -28,7 +28,7 @@
 
             // Prepare, Bind & Execute SELECT statement to retrieve all active products
             $is_active = 1;
-            
+
             // SQL Query Logic
             if (count($category_array) == 0) {
                 // No active product categories found --> Logic = 0
@@ -38,19 +38,17 @@
                 $logic = 1;
                 $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_category=?");
                 $stmt->bind_param("is", $is_active, $search_query);
-                $stmt->execute();
             } elseif ($search_query == "") {
                 // Manually enters catalogue.php in URL --> Logic = 2
                 $logic = 2;
                 $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
                 $stmt->bind_param("i", $is_active);
-                $stmt->execute();
-                $stmt->execute();
             } else {
                 // Search for specific items --> Logic = 3
                 $logic = 3;
-                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_name LIKE '{%$search_query%}'");
-                $stmt->bind_param("is", $is_active, $search_query);
+                $param = "%{$search_query}%";
+                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_name LIKE ?");
+                $stmt->bind_param("is", $is_active, $param);
             }
             $stmt->execute();
 
@@ -75,10 +73,12 @@
 
             // Output Query Results into HTML
             $result = $stmt->get_result();
-
             echo "<div class=\"row\">";
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
+                    // Formatting of display price
+                    $price_string = floatval($row["price"]);
+
                     echo "<div class=\"catalogue-box col-sm-12 col-md-6 col-lg-4\">";
                     echo "<div class=\"catalogue-items\">";
                     echo "<img src=\"static/assets/img/products/" . $row["product_name"] . ".jpg\" alt=\"img_" . $row["product_name"] . "\">";
@@ -87,7 +87,7 @@
                     echo "<p>" . $row["product_name"] . "</p>";
                     echo "</div>";
                     echo "<div class=\"catalogue-items\">";
-                    echo "<p> SGD $" . $row["price"] . "</p>";
+                    echo "<p> SGD $" . number_format($price_string, 2, '.', '') . "</p>";
                     echo "</div>";
                     echo "<div class=\"catalogue-button\">";
                     echo "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#catalogue_item\">";
