@@ -12,39 +12,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
     <body>
         <?php
         include "nav.inc.php";
-          global $fname, $lname, $email, $pwd_hashed, $errorMsg, $success;
-          // Create database connection.
-          $config = parse_ini_file('../../private/db-config.ini');
-          $conn = new mysqli($config['servername'], $config['username'],
-          $config['password'], $config['dbname']);
-          // Check connection
-          if ($conn->connect_error) {
-          $errorMsg = "Connection failed: " . $conn->connect_error;
-          $success = false;
-          } else {
-
-          }
-          // Check connection
-          if (!$conn) {
-          die("Connection failed: " . mysqli_connect_error());
-          }
-          echo "Connected successfully";
         ?>
 
-        <div class="container-fluid">
-            <div class="backend-catalogue-display col-sm-12 col-md-12 col-lg-12">
-                <div class="backend-catalogue-display-row row">
+        <div class="backend-catalogue container-fluid">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="backend-catalogue-display-row">
                     <h1>Product Catalogue Database</h1>
                 </div>
-                <div class="backend-catalogue-display-row row">
+                <div class="backend-catalogue-display-row">
+                    <div>
                     <p>You may create, update or remove product(s) from the Product Catalogue Database table. </p>
+                    </div>
+                    <div>
                     <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-plus"></i>&nbsp; Add </button>
+                    </div>
+                    <div>
                     <button class="btn btn-outline-danger d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
+                    </div>
                 </div>
                 <form action="/catalogue_backend" method="POST">
                     <div class="card">
-                        <div class="backend-catalogue-display-row card-body">
-                            <div class="col-sm-12 col-md-12 col-lg-12 row">
+                        <div class="card-body">
+                            <div class="backend-catalogue-display-row col-sm-12 col-md-12 col-lg-12 row">
                                 <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
                                     <label class="" for="product_name">Product Name: </label>
                                     <input class="" type="text" name="product_name" placeholder="E.g. Calendar" aria-labelledby="product_name">
@@ -61,7 +50,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                                 </div>
                             </div>
 
-                            <div class="col-sm-12 col-md-12 col-xl-12 row">
+                            <div class="backend-catalogue-display-row col-sm-12 col-md-12 col-xl-12 row">
                                 <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
                                     <label class="" for="quantity">Quantity: </label>
                                     <input class="" type="number" name="quantity" placeholder="E.g. 150" aria-labelledby="quantity">
@@ -78,7 +67,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                                 </div>
                             </div>
 
-                            <div class="col-sm-12 col-md-12 col-xl-12 row">
+                            <div class="backend-catalogue-display-row col-sm-12 col-md-12 col-xl-12 row">
                                 <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
                                     <label class="" for="product_name">Active?: </label>
                                     <select class="" name="is_active" aria-labelledby="product_name">
