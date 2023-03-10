@@ -16,9 +16,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
         <div class="container">
             <form action="process_updateprofile.php" method="post">
                 <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input class="form-control" type="email" id="email"
-                    name="email" placeholder="Enter email">
+                    <label for="email">Username:</label>
+                    <input class="form-control" type="username" id="username"
+                    name="username" placeholder="Enter username">
                 </div>
                 <div class="form-group">
                     <label for="pwd">Password:</label>
