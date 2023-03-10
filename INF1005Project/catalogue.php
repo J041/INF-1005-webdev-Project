@@ -39,8 +39,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
             <div class="row">
                 <?php
                 // Defining SQL Product Columns
+<<<<<<< HEAD
                 //global $product_id, $product_name, $product_desc, $product_category, $quantity, $price, , $created_at, $promo;
                 
+=======
+                global $product_id, $product_name, $product_desc, $product_category, $quantity, $price, $is_active, $created_at, $promo;
+                $is_active = 1;
+>>>>>>> ee5cf67db92d1b51e850fdc8f969435ea597d0a4
                 // Create database connection.
                 $config = parse_ini_file('../private/db-config.ini');
                 $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
