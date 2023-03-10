@@ -39,13 +39,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
             <div class="row">
                 <?php
                 // Defining SQL Product Columns
-<<<<<<< HEAD
+
                 //global $product_id, $product_name, $product_desc, $product_category, $quantity, $price, , $created_at, $promo;
-                
-=======
                 global $product_id, $product_name, $product_desc, $product_category, $quantity, $price, $is_active, $created_at, $promo;
                 $is_active = 1;
->>>>>>> ee5cf67db92d1b51e850fdc8f969435ea597d0a4
                 // Create database connection.
                 $config = parse_ini_file('../private/db-config.ini');
                 $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
@@ -55,20 +52,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                     $errorMsg = "Connection failed: " . $conn->connect_error;
                     $success = false;
                 }
-                echo "Connected successfully";
+//                echo "Connected successfully";
                 // Prepare query statement:
-                $stmt = $conn->prepare("SELECT * FROM mydb.Products WHERE is_active=?");
+                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
 
                 // Bind & execute the query statement:
                 $is_active = 1;
                 $stmt->bind_param("i", $is_active);
+//                echo "<p>" . $stmt . "</p>";
                 
                 
                 $stmt->execute();
                 $result = $stmt->get_result();
-                echo "<p>" . $result . "</p>";
+//                echo "<p>" . $result . "</p>";
+                $row = $result->fetch_assoc();
+//                echo "<p>" . $row["product_name"] . "</p>";
+//                echo "Connection still successfully";
                 if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
+//                    echo "<p>" . $row["product_name"] . "</p>";
                     while ($row = $result->fetch_assoc()) {
                         echo "<p>" . $row["product_name"] . "</p>";
                         echo "<p>" . $row["price"] . "</p>";
