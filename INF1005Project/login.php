@@ -49,6 +49,19 @@ email=?");
 
                     echo $pwd_hashed . " gapspace " . $_POST["pwd"];
                     if (password_verify($_POST["pwd"], $pwd_hashed)) {
+                        session_start();
+
+// regenerate the session ID every 30 minutes
+                        if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 1800) {
+                            session_regenerate_id(true); // generate a new session ID
+                            $_SESSION['last_activity'] = time(); // update the last activity time
+                        }
+
+// set a session timeout of 24 hours
+                        session_set_cookie_params(86400);
+
+// set a session variable
+                        $_SESSION['username'] = $username;
                         header("Location: http://35.212.159.197/index.php");
                     } else {
                         echo "<h4>The following input errors were detected:</h4>";

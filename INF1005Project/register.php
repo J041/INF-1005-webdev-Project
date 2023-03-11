@@ -10,6 +10,7 @@
     ?>
     <body>
         <?php
+        global $email, $username, $pwd_hashed;
         // define variables and set to empty values
         $nameErr = $emailErr = $passwordErr = $pwd_confirmErr = "";
         $username = $email = $gender = "";
@@ -118,7 +119,6 @@
                 $success = true;
                 $errorMsg = "";
 
-                global $email, $username, $pwd_hashed;
                 $is_active = 1;
                 // Create database connection.
                 $config = parse_ini_file('../private/db-config.ini');
@@ -132,15 +132,19 @@
 //                echo "Connected successfully";
                 // Prepare query statement:
                 $stmt = $conn->prepare("INSERT INTO Users (email, username,
-password,profile_img,priority) VALUES (?, ?, ?, ?,?)");
-
+password,priority) VALUES (?,?,?,?)");
+                echo "successfully registered 1";
                 // Bind & execute the query statement:
-                $is_active = 1;
-                $stmt->bind_param("s", $_POST["email"], $_POST["username"], $pwd_hashed, " ", " ");
+
+                $stmt->bind_param("ssss", $_POST["email"], $_POST["username"], $pwd_hashed, "3");
 //                echo "<p>" . $stmt . "</p>";
 
-
-                $stmt->execute();
+                echo "successfully registered 2";
+            if (!$stmt->execute()) {
+                $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                $success = false;
+            }
+            $stmt->close();
                 $result = $stmt->get_result();
             }
 
@@ -149,13 +153,12 @@ password,profile_img,priority) VALUES (?, ?, ?, ?,?)");
                 die("Connection failed: " . mysqli_connect_error());
             } else {
                 $conn->close();
+                echo "successfully registered 4";
             }
-    
-            
             ?>
         </main>
-<?php
-include "footer.inc.php";
-?>
+        <?php
+        include "footer.inc.php";
+        ?>
     </body>
 </html>
