@@ -53,54 +53,87 @@
             $stmt->execute();
 
             // Output Header of Catalogue Page
-            echo "<div class=\"row\">";
-            echo "<div class=\"container catalogue-display\">";
+            $html_output =  "<div class=\"row\">" . 
+                            "<div class=\"container catalogue-display\">";
+            
+//            echo "<div class=\"row\">";
+//            echo "<div class=\"container catalogue-display\">";
             if ($logic == 0) {
-                echo"<h1>Please try a different search term/product category.</h1>";
-                echo"<h2>No results found! </h2>";
+                $html_output .= "<h1>Please try a different search term/product category.</h1>" . 
+                                "<h2>No results found! </h2>";
+//                echo"<h1>Please try a different search term/product category.</h1>";
+//                echo"<h2>No results found! </h2>";
             } elseif ($logic == 1) {
-                echo"<h1>Home/Products/" . $search_query . "</h1>";
-                echo"<h2>" . $search_query . "</h2>";
+                $html_output .= "<h1>Home/Products/" . $search_query . "</h1>" . 
+                                "<h2>" . $search_query . "</h2>";
+//                echo"<h1>Home/Products/" . $search_query . "</h1>";
+//                echo"<h2>" . $search_query . "</h2>";
             } elseif ($logic == 2) {
-                echo"<h1>Returning results for </h1>";
-                echo"<h2>All Products</h2>";
+                $html_output .= "<h1>Returning results for </h1>" . 
+                                "<h2>All Products</h2>";
+//                echo"<h1>Returning results for </h1>";
+//                echo"<h2>All Products</h2>";
             } else {
-                echo"<h1>Search result for </h1>";
-                echo"<h2>\"" . $search_query . "\"</h2>";
+                $html_output .= "<h1>Search result for </h1>" . 
+                                "<h2>\"" . $search_query . "\"</h2>";
+//                echo"<h1>Search result for </h1>";
+//                echo"<h2>\"" . $search_query . "\"</h2>";
             }
-            echo "</div>";
-            echo "</div>";
+            $html_output .= "</div></div>";
+//            echo "</div>";
+//            echo "</div>";
 
             // Output Query Results into HTML
             $result = $stmt->get_result();
-            echo "<div class=\"row\">";
+            $html_output .= "<div class=\"row\">";
+//            echo "<div class=\"row\">";
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     // Formatting of display price
                     $price_string = floatval($row["price"]);
+                    $html_output .= "<div class=\"catalogue-box col-sm-12 col-md-6 col-lg-4\">"
+                                    . "<div class=\"catalogue-items\">" 
+                                    . "<img src=\"static/assets/img/products/" . $row["product_name"] . ".jpg\" alt=\"img_" . $row["product_name"] . "\">"
+                                    . "</div>"
+                                    . "<div class=\"catalogue-items\">"
+                                    . "<p>" . $row["product_name"] . "</p>"
+                                    . "</div>"
+                                    . "<div class=\"catalogue-items\">"
+                                    . "<p> SGD $" . number_format($price_string, 2, '.', '') . "</p>"
+                                    . "</div>"
+                                    . "<div class=\"catalogue-button\">"
+                                    . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#catalogue_item\">"
+                                    . "More Details"
+                                    . "</button>"
+                                    . "<button type=\"button\" class=\"btn btn-outline-success btn-sm\">"
+                                    . "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>"
+                                    . "</button>"
+                                    . "</div>"
+                                    . "</div>";
 
-                    echo "<div class=\"catalogue-box col-sm-12 col-md-6 col-lg-4\">";
-                    echo "<div class=\"catalogue-items\">";
-                    echo "<img src=\"static/assets/img/products/" . $row["product_name"] . ".jpg\" alt=\"img_" . $row["product_name"] . "\">";
-                    echo "</div>";
-                    echo "<div class=\"catalogue-items\">";
-                    echo "<p>" . $row["product_name"] . "</p>";
-                    echo "</div>";
-                    echo "<div class=\"catalogue-items\">";
-                    echo "<p> SGD $" . number_format($price_string, 2, '.', '') . "</p>";
-                    echo "</div>";
-                    echo "<div class=\"catalogue-button\">";
-                    echo "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#catalogue_item\">";
-                    echo "More Details";
-                    echo "</button>";
-                    echo "<button type=\"button\" class=\"btn btn-outline-success btn-sm\">";
-                    echo "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>";
-                    echo "</button>";
-                    echo "</div>";
-                    echo "</div>";
+//                    echo "<div class=\"catalogue-box col-sm-12 col-md-6 col-lg-4\">";
+//                    echo "<div class=\"catalogue-items\">";
+//                    echo "<img src=\"static/assets/img/products/" . $row["product_name"] . ".jpg\" alt=\"img_" . $row["product_name"] . "\">";
+//                    echo "</div>";
+//                    echo "<div class=\"catalogue-items\">";
+//                    echo "<p>" . $row["product_name"] . "</p>";
+//                    echo "</div>";
+//                    echo "<div class=\"catalogue-items\">";
+//                    echo "<p> SGD $" . number_format($price_string, 2, '.', '') . "</p>";
+//                    echo "</div>";
+//                    echo "<div class=\"catalogue-button\">";
+//                    echo "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#catalogue_item\">";
+//                    echo "More Details";
+//                    echo "</button>";
+//                    echo "<button type=\"button\" class=\"btn btn-outline-success btn-sm\">";
+//                    echo "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>";
+//                    echo "</button>";
+//                    echo "</div>";
+//                    echo "</div>";
                 }
             }
-            echo "</div>";
+            $html_output .= "</div>";
+//            echo "</div>";
 
             // Check connection
             if (!$conn) {
@@ -109,7 +142,7 @@
                 $conn->close();
             }
             ?>
-
+             <?php echo $html_output ?>
             <!-- Modal -->
             <div class="modal fade" id="catalogue_item" tabindex="-1" role="dialog" aria-labelledby="catalogue_item" aria-hidden="true">
                 <div class="modal-dialog" role="document">
