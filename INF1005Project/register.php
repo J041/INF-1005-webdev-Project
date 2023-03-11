@@ -72,7 +72,7 @@
             <h1>Register as a User</h1>
             <p>
                 If you are already registered,
-                <a href="#">Click here </a>to Sign in!!!.
+                <a href="/login.php">Click here </a>to Sign in!!!.
             </p>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="form-group">
