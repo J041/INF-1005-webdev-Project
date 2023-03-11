@@ -12,16 +12,16 @@
         <?php
         // define variables and set to empty values
         $nameErr = $emailErr = $passwordErr = $pwd_confirmErr = "";
-        $name = $email = $gender = "";
+        $username = $email = $gender = "";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["name"])) {
-                $nameErr = "Name is required";
+            if (empty($_POST["username"])) {
+                $usernameErr = "Name is required";
             } else {
-                $name = test_input($_POST["name"]);
+                $name = test_input($_POST["username"]);
                 // check if name only contains letters and whitespace
                 if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-                    $nameErr = "Only letters and white space allowed";
+                    $usernameErr = "Only letters and white space allowed";
                 }
             }
 
@@ -104,16 +104,58 @@
             <?php
             // display form data on submission if no errors
             if (isset($_POST['submit'])) {
-                if (empty($nameErr) && empty($emailErr) && empty($passwordErr)&& empty($pwd_confirmErr)) {
-                    echo "<h2>Form Submitted Successfully</h2>";
-                    echo "Name: " . $username . "<br>";
-                    echo "Email: " . $email . "<br>";
+                if (empty($usernameErr) && empty($emailErr) && empty($passwordErr) && empty($pwd_confirmErr)) {
+                    echo "pre test";
+                    saveUserToDB();
+                    echo "successfully registered";
+                    $message = "succesfully registered";
+                    header("Location: https://35.212.159.197/login.php?message=" . urlencode($message));
                 }
             }
+
+            function saveUserToDB() {
+                $pwd_hashed = password_hash($_POST["pwd"], PASSWORD_DEFAULT);
+                $success = true;
+                $errorMsg = "";
+
+                global $email, $username, $pwd_hashed;
+                $is_active = 1;
+                // Create database connection.
+                $config = parse_ini_file('../private/db-config.ini');
+                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+
+                // Check connection
+                if ($conn->connect_error) {
+                    $errorMsg = "Connection failed: " . $conn->connect_error;
+                    $success = false;
+                }
+//                echo "Connected successfully";
+                // Prepare query statement:
+                $stmt = $conn->prepare("INSERT INTO Users (email, username,
+password,profile_img,priority) VALUES (?, ?, ?, ?,?)");
+
+                // Bind & execute the query statement:
+                $is_active = 1;
+                $stmt->bind_param("s", $_POST["email"], $_POST["username"], $pwd_hashed, " ", " ");
+//                echo "<p>" . $stmt . "</p>";
+
+
+                $stmt->execute();
+                $result = $stmt->get_result();
+            }
+
+            // Check connection
+            if (!$conn) {
+                die("Connection failed: " . mysqli_connect_error());
+            } else {
+                $conn->close();
+            }
+    
+            
             ?>
         </main>
-        <?php
-        include "footer.inc.php";
-        ?>
+<?php
+include "footer.inc.php";
+?>
     </body>
 </html>
