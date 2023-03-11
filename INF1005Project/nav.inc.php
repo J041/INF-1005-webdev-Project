@@ -34,6 +34,7 @@
                 </div>
             </form>
             <div class="item">
+                
                 <?php
                 // Global Array to store Product Catagories
                 global $category_array;

@@ -54,7 +54,7 @@
                 <br>
                 <div id="paybtn">
                     <div class="form-group">
-                    <a href="#" id="cancelpayment">Cancel</a><!--link to shopping cart-->
+                    <a href="checkout.php" class="btn btn-danger" id="cancelpayment">Cancel</a>
                     </div>
                     <div class="form-group">
                     <button class="btn btn-success" type="submit" id="pay">Confirm Payment</button>
@@ -62,10 +62,7 @@
                 </div>
                 
             </form>
-
-            
-        </main>
-        
+        </main> 
         <br>
         <?php
         include "footer.inc.php";

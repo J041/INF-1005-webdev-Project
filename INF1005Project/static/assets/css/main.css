@@ -343,16 +343,57 @@ div .catalogue-button {
     padding-right:3%;
 }
 #cardnumber{
-    width: 18%;
+    width: 200px;
 }
 
 #cancelpayment {
-    border-radius:5px;
-    background-color: red;
-    color:white;
-    padding:9px 45px 9px 45px;
+    padding-right: 45px;
+    padding-left:45px;
 }
 #securitycode{
     width:100px;
 }
 
+/*Checkout Page*/
+.checkout .flexcontainer{
+    display:flex;
+    background-color: #f6f6f6;
+}
+.checkout .flexcontainer h4, .checkout .flexcontainer div{
+    margin:20px;
+    width:200px;
+    text-align:right;
+}
+.checkout .flexcontainer .checkoutproduct{
+    width:70%;
+    text-align:left;
+    margin:20px;
+    display:flex;
+    flex-wrap:wrap;
+}
+.checkout .flexcontainer img{
+    width: 60px;
+    height:auto;
+    padding-bottom:0;
+    margin-right:40px;
+}
+.cartitems p{
+    margin-right:20px;
+}
+
+.checkout .btn{
+    align-self: end;
+}
+.checkout .checkoutbtns .btn-warning{
+    color:white;
+    margin-right: 10px;
+}
+.checkout .checkoutbtns .btn-success{
+    padding-right:50px;
+    padding-left:50px;
+}
+.checkout .checkoutbtns{
+    display:flex;
+    justify-content: end;
+    margin-top:10px;
+}
