@@ -65,26 +65,24 @@
 
                 // Output Query Results into HTML
                 if (sizeof($category_array) == 0) {
-                    echo "<div>";
-                    echo "<a href=\"/catalogue.php\" role=\"dropdownCatalogue\" id=\"dropdownCatalogue\">";
-                    echo "Catalogue";
-                    echo "</a>";
-                    echo "</div>";
+                    $html_output =  "<div>" . 
+                                    "<a href=\"/catalogue.php\" role=\"dropdownCatalogue\" id=\"dropdownCatalogue\">" . 
+                                    "Catalogue" . 
+                                    "</a>" . 
+                                    "</div>";
                 } else {
-                    echo "<div class=\"dropdown show\">";
-                    echo "<a class=\"dropdown-toggle\" href=\"#\" role=\"dropdownCatalogue\" id=\"dropdownCatalogue\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
-                    echo "Catalogue";
-                    echo "</a>";
-                    echo "<div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"dropdownCatalogue\">";
-                    echo "<form action=\"/catalogue.php\" method=\"GET\">";
+                    $html_output =  "<div class=\"dropdown show\">" . 
+                                    "<a class=\"dropdown-toggle\" href=\"#\" role=\"dropdownCatalogue\" id=\"dropdownCatalogue\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">" . 
+                                    "Catalogue" . "</a>" .
+                                    "<div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"dropdownCatalogue\">" . 
+                                    "<form action=\"/catalogue.php\" method=\"GET\">";
                     for ($i = 0; $i < count($category_array); $i++) {
-                        echo "<div class=\"dropdown-item\">";
-                        echo "<input type=\"submit\" name=\"search_bar\" value=\"" . $category_array[$i] . "\" />";
-                        echo "</div>";
+                        $html_output .= "<div class=\"dropdown-item\">" . 
+                                        "<input type=\"submit\" name=\"search_bar\" value=\"" . $category_array[$i] . "\" />" .
+                                        "</div>";
                     }
-                    echo "</form>";
-                    echo "</div>";
-                    echo "</div>";
+                    
+                    $html_output .= "</form>" . "</div>" . "</div>";
                 }
 
                 // Check connection
@@ -95,6 +93,7 @@
                 }
                 ?>
 
+                <?php echo $html_output ?>
             </div>
             <div class="item">
                 <a href="/cart.php">Cart</a>
