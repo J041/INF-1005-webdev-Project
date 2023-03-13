@@ -7,6 +7,8 @@
 body {
     font-family: "Urbanist", "sans-serif";
     overflow-x: hidden;
+    background-repeat: repeat;
+    background-image: url(https://www.toptal.com/designers/subtlepatterns/uploads/dust_scratches.png);
 }
 
 a {
@@ -450,8 +452,14 @@ div .catalogue-button {
 
 /*Start Home Page CSS - Keefe*/
 
-.header h1 {
+.home .header h1 {
   float: inherit;
+}
+
+.category-icon {     /*for categories thumbnail img*/
+    width: 200px; 
+    height: 200px;
+    object-fit: cover;
 }
 
 .categories .thumbnail a {
@@ -498,39 +506,26 @@ div .catalogue-button {
     font-size:20px
 }
 
-.flex-box .cartbutton{
+.flex-box .cartbutton{ /*Right align add to cart button*/
     display:flex;
     justify-content: flex-end;
 }
 
-.header .display-4 {
-  float: inherit;
-}
-
-.container #banner {
+.home .container .banner {
   width: 100%;
   height: 100%;
 }
 
-.container .display-4 {
+.home .container .display-4 {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -90%);
 }
 
-.container.header {
+.home .container.header {
   position: relative;
   text-align: center;
-}
-
-.home {
-    background-color: #a65b00;
-    background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
-}
-
-.jumbotron {
-    background-color: khaki;
 }
 
 .productitem {

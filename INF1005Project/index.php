@@ -9,14 +9,9 @@
         <?php
         include "nav.inc.php";
         ?>
-        <main>
-            <header class="jumbotron text-center">
-                <h1 class="display-4">VALUE CONVENIENCE STORE</h1>
-                <h2><i>We got all your needs!</i></h2>
-            </header>
-
+        <main class="home">
             <div class="container header">
-                <img src="static\assets\img\home\banner.png" alt="PROMOTIONS" id="banner"/>
+                <img src="static\assets\img\home\banner.png" alt="PROMOTIONS" class="banner"/>
                 <h1 class="display-4">PROMOTIONS</h1>
             </div>
 
@@ -45,7 +40,7 @@
             </div>
 
             <div class="container header" >
-                <img src="static\assets\img\home\banner.png" alt="CATEGORIES" id="banner"/>
+                <img src="static\assets\img\home\banner.png" alt="CATEGORIES" class="banner"/>
                 <h1 class="display-4">CATEGORIES</h1>
             </div>
 
@@ -54,7 +49,7 @@
                     <div class="col-sm-4 categories" >
                         <div class="thumbnail d-flex align-items-center justify-content-center">
                             <a href="#">
-                                <img src="static\assets\img\home\snacks_icon.png" alt="Snacks" class="img-thumbnail">
+                                <img src="static\assets\img\home\snacks_icon.png" alt="Snacks" class="category-icon">
                                 <p class="text-center">Snacks</p>
                             </a>    
                         </div>
@@ -62,7 +57,7 @@
                     <div class="col-sm-4 categories">
                         <div class="thumbnail d-flex align-items-center justify-content-center">
                             <a href="#">
-                                <img src="static\assets\img\home\drinks_icon.png" alt="Drinks" class="img-thumbnail">
+                                <img src="static\assets\img\home\drinks_icon.png" alt="Drinks" class="category-icon">
                                 <p class="text-center">Drinks</p>
                             </a>
                         </div>
@@ -70,7 +65,7 @@
                     <div class="col-sm-4 categories">
                         <div class="thumbnail d-flex align-items-center justify-content-center">
                             <a href="#">
-                                <img src="static\assets\img\home\toys_icon.png" alt="Toys" class="img-thumbnail">
+                                <img src="static\assets\img\home\toys_icon.png" alt="Toys" class="category-icon">
                                 <p class="text-center">Toys</p>
                             </a>
                         </div>
@@ -80,7 +75,7 @@
                     <div class="col-sm-4 categories">
                         <div class="thumbnail d-flex align-items-center justify-content-center">
                             <a href="#">
-                                <img src="static\assets\img\home\accessories_icon.png" alt="Accessories" class="img-thumbnail">
+                                <img src="static\assets\img\home\accessories_icon.png" alt="Accessories" class="category-icon">
                                 <p class="text-center">Accessories</p>
                             </a>
                         </div>
@@ -88,7 +83,7 @@
                     <div class="col-sm-4 categories">    
                         <div class="thumbnail d-flex align-items-center justify-content-center">
                             <a href="#">
-                                <img src="static\assets\img\home\household_icon.png" alt="Household Items" class="img-thumbnail">
+                                <img src="static\assets\img\home\household_icon.png" alt="Household Items" class="category-icon">
                                 <p class="text-center">Household Items</p>
                             </a>
                         </div>
@@ -97,7 +92,7 @@
                     <div class="col-sm-4 categories">
                         <div class="thumbnail d-flex align-items-center justify-content-center">
                             <a href="#">
-                                <img src="static\assets\img\home\periodical_icon.jpg" alt="Reading Materials" class="img-thumbnail">
+                                <img src="static\assets\img\home\periodical_icon.jpg" alt="Reading Materials" class="category-icon">
                                 <p class="text-center">Reading Materials</p>
                             </a>
                         </div>
@@ -106,7 +101,7 @@
             </div>   
 
             <div class="container header" >
-                <img src="static\assets\img\home\banner.png" alt="DAILY DEALS" id="banner"/>
+                <img src="static\assets\img\home\banner.png" alt="DAILY DEALS" class="banner"/>
                 <h1 class="display-4">DAILY DEALS</h1>
             </div>
 
@@ -120,8 +115,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -135,8 +130,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -150,8 +145,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -165,8 +160,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -180,8 +175,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -194,7 +189,7 @@
             <br>
 
             <div class="container header" >
-                <img src="static\assets\img\home\banner.png" alt="TRENDING ITEMS" id="banner"/>
+                <img src="static\assets\img\home\banner.png" alt="TRENDING ITEMS" class="banner"/>
                 <h1 class="display-4">TRENDING ITEMS</h1>
             </div>
 
@@ -207,8 +202,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -222,8 +217,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -237,8 +232,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -252,8 +247,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -267,8 +262,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -290,8 +285,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -305,8 +300,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -320,8 +315,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -335,8 +330,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
@@ -350,8 +345,8 @@
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
-                                    <div class="flex-box">
-                                        <input class="cartbutton" type="image" name="submit"
+                                    <div class="flex-box cartbutton">
+                                        <input type="image" name="submit"
                                                src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif"
                                                alt="Add to Cart">
                                     </div>
