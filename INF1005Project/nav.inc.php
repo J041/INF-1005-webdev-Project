@@ -120,6 +120,10 @@
         function generate_updateprofile($html_output){
             return $html_output;
         }
+
+        function generate_updatecatalogue($html_output){
+            return $html_output;
+        }
         
         $navbar_output = "";
         
@@ -133,6 +137,7 @@
 
             } elseif (($_SESSION['priority']) == 2){ // staff
                 $navbar_output = generate_index($navbar_output);
+                $navbar_output = generate_updatecatalogue($navbar_output);
                 $navbar_output = generate_updateprofile($navbar_output);
                 $navbar_output = generate_logout($navbar_output);
 
