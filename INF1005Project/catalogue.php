@@ -95,7 +95,7 @@
                                     . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#catalogue_detail_item_". $row["product_id"] ."\">"
                                     . "More Details"
                                     . "</button>"
-                                    . "<button type=\"button\" class=\"btn btn-outline-success btn-sm\" id=\"catalogue_cart_item_". $row["product_id"] ."\">"
+                                    . "<button type=\"button\" class=\"btn btn-outline-success btn-sm catalogue_cart_item_". $row["product_id"] ."\">"
                                     . "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>"
                                     . "</button>"
                                     . "</div>"
@@ -104,9 +104,9 @@
                 }
             }
             $html_output .= "</div>";
-
+            
+            // Generate and Output product details into Modal
             for ($i = 0; $i < sizeof($results_array); $i++) {
-                // echo print_r($results_array[$i]);
 
                 $html_output .= "<div class=\"product-item modal fade\" id=\"catalogue_detail_item_". $results_array[$i][0] ."\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"catalogue_detail_item_". $results_array[$i][0] ."\" aria-hidden=\"true\">"
                                 . "<div class=\"modal-dialog modal-xl modal-dialog-scrollable\" role=\"document\">"
@@ -124,42 +124,55 @@
                                 . "<img src=\"static/assets/img/products/". $results_array[$i][1] .".jpg\" alt=\"img_". $results_array[$i][1] ."\">"
                                 . "</div>"
                         
+                                // Output & Styling Product Details
                                 . "<div class=\"col-md-12 col-lg-6\">"
                                 . "<div class=\"product-item-row row\">"
-                                . "<div class=\"col-lg-12\">"
+                                . "<div class=\"product-item-line col-lg-12\">"
                                 . "<h1>". $results_array[$i][3] ."</h1>"
                                 . "</div>"
                                 . "</div>"
                                 . "<div class=\"product-item-row row\">"
-                                . "<div class=\"col-lg-12\">"
+                                . "<div class=\"product-item-line col-lg-12\">"
                                 . "<h2>". $results_array[$i][1] ."</h2>"
                                 . "</div>"
                                 . "</div>"
                                 . "<div class=\"product-item-row row\">"
-                                . "<div class=\"col-lg-12\">"
+                                . "<div class=\"product-item-line col-lg-12\">"
                                 . "<h3>SGD $". $results_array[$i][5] ."</h3>"
                                 . "</div>"
                                 . "</div>"
                                 . "<div class=\"product-item-row row\">"
-                                . "<div class=\"col-lg-12\">"
-                                . "<h3>". $results_array[$i][4] ." in stock</h3>"
+                                . "<div class=\"product-item-line col-lg-12\">"
+                                . "<h4>". $results_array[$i][4] ." in stock</h4>"
                                 . "</div>"
                                 . "</div>"
                                 . "<div class=\"product-item-row row\">"
-                                . "<div class=\"col-lg-12\">"
-                                ."<button type=\"button\" class=\"btn btn-outline-success btn-sm\" id=\"catalogue_cart_item_". $row["product_id"] ."\">"
+                                . "<div class=\"product-item-line col-lg-12\">"
+                                . "<h5>Details: </h5>"
+                                . "</div>"
+                                . "</div>"
+                                . "<div class=\"product-item-row row\">"
+                                . "<div class=\"product-item-line col-lg-12\">"
+                                . "<p>". $results_array[$i][2] ."</p>"
+                                . "</div>"
+                                . "</div>"
+                                . "<div class=\"product-item-row row\">"
+                                . "<div class=\"product-item-line col-lg-12\">"
+                                ."<button type=\"button\" class=\"btn btn-outline-success btn-sm catalogue_cart_item_". $row["product_id"] ."\">"
                                 . "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>"
                                 . "</button>"
                                 . "</div>"
                                 . "</div>"
+                        
+                                // Output & Styling User Review of each product
                                 . "<div class=\"product-item-row row\">"
-                                . "<div class=\"col-lg-12\">"
-                                . "<h3>Description: </h3>"
+                                . "<div class=\"product-item-line col-lg-12\">"
+                                . "<h5>Reviews: </h5>"
                                 . "</div>"
                                 . "</div>"
                                 . "<div class=\"product-item-row row\">"
-                                . "<div class=\"col-lg-12\">"
-                                . "<h3>". $results_array[$i][2] ."</h3>"
+                                . "<div class=\"product-item-line col-lg-12\">"
+                                . "<p>To be updated</p>"
                                 . "</div>"
                                 . "</div>"
                                 . "</div>"
@@ -180,17 +193,8 @@
                 $conn->close();
             }
             ?>
+            
              <?php echo $html_output ?>
-            <!-- Modal 
-            <div class="modal fade" id="catalogue_item" tabindex="-1" role="dialog" aria-labelledby="catalogue_item" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            Item Content
-                        </div>
-                    </div>
-                </div>
-            </div> -->
 
             <?php
             include "footer.inc.php";
