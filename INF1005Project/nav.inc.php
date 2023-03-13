@@ -2,7 +2,7 @@
     <div class="container-fluid">
     <?php 
         session_start();
-        $_SESSION['priority'] = 3;
+
 
 
         function generate_index($html_output){
