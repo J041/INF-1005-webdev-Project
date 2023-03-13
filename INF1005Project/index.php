@@ -109,7 +109,7 @@
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
                                 <img src="static\assets\img\home\example.jpg" alt="productname1">
                                 <div class="caption">
@@ -124,7 +124,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
                                 <img src="static\assets\img\home\example.jpg" alt="productname2">
                                 <div class="caption">
@@ -139,7 +139,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
                                 <img src="static\assets\img\home\example.jpg" alt="productname3">
                                 <div class="caption">
@@ -154,7 +154,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
                                 <img src="static\assets\img\home\example.jpg" alt="productname4">
                                 <div class="caption">
@@ -169,9 +169,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname4">
+                                <img src="static\assets\img\home\example.jpg" alt="productname5">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
@@ -196,9 +196,9 @@
             <div class="container-fluid cards-row">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname1">
+                                <img src="static\assets\img\home\example.jpg" alt="productname6">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
@@ -211,9 +211,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname2">
+                                <img src="static\assets\img\home\example.jpg" alt="productname7">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
@@ -226,9 +226,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname3">
+                                <img src="static\assets\img\home\example.jpg" alt="productname8">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
@@ -241,9 +241,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname4">
+                                <img src="static\assets\img\home\example.jpg" alt="productname9">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
@@ -256,9 +256,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname4">
+                                <img src="static\assets\img\home\example.jpg" alt="productname10">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
@@ -279,9 +279,9 @@
             <div class="container-fluid cards-row">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname1">
+                                <img src="static\assets\img\home\example.jpg" alt="productname11">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
@@ -294,9 +294,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname2">
+                                <img src="static\assets\img\home\example.jpg" alt="productname12">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
@@ -309,9 +309,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname3">
+                                <img src="static\assets\img\home\example.jpg" alt="productname13">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
@@ -324,9 +324,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname4">
+                                <img src="static\assets\img\home\example.jpg" alt="productname14">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
@@ -339,9 +339,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg" id="todaysdeal">
+                        <div class="col-lg productbox">
                             <div class="thumbnail productitem">
-                                <img src="static\assets\img\home\example.jpg" alt="productname4">
+                                <img src="static\assets\img\home\example.jpg" alt="productname15">
                                 <div class="caption">
                                     <h3>&lt;Product Name&gt;</h3>
                                     <p class="card-description">&lt;Product Description&gt;</p>
