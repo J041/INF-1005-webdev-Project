@@ -101,7 +101,9 @@
                             required name="pwd_confirm" name="pwd_confirm" placeholder="Confirm password" value="<?php echo $pwd_confirm; ?>">
                     <span class="error"><?php if (isset($pwd_confirmErr)) echo $pwd_confirmErr; ?></span>
                 </div>
-                <input type="submit" name="submit" value="Submit">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
             </form>
 
             <?php
