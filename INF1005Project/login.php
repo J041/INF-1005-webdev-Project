@@ -9,14 +9,15 @@
     $usernameErr = $passwordErr = "";
     ?>
     <?php
+    session_start();
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-//        if (isset($_GET['message'])) {
-//            $message = $_GET['message'];
-//            echo $message;
-//        }
+        if (isset($_GET['message'])) {
+            $message = $_GET['message'];
+            echo $message;
+        }
     // display form data on submission if no errors
-    if (isset($_POST['submit'])) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $echo = "test0";
         authenticateUser2();
     }
@@ -44,20 +45,33 @@
                 $row = $result->fetch_assoc();
                 $username = $row["username"];
                 $pwd_hashed = $row["password"];
+                $priority = $row["priority"];
                 echo $pwd_hashed . " gapspace " . $_POST["pwd"];
-                header("Location: http://35.212.159.197/index.php");
+                if ($_POST["pwd"] == $pwd_hashed) {
+                    $_SESSION['priority'] = $priority;
+                    header("Location: http://35.212.159.197/index.php");
+                } else {
+                    echo "<h4>The following input errors were detected:</h4>";
+                    echo "<p>" . $errorMsg . "</p>";
+                    echo "<a href='http://35.212.159.197/register.php'><button>return to sign up</button></a>";
+                }
+//                if (password_verify($_POST["pwd"], $pwd_hashed)) {
+//                    $_SESSION['priority'] = $priority;
+//                    header("Location: http://35.212.159.197/index.php");
+//                } else {
+//                    echo "<h4>The following input errors were detected:</h4>";
+//                    echo "<p>" . $errorMsg . "</p>";
+//                    echo "<a href='http://35.212.159.197/register.php'><button>return to sign up</button></a>";
+//                }
             } else {
-                echo "<h4>The following input errors were detected:</h4>";
-                echo "<p>" . $errorMsg . "</p>";
-                echo "<a href='http://35.212.159.197/register.php'><button>return to sign up</button></a>";
+                $errorMsg = "Email not found or password doesn't match...";
+                $success = false;
             }
             $stmt->close();
 
             $conn->close();
         }
     }
-
- 
     ?>
 
     <body>
