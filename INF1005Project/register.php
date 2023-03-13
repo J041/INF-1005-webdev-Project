@@ -9,7 +9,9 @@
     include "nav.inc.php";
     ?>
     <body>
+
         <?php
+        
         global $email, $username, $pwd_hashed;
         // define variables and set to empty values
         $nameErr = $emailErr = $passwordErr = $pwd_confirmErr = "";
@@ -21,7 +23,7 @@
             } else {
                 $name = test_input($_POST["username"]);
                 // check if name only contains letters and whitespace
-                if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+                if (!preg_match("/^[a-zA-Z0-9 ]*$/", $name)) {
                     $usernameErr = "Only letters and white space allowed";
                 }
             }
@@ -42,7 +44,7 @@
                 $success = false;
             } else {
                 if ($_POST["pwd"] != $_POST["pwd_confirm"]) {
-                    $pwd_confirmErr .= "password dont match with confirm pass";
+                    $pwd_confirmErr .= "password does not match with confirmation password";
                     $success = false;
                 }
             }
@@ -72,7 +74,7 @@
             <h1>Register as a User</h1>
             <p>
                 If you are already registered,
-                <a href="#">Click here </a>to Sign in!!!.
+                <a href="/login.php">Click here </a>to Sign in!!!.
             </p>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="form-group">
@@ -106,7 +108,6 @@
             // display form data on submission if no errors
             if (isset($_POST['submit'])) {
                 if (empty($usernameErr) && empty($emailErr) && empty($passwordErr) && empty($pwd_confirmErr)) {
-                    echo "pre test";
                     saveUserToDB();
                     echo "successfully registered";
                     $message = "succesfully registered";
@@ -131,8 +132,7 @@
                 }
 //                echo "Connected successfully";
                 // Prepare query statement:
-                $stmt = $conn->prepare("INSERT INTO Users (email, username,
-password,priority) VALUES (?,?,?,?)");
+                $stmt = $conn->prepare("INSERT INTO Users (email, username, password, priority) VALUES (?,?,?,?)");
                 echo "successfully registered 1";
                 // Bind & execute the query statement:
 
@@ -140,11 +140,12 @@ password,priority) VALUES (?,?,?,?)");
 //                echo "<p>" . $stmt . "</p>";
 
                 echo "successfully registered 2";
-            if (!$stmt->execute()) {
-                $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-                $success = false;
-            }
-            $stmt->close();
+                if (!$stmt->execute()) {
+                    $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                    $success = false;
+                }
+
+                $stmt->close();
                 $result = $stmt->get_result();
             }
 
