@@ -2,6 +2,8 @@
     <div class="container-fluid">
     <?php 
         session_start();
+        $_SESSION['priority'] = 3;
+
 
         function generate_index($html_output){
             $html_output .=  "<div class=\"navb-brand\">" . 
@@ -76,6 +78,9 @@
                     $conn->close();
                 }
             }
+
+            $html_output .= "</div>";
+
             return $html_output;
         }
         
@@ -99,25 +104,39 @@
                              "</div>";
             return $html_output;
         }
+
+        function generate_logout($html_output){
+            $html_output .=  "<div class=\"item\">" . 
+                             "<a href=\"/logout.php\"><i class=\"fa-solid fa-right-to-bracket\"></i></a>" .
+                             "</div>";
+            return $html_output;
+        }
         
         $navbar_output = "";
         
         if(isset($_SESSION['priority']) && !empty($_SESSION['priority'])) {
-            echo "empty";
-//            $navbar_output .= generate_index($navbar_output);
-//            $navbar_output .= generate_catalogue($navbar_output);
-//            $navbar_output .= generate_cart($navbar_output);
-//            $navbar_output .= generate_aboutus($navbar_output);
-//            $navbar_output .= generate_login($navbar_output);
-            echo $navbar_output;
+            if (($_SESSION['priority']) == 1){ // admin
+                $navbar_output = "";
+
+            } elseif (($_SESSION['priority']) == 2){ // staff
+                $navbar_output = "";
+
+            } elseif (($_SESSION['priority']) == 3){ // customer
+                $navbar_output = generate_index($navbar_output);
+                $navbar_output = generate_catalogue($navbar_output);
+                $navbar_output = generate_cart($navbar_output);
+                $navbar_output = generate_aboutus($navbar_output);
+                $navbar_output = generate_logout($navbar_output);
+            }
         } else {
             $navbar_output = generate_index($navbar_output);
             $navbar_output = generate_catalogue($navbar_output);
             $navbar_output = generate_cart($navbar_output);
             $navbar_output = generate_aboutus($navbar_output);
             $navbar_output = generate_login($navbar_output);
-            echo $navbar_output;
         }
+        
+        echo $navbar_output;
     ?>
     </div>
 </header>
