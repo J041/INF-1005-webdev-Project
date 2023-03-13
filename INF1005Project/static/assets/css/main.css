@@ -1,7 +1,9 @@
 /* Importing of Custom Font */
+
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
 
 /* General Styling to Website */
+
 body {
     font-family: "Urbanist", "sans-serif";
     overflow-x: hidden;
@@ -21,6 +23,7 @@ footer {
 }
 
 /* Styling for Navigation Bar */
+
 header {
     display: flex;
     width: 100%;
@@ -82,6 +85,7 @@ header .item a:hover {
 }
 
 /* Navigation - Search Bar */
+
 header .search-container {
     position: relative;
     display: inline-block;
@@ -142,6 +146,7 @@ header .item .dropdown-item input:hover, header .item .dropdown-item:hover {
 }
 
 /* Navigation Bar - Compressed */
+
 header .modal-dialog {
     margin: 0;
     width: 100%;
@@ -251,6 +256,7 @@ header .modal-item i {
 
 
 /* Catalogue */
+
 .catalogue-display h1{
     padding-top: 15px;
     font-size: 15px;
@@ -286,9 +292,53 @@ div .catalogue-items{
     text-align: center;
 }
 
+.catalogue-box .catalogue-items img {
+    width: 100%;
+}
+
 div .catalogue-button {
     display: flex;
     justify-content: space-around;
+}
+
+/* Catalogue - Product Details*/
+
+.product-item .modal-dialog {
+    display: flex;
+    justify-content: center;
+}
+
+.product-item .modal-content {
+    height: 90vh;
+    min-width: 90vw;
+}
+
+.product-item-btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.product-item-btn button{
+    border: none;
+    font-size: 25px;
+    background-color: #fff;
+}
+
+.product-item-img {
+    display: flex;
+    justify-content: center;
+}
+
+.product-item-img img {
+    width: 100%;
+    height: auto;
+    max-width: 550px;
+    max-height: 550px;
+}
+
+.product-item-row {
+    margin: 20px 5px;
+    padding: 15px;
 }
 
 /* Backend Catalogue */

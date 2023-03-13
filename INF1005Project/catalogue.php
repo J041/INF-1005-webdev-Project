@@ -56,37 +56,27 @@
             $html_output =  "<div class=\"row\">" . 
                             "<div class=\"container catalogue-display\">";
             
-//            echo "<div class=\"row\">";
-//            echo "<div class=\"container catalogue-display\">";
             if ($logic == 0) {
                 $html_output .= "<h1>Please try a different search term/product category.</h1>" . 
                                 "<h2>No results found! </h2>";
-//                echo"<h1>Please try a different search term/product category.</h1>";
-//                echo"<h2>No results found! </h2>";
             } elseif ($logic == 1) {
                 $html_output .= "<h1>Home/Products/" . $search_query . "</h1>" . 
                                 "<h2>" . $search_query . "</h2>";
-//                echo"<h1>Home/Products/" . $search_query . "</h1>";
-//                echo"<h2>" . $search_query . "</h2>";
             } elseif ($logic == 2) {
                 $html_output .= "<h1>Returning results for </h1>" . 
                                 "<h2>All Products</h2>";
-//                echo"<h1>Returning results for </h1>";
-//                echo"<h2>All Products</h2>";
             } else {
                 $html_output .= "<h1>Search result for </h1>" . 
                                 "<h2>\"" . $search_query . "\"</h2>";
-//                echo"<h1>Search result for </h1>";
-//                echo"<h2>\"" . $search_query . "\"</h2>";
             }
             $html_output .= "</div></div>";
-//            echo "</div>";
-//            echo "</div>";
 
+            // Defining array to store SQL output
+            $results_array = [];
+            
             // Output Query Results into HTML
             $result = $stmt->get_result();
             $html_output .= "<div class=\"row\">";
-//            echo "<div class=\"row\">";
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     // Formatting of display price
@@ -102,39 +92,87 @@
                                     . "<p> SGD $" . number_format($price_string, 2, '.', '') . "</p>"
                                     . "</div>"
                                     . "<div class=\"catalogue-button\">"
-                                    . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#catalogue_item\">"
+                                    . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#catalogue_detail_item_". $row["product_id"] ."\">"
                                     . "More Details"
                                     . "</button>"
-                                    . "<button type=\"button\" class=\"btn btn-outline-success btn-sm\">"
+                                    . "<button type=\"button\" class=\"btn btn-outline-success btn-sm\" id=\"catalogue_cart_item_". $row["product_id"] ."\">"
                                     . "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>"
                                     . "</button>"
                                     . "</div>"
                                     . "</div>";
-
-//                    echo "<div class=\"catalogue-box col-sm-12 col-md-6 col-lg-4\">";
-//                    echo "<div class=\"catalogue-items\">";
-//                    echo "<img src=\"static/assets/img/products/" . $row["product_name"] . ".jpg\" alt=\"img_" . $row["product_name"] . "\">";
-//                    echo "</div>";
-//                    echo "<div class=\"catalogue-items\">";
-//                    echo "<p>" . $row["product_name"] . "</p>";
-//                    echo "</div>";
-//                    echo "<div class=\"catalogue-items\">";
-//                    echo "<p> SGD $" . number_format($price_string, 2, '.', '') . "</p>";
-//                    echo "</div>";
-//                    echo "<div class=\"catalogue-button\">";
-//                    echo "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#catalogue_item\">";
-//                    echo "More Details";
-//                    echo "</button>";
-//                    echo "<button type=\"button\" class=\"btn btn-outline-success btn-sm\">";
-//                    echo "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>";
-//                    echo "</button>";
-//                    echo "</div>";
-//                    echo "</div>";
+                    array_push($results_array, array($row["product_id"], $row["product_name"], $row["product_desc"], $row["product_category"], $row["quantity"], number_format($price_string, 2, '.', '')));
                 }
             }
             $html_output .= "</div>";
-//            echo "</div>";
 
+            for ($i = 0; $i < sizeof($results_array); $i++) {
+                // echo print_r($results_array[$i]);
+
+                $html_output .= "<div class=\"product-item modal fade\" id=\"catalogue_detail_item_". $results_array[$i][0] ."\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"catalogue_detail_item_". $results_array[$i][0] ."\" aria-hidden=\"true\">"
+                                . "<div class=\"modal-dialog modal-xl modal-dialog-scrollable\" role=\"document\">"
+                                . "<div class=\"modal-content\">"
+                                . "<div class=\"modal-body\">"
+                                . "<div class=\"container-fluid\">"
+                        
+                                . "<div class=\"product-item-btn row\">"
+                                . "<button type=\"button\" data-dismiss=\"modal\"><i class=\"fa-solid fa-xmark\"></i></button>"
+                                . "</div>"
+                        
+                                . "<div class=\"row\">"
+                        
+                                . "<div class=\"product-item-img col-md-12 col-lg-6\">"
+                                . "<img src=\"static/assets/img/products/". $results_array[$i][1] .".jpg\" alt=\"img_". $results_array[$i][1] ."\">"
+                                . "</div>"
+                        
+                                . "<div class=\"col-md-12 col-lg-6\">"
+                                . "<div class=\"product-item-row row\">"
+                                . "<div class=\"col-lg-12\">"
+                                . "<h1>". $results_array[$i][3] ."</h1>"
+                                . "</div>"
+                                . "</div>"
+                                . "<div class=\"product-item-row row\">"
+                                . "<div class=\"col-lg-12\">"
+                                . "<h2>". $results_array[$i][1] ."</h2>"
+                                . "</div>"
+                                . "</div>"
+                                . "<div class=\"product-item-row row\">"
+                                . "<div class=\"col-lg-12\">"
+                                . "<h3>SGD $". $results_array[$i][5] ."</h3>"
+                                . "</div>"
+                                . "</div>"
+                                . "<div class=\"product-item-row row\">"
+                                . "<div class=\"col-lg-12\">"
+                                . "<h3>". $results_array[$i][4] ." in stock</h3>"
+                                . "</div>"
+                                . "</div>"
+                                . "<div class=\"product-item-row row\">"
+                                . "<div class=\"col-lg-12\">"
+                                ."<button type=\"button\" class=\"btn btn-outline-success btn-sm\" id=\"catalogue_cart_item_". $row["product_id"] ."\">"
+                                . "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>"
+                                . "</button>"
+                                . "</div>"
+                                . "</div>"
+                                . "<div class=\"product-item-row row\">"
+                                . "<div class=\"col-lg-12\">"
+                                . "<h3>Description: </h3>"
+                                . "</div>"
+                                . "</div>"
+                                . "<div class=\"product-item-row row\">"
+                                . "<div class=\"col-lg-12\">"
+                                . "<h3>". $results_array[$i][2] ."</h3>"
+                                . "</div>"
+                                . "</div>"
+                                . "</div>"
+                        
+                                . "</div>"
+                        
+                                . "</div>"
+                                . "</div>"
+                                . "</div>"
+                                . "</div>"
+                                . "</div>";
+            }
+            
             // Check connection
             if (!$conn) {
                 die("Connection failed: " . mysqli_connect_error());
@@ -143,7 +181,7 @@
             }
             ?>
              <?php echo $html_output ?>
-            <!-- Modal -->
+            <!-- Modal 
             <div class="modal fade" id="catalogue_item" tabindex="-1" role="dialog" aria-labelledby="catalogue_item" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -152,7 +190,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <?php
             include "footer.inc.php";
