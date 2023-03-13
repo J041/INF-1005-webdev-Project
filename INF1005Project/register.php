@@ -78,7 +78,7 @@
                 <div class="form-group">
                     <label for="fname">Username:</label>
                     <input class="form-control"type="text" id="username"
-                           name="username" maxlength="45" placeholder="Enter username"value="<?php echo $name; ?>">
+                           name="username" maxlength="45" placeholder="Enter username"value="<?php echo $username; ?>">
                     <span class="error"><?php if (isset($nameErr)) echo $nameErr; ?></span>
                 </div>
                 <div class="form-group">
@@ -103,19 +103,21 @@
             </form>
 
             <?php
+            ini_set('display_errors', 1);
+            error_reporting(E_ALL);
             // display form data on submission if no errors
             if (isset($_POST['submit'])) {
                 if (empty($usernameErr) && empty($emailErr) && empty($passwordErr) && empty($pwd_confirmErr)) {
+
                     echo "pre test";
                     saveUserToDB();
-                    echo "successfully registered";
-                    $message = "succesfully registered";
-                    header("Location: https://35.212.159.197/login.php?message=" . urlencode($message));
                 }
             }
 
             function saveUserToDB() {
+                global $pwd_hashed, $priority, $errorMsg, $success;
                 $pwd_hashed = password_hash($_POST["pwd"], PASSWORD_DEFAULT);
+                $priority = 3;
                 $success = true;
                 $errorMsg = "";
 
@@ -123,38 +125,105 @@
                 // Create database connection.
                 $config = parse_ini_file('../private/db-config.ini');
                 $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+                echo "test1";
 
                 // Check connection
                 if ($conn->connect_error) {
                     $errorMsg = "Connection failed: " . $conn->connect_error;
                     $success = false;
+                } else {
+                    echo "test2";
+                    $stmt = $conn->prepare("INSERT INTO Users (email, username,password,priority) VALUES (?,?,?,?)");
+                    $stmt->bind_param("ssss", $_POST["email"], $_POST["username"], $pwd_hashed, $priority);
+                    echo "test3";
+                    echo $priority . ($_POST["email"]);
+                    $stmt->execute();
+                    echo "test4";
+                    if (!$stmt->execute()) {
+                        $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                        $success = false;
+                    } else {
+                        echo "test5";
+                        $result = $stmt->get_result();
+
+                        $success = true;
+                    }
+                    $stmt->close();
+                    $conn->close();
+                    header("Location: http://35.212.159.197/login.php");
+                    header("Message: succesfully registered");
                 }
-//                echo "Connected successfully";
-                // Prepare query statement:
-                $stmt = $conn->prepare("INSERT INTO Users (email, username,
-password,priority) VALUES (?,?,?,?)");
-                echo "successfully registered 1";
-                // Bind & execute the query statement:
-
-                $stmt->bind_param("ssss", $_POST["email"], $_POST["username"], $pwd_hashed, "3");
-//                echo "<p>" . $stmt . "</p>";
-
-                echo "successfully registered 2";
-            if (!$stmt->execute()) {
-                $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-                $success = false;
-            }
-            $stmt->close();
-                $result = $stmt->get_result();
             }
 
-            // Check connection
-            if (!$conn) {
-                die("Connection failed: " . mysqli_connect_error());
-            } else {
+            function saveUserToDB2() {
+                $email = $_POST["email"];
+                $username = $_POST["username"];
+
+                $pwd_hashed = password_hash($_POST["pwd"], PASSWORD_DEFAULT);
+                $priority = "3";
+                $success = true;
+                $errorMsg = "";
+
+                $is_active = 1;
+                $config = parse_ini_file('../private/db-config.ini');
+                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+
+// Prepare the SQL statement with placeholders
+                echo "test 1";
+                $stmt = $conn->prepare("INSERT INTO Users (email, username,password,priority) VALUES (?,?,?,?)");
+                echo "test 11";
+// Bind parameters to the placeholders
+                $stmt->bind_param("s", $email, $username, $pwd_hashed, $priority);
+                echo $stmt;
+                echo "test 2";
+// Set the parameter values
+// Execute the prepared statement
+                $stmt->execute();
+                echo "test 3";
+// Close the prepared statement and database connection
+                $stmt->close();
                 $conn->close();
-                echo "successfully registered 4";
+                echo "test 4";
+// Redirect the user to a new PHP file
+                header("Location: http://35.212.159.197/login.php");
+                header("Message: succesfully registered");
+                exit();
             }
+
+//                // Create database connection.
+//                $config = parse_ini_file('../private/db-config.ini');
+//                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+//
+//                // Check connection
+//                if ($conn->connect_error) {
+//                    $errorMsg = "Connection failed: " . $conn->connect_error;
+//                    $success = false;
+//                }
+////                echo "Connected successfully";
+//                // Prepare query statement:
+//                $stmt = $conn->prepare("INSERT INTO Users (email, username,
+//password,priority) VALUES (?,?,?,?)");
+//                $stmt->bind_param("s", $email, $username, $pwd_hashed, $priority);
+////                echo "<p>" . $stmt . "</p>";
+//                $stmt->execute();
+//
+//                echo $email . $username . $priority;
+//
+//                if (!$stmt->execute()) {
+//                    $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+//                    $success = false;
+//                }
+//                $stmt->close();
+//                $result = $stmt->get_result();
+//                echo $result;
+//            }
+//
+//            // Check connection
+//            if (!$conn) {
+//                die("Connection failed: " . mysqli_connect_error());
+//            } else {
+//                $conn->close();
+//            }
             ?>
         </main>
         <?php
