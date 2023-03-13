@@ -10,9 +10,6 @@
     ?>
     <body>
         <?php
-        
-        require "function.php";
-        
         global $email, $username, $pwd_hashed;
         // define variables and set to empty values
         $nameErr = $emailErr = $passwordErr = $pwd_confirmErr = "";
@@ -22,7 +19,7 @@
             if (empty($_POST["username"])) {
                 $usernameErr = "Name is required";
             } else {
-                $name = sanitize_input($_POST["username"]);
+                $name = test_input($_POST["username"]);
                 // check if name only contains letters and whitespace
                 if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
                     $usernameErr = "Only letters and white space allowed";
@@ -32,7 +29,7 @@
             if (empty($_POST["email"])) {
                 $emailErr = "Email is required";
             } else {
-                $email = sanitize_input($_POST["email"]);
+                $email = test_input($_POST["email"]);
                 // check if email address is well-formed
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $emailErr = "Invalid email format";
@@ -41,15 +38,16 @@
 
             if (empty($_POST["pwd"])) {
                 $passwordErr .= "password is required.<br>";
+
                 $success = false;
             } else {
                 if ($_POST["pwd"] != $_POST["pwd_confirm"]) {
-                    $pwd_confirmErr .= "password does not match with confirm password";
+                    $pwd_confirmErr .= "password dont match with confirm pass";
                     $success = false;
                 }
             }
             // Given password
-//            $password = $_POST["pwd"];
+            $password = $_POST["pwd"];
 
 // Validate password strength
 //            $uppercase = preg_match('@[A-Z]@', $password);
@@ -63,12 +61,18 @@
 //            }
         }
 
+        function test_input($data) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
         ?>
         <main class="container">
             <h1>Register as a User</h1>
             <p>
                 If you are already registered,
-                <a href="/login.php">Click here </a>to Sign in!!!.
+                <a href="#">Click here </a>to Sign in!!!.
             </p>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="form-group">
