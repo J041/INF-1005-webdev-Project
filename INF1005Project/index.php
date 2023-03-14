@@ -37,7 +37,7 @@
             </form>
             <log>
         <div class="container header">
-            <img src="static\assets\img\home\banner.png" alt="PROMOTIONS"/>
+            <img src="static\assets\img\home\banner.png" alt="PROMOTIONS" class="col-sm-12"/>
             <h1 class="display-4">PROMOTIONS</h1>
         </div>
 
@@ -66,7 +66,7 @@
         </div>
 
         <div class="container header" >
-            <img src="static\assets\img\home\banner.png" alt="CATEGORIES"/>
+            <img src="static\assets\img\home\banner.png" alt="CATEGORIES" class="col-sm-12"/>
             <h1 class="display-4">CATEGORIES</h1>
         </div>
 
@@ -118,7 +118,7 @@
                 <div class="col-sm-4 categories">
                     <div class="thumbnail d-flex align-items-center justify-content-center">
                         <a href="#">
-                            <img src="static\assets\img\home\periodical_icon.jpg" alt="Reading Materials" class="category-icon">
+                            <img src="static\assets\img\home\periodical_icon.png" alt="Reading Materials" class="category-icon">
                             <p class="text-center">Reading Materials</p>
                         </a>
                     </div>
@@ -127,7 +127,7 @@
         </div>   
 
         <div class="container header" >
-            <img src="static\assets\img\home\banner.png" alt="DAILY DEALS"/>
+            <img src="static\assets\img\home\banner.png" alt="DAILY DEALS" class="col-sm-12"/>
             <h1 class="display-4">DAILY DEALS</h1>
         </div>
 
@@ -215,7 +215,7 @@
         <br>
 
         <div class="container header" >
-            <img src="static\assets\img\home\banner.png" alt="TRENDING ITEMS"/>
+            <img src="static\assets\img\home\banner.png" alt="TRENDING ITEMS" class="col-sm-12"/>
             <h1 class="display-4">TRENDING ITEMS</h1>
         </div>
 
