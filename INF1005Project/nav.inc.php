@@ -106,22 +106,37 @@
         }
 
         function generate_logout($html_output){
+            $html_output .=  "<div class=\"item\">" . 
+                             "<a href=\"/logout.php\">Logout</a>" .
+                             "</div>";
             return $html_output;
         }
         
         function generate_dashboard($html_output){
+            $html_output .=  "<div class=\"item\">" . 
+                             "<a href=\"/dashboard.php\">Dashboard</a>" .
+                             "</div>";
             return $html_output;
         }
         
         function generate_orderhistory($html_output){
+            $html_output .=  "<div class=\"item\">" . 
+                             "<a href=\"/orderhistory.php\">Order History</a>" .
+                             "</div>";
             return $html_output;
         }
         
         function generate_updateprofile($html_output){
+            $html_output .=  "<div class=\"item\">" . 
+                             "<a href=\"/updateprofile.php\">Update Profile</a>" .
+                             "</div>";
             return $html_output;
         }
 
         function generate_updatecatalogue($html_output){
+            $html_output .=  "<div class=\"item\">" . 
+                             "<a href=\"/catalogue_backend.php\">Update catalogue</a>" .
+                             "</div>";
             return $html_output;
         }
         
