@@ -41,7 +41,6 @@
             <h1 class="display-4">PROMOTIONS</h1>
         </div>
 
-
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -70,7 +69,7 @@
             <h1 class="display-4">CATEGORIES</h1>
         </div>
 
-        <div class="container categories">    
+<!--        <div class="container categories">    
             <div class="row">
                 <div class="col-sm-4 categories" >
                     <div class="thumbnail d-flex align-items-center justify-content-center">
@@ -124,7 +123,37 @@
                     </div>
                 </div>
             </div>
-        </div>   
+        </div>   -->
+
+        <?php
+        /*$category_array = array("Accessories", "Candy", "Drinks", "Household", "Snacks", "Toys", "Periodical");*/
+
+        $columnCounter = 0;
+        $html_output = "";
+        $html_output .= "<div class=\"container\">";
+        for ($i = 0; $i < count($category_array); $i++) {
+
+            if ($columnCounter == 0) {
+                $html_output .= "<div class=\"row\">";
+            }
+            $html_output .= "<div class=\"col-sm-4 categories\" >" .
+                    "<div class=\"thumbnail d-flex align-items-center justify-content-center categories\">" .
+                    "<a href=\"#\">" .
+                    "<img src=\"static\assets\img\home/" . $category_array[$i] . "_icon.png\" alt=\"" . $category_array[$i] . "\" class=\"category-icon\">" .
+                    "<p class=\"text-center\">$category_array[$i]</p>" .
+                    "</a>" .
+                    "</div>" .
+                    "</div>";
+
+            $columnCounter++;
+            if ($columnCounter == 3) {
+                $html_output .= "</div>";
+                $columnCounter = 0;
+            }
+        }
+        $html_output .= "</div>";
+        echo $html_output;
+        ?>
 
         <div class="container header" >
             <img src="static\assets\img\home\banner.png" alt="DAILY DEALS" class="col-sm-12"/>
