@@ -8,6 +8,20 @@
     <?php
     include "nav.inc.php";
     session_start();
+    
+    if (isset($_POST['submit'])) {
+        logout();
+    }
+    
+    function logout(){
+        session_destroy();
+        $_SESSION = array();
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time() - 3600, '/');
+            header('Location: logout.php');
+        }
+    }
+    
     foreach ($_SESSION as $key => $value) {
         echo $key . ' => ' . $value . '<br>';
     }
