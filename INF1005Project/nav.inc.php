@@ -145,6 +145,7 @@
         if(isset($_SESSION['priority']) && !empty($_SESSION['priority'])) {
             if (($_SESSION['priority']) == 1){ // admin
                 $navbar_output = generate_index($navbar_output);
+                $navbar_output = generate_catalogue($navbar_output);
                 $navbar_output = generate_dashboard($navbar_output);
                 $navbar_output = generate_orderhistory($navbar_output);
                 $navbar_output = generate_updateprofile($navbar_output);
@@ -152,6 +153,7 @@
 
             } elseif (($_SESSION['priority']) == 2){ // staff
                 $navbar_output = generate_index($navbar_output);
+                $navbar_output = generate_catalogue($navbar_output);
                 $navbar_output = generate_updatecatalogue($navbar_output);
                 $navbar_output = generate_updateprofile($navbar_output);
                 $navbar_output = generate_logout($navbar_output);
