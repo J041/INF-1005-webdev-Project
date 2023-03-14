@@ -11,9 +11,10 @@
     <body>
         <?php
         global $email, $username, $pwd_hashed;
+        
         // define variables and set to empty values
         $nameErr = $emailErr = $passwordErr = $pwd_confirmErr = "";
-        $username = $email = $gender = "";
+        $username = $email = $pwd = $pwd_confirm = "";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($_POST["username"])) {
@@ -49,16 +50,16 @@
             // Given password
             $password = $_POST["pwd"];
 
-// Validate password strength
-//            $uppercase = preg_match('@[A-Z]@', $password);
-//            $lowercase = preg_match('@[a-z]@', $password);
-//            $number = preg_match('@[0-9]@', $password);
-//            $specialChars = preg_match('@[^\w]@', $password);
-//
-//            if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
-//                $errorMsg . "Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.";
-//                $success = false;
-//            }
+ //Validate password strength
+            $uppercase = preg_match('@[A-Z]@', $_POST["pwd"]);
+            $lowercase = preg_match('@[a-z]@',$_POST["pwd"]);
+            $number = preg_match('@[0-9]@', $_POST["pwd"]);
+            $specialChars = preg_match('@[^\w]@', $_POST["pwd"]);
+
+            if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
+                $passwordErr . "Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.";
+                $success = false;
+            }
         }
 
         function test_input($data) {
@@ -119,7 +120,7 @@
                     }
                     $stmt->close();
                     $conn->close();
-                    header("Location: http://35.212.159.197/login.php");
+                    header("Location: login.php");
                     header("Message: succesfully registered");
                 }
             }

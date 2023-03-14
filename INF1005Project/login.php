@@ -10,12 +10,15 @@
     ?>
     <?php
     session_start();
+    global $username, $pwd;
+    $username = "";
+    $pwd = "";
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-        if (isset($_GET['message'])) {
-            $message = $_GET['message'];
-            echo $message;
-        }
+    if (isset($_GET['message'])) {
+        $message = $_GET['message'];
+        echo $message;
+    }
     // display form data on submission if no errors
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $echo = "test0";
@@ -23,6 +26,8 @@
     }
 
     function authenticateUser2() {
+
+
         $echo = "test 01";
         $config = parse_ini_file('../private/db-config.ini');
         $conn = new mysqli($config['servername'], $config['username'],
@@ -49,19 +54,19 @@
                 echo $pwd_hashed . " gapspace " . $_POST["pwd"];
 //                if ($_POST["pwd"] == $pwd_hashed) {
 //                    $_SESSION['priority'] = $priority;
-//                    header("Location: http://35.212.159.197/index.php");
+//                    header("Location: index.php");
 //                } else {
 //                    echo "<h4>The following input errors were detected:</h4>";
 //                    echo "<p>" . $errorMsg . "</p>";
-//                    echo "<a href='http://35.212.159.197/register.php'><button>return to sign up</button></a>";
+//                    echo "<a href='register.php'><button>return to sign up</button></a>";
 //                }
                 if (password_verify($_POST["pwd"], $pwd_hashed)) {
                     $_SESSION['priority'] = $priority;
-                    header("Location: http://35.212.159.197/index.php");
+                    header("Location: index.php");
                 } else {
                     echo "<h4>The following input errors were detected:</h4>";
                     echo "<p>" . $errorMsg . "</p>";
-                    echo "<a href='http://35.212.159.197/register.php'><button>return to sign up</button></a>";
+                    echo "<a href='register.php'><button>return to sign up</button></a>";
                 }
             } else {
                 $errorMsg = "Email not found or password doesn't match...";
@@ -86,7 +91,7 @@
                 <div class="form-group">
                     <label for="fname">Username:</label>
                     <input class="form-control"type="text" id="username"
-                           name="username" maxlength="45" placeholder="Enter username or email"value="<?php echo $username; ?>">
+                           name="username" maxlength="45" placeholder="Enter username or email"value="<?php echo $username; ?>"/>
                     <span class="error"><?php if (isset($usernameErr)) echo $usernameErr; ?></span>
                 </div>
                 <div class="form-group">
