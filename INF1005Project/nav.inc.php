@@ -139,6 +139,16 @@
                              "</div>";
             return $html_output;
         }
+
+        function generate_userprofile($html_output){
+            $username = $_SESSION['username'];
+            $html_output .=  "<div class=\"item\">" . 
+                             "<p>".
+                             $username . 
+                             "</p>".
+                             "</div>";
+            return $html_output;
+        }
         
         $navbar_output = "";
         
@@ -149,6 +159,7 @@
                 $navbar_output = generate_dashboard($navbar_output);
                 $navbar_output = generate_orderhistory($navbar_output);
                 $navbar_output = generate_updateprofile($navbar_output);
+                $navbar_output = generate_userprofile($navbar_output);
                 $navbar_output = generate_logout($navbar_output);
 
             } elseif (($_SESSION['priority']) == 2){ // staff
@@ -156,6 +167,7 @@
                 $navbar_output = generate_catalogue($navbar_output);
                 $navbar_output = generate_updatecatalogue($navbar_output);
                 $navbar_output = generate_updateprofile($navbar_output);
+                $navbar_output = generate_userprofile($navbar_output);
                 $navbar_output = generate_logout($navbar_output);
 
             } elseif (($_SESSION['priority']) == 3){ // customer
@@ -164,6 +176,7 @@
                 $navbar_output = generate_cart($navbar_output);
                 $navbar_output = generate_aboutus($navbar_output);
                 $navbar_output = generate_updateprofile($navbar_output);
+                $navbar_output = generate_userprofile($navbar_output);
                 $navbar_output = generate_logout($navbar_output);
             }
         } else {
