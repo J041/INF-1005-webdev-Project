@@ -107,7 +107,7 @@
 
         function generate_logout($html_output){
             $html_output .=  "<div class=\"item\">" . 
-                             "<a href=\"/logout.php\">Logout</a>" .
+                             "<a href=\"/logout.php\"><i class=\"fa-solid fa-right-from-bracket\"></i></a>" .
                              "</div>";
             return $html_output;
         }
