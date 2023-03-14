@@ -24,14 +24,14 @@
                         <label for="cardnumber">Credit Card Number</label><br>
                         <input class="form-control"  type="text" id="cardnumber" name="cardnumber"
                                required pattern="\d{4}(?:-\d{4})*" placeholder="0000-0000-0000-0000"
-                               onkeyup=" CreditCardFormat()" minlength="19">
+                               onkeyup=" CreditCardFormat()" minlength="19" maxlength="19">
                 </div>
                 <div id="creditcardinfo">
 
                     <div class="form-group">
                         <label for="cardexpiration">Expiration Date</label><br>
-                        <input class="form-control" type="month" id="cardexpiration" name="cardexpiration"
-                               required min="2023-03">
+                        <input class="form-control" type="date" id="cardexpiration" name="cardexpiration"
+                               required min="2023-03-01" max="2028-12-01">
                     </div>
                     <div class="form-group">
                         <label for="securitycode">Security Code</label><br>

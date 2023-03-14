@@ -18,6 +18,7 @@
             <hr>
             
             <!-- Placeholder items, replace with shopping cart items -->
+            <!-- php to retrieve from db table and format it like below -->
             <div class="cartitems">
                 <div class="flexcontainer">
                     <div class="checkoutproduct">
