@@ -64,6 +64,9 @@
             </a>
         </div>
 
+        <br>
+        <br>
+        
         <div class="container header" >
             <img src="static\assets\img\home\banner.png" alt="CATEGORIES" class="col-sm-12"/>
             <h1 class="display-4">CATEGORIES</h1>
@@ -129,14 +132,14 @@
         /*$category_array = array("Accessories", "Candy", "Drinks", "Household", "Snacks", "Toys", "Periodical");*/
 
         $columnCounter = 0;
-        $html_output = "";
-        $html_output .= "<div class=\"container\">";
+        $category_output = "";
+        $category_output .= "<div class=\"container\">";
         for ($i = 0; $i < count($category_array); $i++) {
 
             if ($columnCounter == 0) {
-                $html_output .= "<div class=\"row\">";
+                $category_output .= "<div class=\"row\">";
             }
-            $html_output .= "<div class=\"col-sm-4 categories\" >" .
+            $category_output .= "<div class=\"col-sm-4 categories\" >" .
                     "<div class=\"thumbnail d-flex align-items-center justify-content-center categories\">" .
                     "<a href=\"#\">" .
                     "<img src=\"static\assets\img\home/" . $category_array[$i] . "_icon.png\" alt=\"" . $category_array[$i] . "\" class=\"category-icon\">" .
@@ -147,20 +150,83 @@
 
             $columnCounter++;
             if ($columnCounter == 3) {
-                $html_output .= "</div>";
+                $category_output .= "</div>";
                 $columnCounter = 0;
             }
         }
-        $html_output .= "</div>";
-        echo $html_output;
+        $category_output .= "</div>";
+        echo $category_output;
         ?>
-
+        
+        <br>
+        <br>
+        
         <div class="container header" >
             <img src="static\assets\img\home\banner.png" alt="DAILY DEALS" class="col-sm-12"/>
             <h1 class="display-4">DAILY DEALS</h1>
         </div>
 
-        <div class="container-fluid cards-row">
+        <?php
+
+        // Global Array to store Product Catagories
+        $daily_deals_array = [];
+
+        // Create database connection.
+        $config = parse_ini_file('../private/db-config.ini');
+        $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+
+        // Check connection
+        if ($conn->connect_error) {
+            $errorMsg = "Connection failed: " . $conn->connect_error;
+            $success = false;
+        }
+
+        // Prepare, Bind & Execute SELECT statement to retrieve all active products categories:
+        $stmt = $conn->prepare("SELECT DISTINCT product_name, product_desc, price FROM Products WHERE is_active=? ORDER BY RAND() LIMIT 5");
+        $is_active = 1;
+        $stmt->bind_param("i", $is_active);
+        $stmt->execute();
+
+        // Storing Product Categories into a list
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($daily_deals_array, $row["product_name"], $row["product_desc"], $row["price"]);
+            }
+        }
+
+        $daily_deals_output = "";
+        $daily_deals_output .= "<div class=\"container-fluid cards-row\">" .
+                            "<div class=\"container\">" .
+                            "<div class=\"row\">";
+
+        for ($i = 0; $i < count($daily_deals_array); $i+=3) {
+            $product_description = $daily_deals_array[$i+1];
+            $product_price = $daily_deals_array[$i+2];
+            $daily_deals_output .= "<div class=\"col-lg productbox\">" .
+                                "<div class=\"thumbnail productitem\">" .
+                                "<img src=\"static\assets\img\home/". $daily_deals_array[$i] . ".png\" alt=\"". $daily_deals_array[$i] ."\">" .
+                                "<div class=\"caption\">" .
+                                "<h3>".$daily_deals_array[$i]."</h3>".
+                                "<p class=\"card-description\">Description: $product_description</p>" .
+                                "<p class=\"card-description\">Price: \$$product_price</p>" .
+                                "<div class=\"flex-box cartbutton\">" .    
+                                "<input type=\"image\" name=\"submit\" src=\"https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif\" alt=\"Add to Cart\">" .
+                                "</div>" .
+                                "</div>" .
+                                "</div>" .
+                                "</div>";
+                                        
+                                        
+        }
+        $daily_deals_output .=  "</div>" .
+                                "</div>" .
+                                "</div>";
+        echo $daily_deals_output;
+        $conn->close();
+        ?>
+
+<!--        <div class="container-fluid cards-row">
             <div class="container">
                 <div class="row">
 
@@ -238,9 +304,11 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
-        </div>
+        </div>-->
+        <br>
         <br>
 
         <div class="container header" >
@@ -248,7 +316,72 @@
             <h1 class="display-4">TRENDING ITEMS</h1>
         </div>
 
-        <div class="container-fluid cards-row">
+        <?php
+        // Global Array to store Product Catagories
+        $trending_items_array = [];
+
+        // Create database connection.
+        $config = parse_ini_file('../private/db-config.ini');
+        $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+
+        // Check connection
+        if ($conn->connect_error) {
+            $errorMsg = "Connection failed: " . $conn->connect_error;
+            $success = false;
+        }
+
+        // Prepare, Bind & Execute SELECT statement to retrieve all active products categories:
+        $trending_items_stmt = $conn->prepare("SELECT mydb.Sales.product_name, mydb.Products.product_desc, mydb.Sales.selling_price FROM mydb.Sales INNER JOIN mydb.Products ON mydb.Sales.product_id=mydb.Products.product_id ORDER BY mydb.Sales.units_sold DESC, mydb.Sales.revenue DESC LIMIT 10;");
+        $trending_items_stmt->execute();
+
+        // Storing Product Categories into a list
+        $trending_items_result = $trending_items_stmt->get_result();
+        if ($trending_items_result->num_rows > 0) {
+            while ($row = $trending_items_result->fetch_assoc()) {
+                array_push($trending_items_array, $row["product_name"], $row["product_desc"], $row["selling_price"]);
+            }
+        }
+            
+        $trending_items_output = "";
+        $trending_items_output .= "<div class=\"container-fluid cards-row\">" .
+                "<div class=\"container\">";
+
+        $trending_items_columnCounter = 0;
+        for ($i = 0; $i < count($trending_items_array); $i += 3) {
+            if ($trending_items_columnCounter == 0) {
+                $trending_items_output .= "<div class=\"row\">";
+            }
+            $product_description = $trending_items_array[$i + 1];
+            $product_price = $trending_items_array[$i + 2];
+            $trending_items_output .= "<div class=\"col-lg productbox\">" .
+                    "<div class=\"thumbnail productitem\">" .
+                    "<img src=\"static\assets\img\home/" . $trending_items_array[$i] . ".png\" alt=\"" . $trending_items_array[$i] . "\">" .
+                    "<div class=\"caption\">" .
+                    "<h3>" . $trending_items_array[$i] . "</h3>" .
+                    "<p class=\"card-description\">Description: $product_description</p>" .
+                    "<p class=\"card-description\">Price: \$$product_price</p>" .
+                    "<div class=\"flex-box cartbutton\">" .
+                    "<input type=\"image\" name=\"submit\" src=\"https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif\" alt=\"Add to Cart\">" .
+                    "</div>" .
+                    "</div>" .
+                    "</div>" .
+                    "</div>";
+            
+            $trending_items_columnCounter++;
+            if ($trending_items_columnCounter == 5) {
+                $trending_items_output .= "</div>" .
+                                        "<br>";
+                $trending_items_columnCounter = 0;
+            }
+        }
+        $trending_items_output .= "</div>" .
+                "</div>" .
+                "</div>";
+        echo $trending_items_output;
+        $conn->close();
+        ?>
+        
+<!--        <div class="container-fluid cards-row">
             <div class="container">
                 <div class="row">
                     <div class="col-lg productbox">
@@ -410,7 +543,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </main>
 
     <?php

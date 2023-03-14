@@ -566,7 +566,7 @@ div .catalogue-button {
 
 .productbox .thumbnail>img {
     width:100%;
-    display:block
+    display:block;
 }
 
 .productbox .thumbnail h3 {
@@ -577,7 +577,6 @@ div .catalogue-button {
     margin:0;
     padding:8px 0;
     border-bottom:solid 1px #eee;
-    text-align:justify
 }
 
 .productbox .thumbnail p {
