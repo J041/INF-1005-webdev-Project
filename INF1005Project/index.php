@@ -10,19 +10,6 @@
         include "nav.inc.php";
         ?><?php
         session_start();
-        $_SESSION['username'] = 'john_doe';
-        
-        if (isset($_POST['submit'])) {
-            logout();
-       }
-        function logout(){
-        session_destroy();
-        $_SESSION = array();
-        if (isset($_COOKIE[session_name()])) {
-            setcookie(session_name(), '', time() - 3600, '/');
-            header('Location: logout.php');
-        }
-       }
         
 
 // Loop through the session data
@@ -32,10 +19,9 @@
 
         ?>
         <main class="home">
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+<!--            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <input type="submit" name="submit" value="Logout">
-            </form>
-            <log>
+            </form>-->
         <div class="container header">
             <img src="static\assets\img\home\banner.png" alt="PROMOTIONS" class="col-sm-12"/>
             <h1 class="display-4">PROMOTIONS</h1>
