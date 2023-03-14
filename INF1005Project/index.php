@@ -33,10 +33,7 @@
         ?>
         <main>
 
-            <header class="jumbotron text-center">
-                <h1 class="display-4">VALUE CONVENIENCE STORE</h1>
-                <h2><i>We got all your needs!</i></h2>
-            </header>
+
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <input type="submit" name="submit" value="Logout">
             </form>
