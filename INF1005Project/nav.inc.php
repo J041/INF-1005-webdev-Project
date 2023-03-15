@@ -1,3 +1,4 @@
+<header>
 <nav class="navbar navbar-expand-xl">
     <div class="container-fluid">
         <div class="row">
@@ -255,3 +256,4 @@
 </div>
 </div>
 </nav>
+</header>
