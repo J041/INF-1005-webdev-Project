@@ -4,6 +4,10 @@
 
 /* General Styling to Website */
 
+header {
+    margin-bottom: 4vh;
+}
+
 body {
     font-family: "Urbanist", "sans-serif";
     overflow-x: hidden;
@@ -173,9 +177,11 @@ nav .container-fluid .row .navb-items .row .item .navb-profile .row div, nav .co
 
 nav .container-fluid .row .navb-items .row .item .navb-profile .row div input, nav .container-fluid .row .navb-items .row .item .navb-catalogue .row div input {
     font-size: 14px;
+    font-weight: 200;
     border: none;
     margin-left: 20px;
     letter-spacing: 1px;
+    color: #000;
     background-color: #fff;
 }
 
