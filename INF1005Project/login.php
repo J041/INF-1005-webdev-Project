@@ -61,6 +61,7 @@
 //                    echo "<a href='register.php'><button>return to sign up</button></a>";
 //                }
                 if (password_verify($_POST["pwd"], $pwd_hashed)) {
+                    $_SESSION['username'] = $username;
                     $_SESSION['priority'] = $priority;
                     header("Location: index.php");
                 } else {
