@@ -8,20 +8,8 @@
     <body>
         <?php
         include "nav.inc.php";
-        ?><?php
-        session_start();
-        
-
-// Loop through the session data
-        foreach ($_SESSION as $key => $value) {
-            echo $key . ' => ' . $value . '<br>';
-        }
-
         ?>
         <main class="home">
-<!--            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <input type="submit" name="submit" value="Logout">
-            </form>-->
         <div class="container header">
             <img src="static\assets\img\home\banner.png" alt="PROMOTIONS" class="col-sm-12"/>
             <h1 class="display-4">PROMOTIONS</h1>
