@@ -645,3 +645,13 @@ div .catalogue-button {
 
 
 /*End Home Page CSS - Keefe*/
+
+.responsive_text {
+    padding-right: 15px;
+}
+
+@media  only screen and (min-width: 1200px){
+    .responsive_text {
+        display:none;
+    }
+}
