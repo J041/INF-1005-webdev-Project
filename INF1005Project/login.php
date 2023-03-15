@@ -85,7 +85,7 @@
             <h1>Member Login</h1>
             <p>
                 existing members log in here. for new members,please go to the
-                <a href="#">Sign UP PAGE</a>.
+                <a href="/register.php">Sign UP PAGE</a>.
             </p>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="form-group">
