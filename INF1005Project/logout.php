@@ -9,11 +9,13 @@
     include "nav.inc.php";
     session_start();
     
-    if (isset($_POST['submit'])) {
-        logout();
-    }
+    // if (isset($_POST['submit'])) {
+    //     logout();
+    // }
+    logout();
     
     function logout(){
+        session_unset();
         session_destroy();
         $_SESSION = array();
         if (isset($_COOKIE[session_name()])) {
@@ -22,9 +24,9 @@
         }
     }
     
-    foreach ($_SESSION as $key => $value) {
-        echo $key . ' => ' . $value . '<br>';
-    }
+    // foreach ($_SESSION as $key => $value) {
+    //     echo $key . ' => ' . $value . '<br>';
+    // }
     ?>
     <body>
         <main class="container">
