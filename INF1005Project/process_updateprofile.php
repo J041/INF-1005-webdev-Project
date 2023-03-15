@@ -1,10 +1,19 @@
 <?php
 
-require "function.php";
+session_start();
+
+// require "function.php";
+function sanitize_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
 function UpdateUser()
 {
-    global $email, $pwd, $profilepic, $errorMsg, $success;
+    global $email, $pwd, $profilepic, $errorMsg, $success, $updatedpassword;
     // Create database connection.
     $config = parse_ini_file('../private/db-config.ini');
     $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
@@ -16,15 +25,21 @@ function UpdateUser()
         $success = false;
     }
     else
-    {
+    {       
+        $errorMsg = "Connection succedd: ";
+        $success = true;
+        $email = $_SESSION['email'];
+        
         if (!empty($_POST["username"])) {
-            $stmt = $conn->prepare("UPDATE Users SET username=? where email = 'customer3@gmail.com'");
-            $stmt->bind_param("s", sanitize_input($_POST["username"]));
+            $stmt = $conn->prepare("UPDATE Users SET username=? where email = ?");
+            $sanitize_username = sanitize_input($_POST["username"]);
+            $stmt->bind_param("ss", $sanitize_username, $email);
             if (!$stmt->execute()) {
                 $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
                 $success = false;
             } else {
                 $result = $stmt->get_result();
+                $_SESSION['username'] = $sanitize_username;
                 $errorMsg = "It works";
                 $success = true;
             }
@@ -32,9 +47,10 @@ function UpdateUser()
         }
         
         if (!empty($_POST["pwd"])) {
-            $stmt = $conn->prepare("UPDATE Users SET password=? where email = 'customer3@gmail.com'");
-//            $stmt->bind_param("s", password_hash($_POST["pwd"], PASSWORD_DEFAULT));
-            $stmt->bind_param("s", $_POST["pwd"]);
+            $stmt = $conn->prepare("UPDATE Users SET password=? where email = ?");
+            $pwd_hashed = password_hash($_POST["pwd"], PASSWORD_DEFAULT);
+            $stmt->bind_param("ss", $pwd_hashed, $email);
+            // $stmt->bind_param("ss", $_POST["pwd"]);
             if (!$stmt->execute()) {
                 $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
                 $success = false;
@@ -42,9 +58,11 @@ function UpdateUser()
                 $result = $stmt->get_result();
                 $errorMsg = "It works";
                 $success = true;
+                $updatedpassword = true;
             }
             $stmt->close();
         }
+
 //        if (isset($_FILES["profilepic"]) && !empty($_FILES["profilepic"]['name'])){
 //            $errorMsg = var_dump($_FILES["profilepic"]);
 //            $success = true;
@@ -54,7 +72,8 @@ function UpdateUser()
 //        }
         
         if (isset($_FILES["profilepic"]) && !empty($_FILES["profilepic"]['name'])) {
-            $stmt = $conn->prepare("SELECT username FROM Users where email = 'customer3@gmail.com'");
+            $stmt = $conn->prepare("SELECT username FROM Users where email = ?");
+            $stmt->bind_param("s", $email);
             if (!$stmt->execute()) {
                 $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
                 $success = false;
@@ -122,7 +141,14 @@ if ($success){
         ?>
         <div class="container">
             <div class="form-group">
-                <?php echo $output ?>
+                <?php 
+                    echo $output; 
+                    if ($updatedpassword){
+                        header("Location: logout.php");
+                    } else {
+                        header("Location: index.php");
+                    }
+                ?>
             </div>
         </div>
         <?php
