@@ -119,6 +119,19 @@
                         $success = true;
                     }
                     $stmt->close();
+
+                    $stmt = $conn->prepare("INSERT INTO Order_History (Users_email, purchased) VALUES (?, ?)");
+                    $stmt->bind_param("si", $_POST["email"], 0);
+                    $stmt->execute();
+                    if (!$stmt->execute()) {
+                        $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                        $success = false;
+                    } else {
+                        $result = $stmt->get_result();
+                        $success = true;
+                    }
+                    $stmt->close();
+
                     $conn->close();
                     header("Location: login.php");
                     header("Message: succesfully registered");
