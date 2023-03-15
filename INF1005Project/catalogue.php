@@ -10,6 +10,125 @@
         include "nav.inc.php";
         ?>
 
+        <?php
+            function addtocart($product_id, $quantity){
+                if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
+                    // Create database connection.
+                    $config = parse_ini_file('../private/db-config.ini');
+                    $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+                    
+                    // Check connection
+                    if ($conn->connect_error)
+                    {
+                        $errorMsg = "Connection failed: " . $conn->connect_error;
+                        $success = false;
+                    }
+                    else
+                    {
+                        // Prepare the statement:
+                        $selectpricestmt = $conn->prepare("SELECT price FROM Products where product_id = ?");
+                        // Bind & execute the query statement:
+                        // $product_id = $product_id;
+                        $selectpricestmt->bind_param("i", $product_id);
+                        if (!$selectpricestmt->execute())
+                        {
+                            $errorMsg = "Execute failed: (" . $selectpricestmt->errno . ") " . $selectpricestmt->error;
+                            $success = false;
+                        } else {
+                            $result = $selectpricestmt->get_result();
+                            
+                            if ($result->num_rows > 0) {
+                                $row = $result->fetch_assoc();
+                                $product_price = $row["price"];
+                                echo "product_price is:" . $product_price . '<br>';
+                            } else {
+                                $errorMsg = "less than 1 result";
+                                $success = false;
+                            }
+                        }
+                        $selectpricestmt->close();
+
+                        // Prepare the statement:
+                        $orderidstmt = $conn->prepare("SELECT order_id FROM Order_History where Users_email = ? and purchased = ?");
+                        // Bind & execute the query statement:
+                        $Users_email = $_SESSION['email'];
+                        $purchased = 0;
+                        $orderidstmt->bind_param("si", $Users_email, $purchased);
+                        if (!$orderidstmt->execute())
+                        {
+                            $errorMsg = "Execute failed: (" . $orderidstmt->errno . ") " . $orderidstmt->error;
+                            $success = false;
+                        } else {
+                            $result = $orderidstmt->get_result();
+                            if ($result->num_rows > 0) {
+                                $row = $result->fetch_assoc();
+                                $order_id = $row["order_id"];
+                                echo "order_id is:" . $order_id . '<br>';
+                            } else {
+                                $errorMsg = "less than 1 result";
+                                $success = false;
+                            }
+                        }
+                        $orderidstmt->close();
+
+                        // Prepare the statement:
+                        $incart = false;
+                        $check_if_in_cart_stmt = $conn->prepare("SELECT * FROM mydb.Cart_Item where Order_History_order_id = ? and Products_product_id = ?");
+                        // Bind & execute the query statement:
+                        $check_if_in_cart_stmt->bind_param("ii", $order_id, $product_id);
+                        if (!$check_if_in_cart_stmt->execute())
+                        {
+                            $errorMsg = "Execute failed: (" . $check_if_in_cart_stmt->errno . ") " . $check_if_in_cart_stmt->error;
+                            $success = false;
+                        } else {
+                            $result = $check_if_in_cart_stmt->get_result();
+                            if ($result->num_rows > 0) {
+                                $row = $result->fetch_assoc();
+                                $prev_quantity = $row["quantity"];
+                                $incart = true;
+                            }
+                        }
+                        $check_if_in_cart_stmt->close();
+
+                        if ($incart){
+                            // Prepare the statement:
+                            $updatecartstmt = $conn->prepare("UPDATE Cart_Item SET quantity = ? WHERE Order_History_order_id = ? and Products_product_id = ?");
+                            $quantity = $prev_quantity + $quantity;
+                            echo $quantity;
+                            // Bind & execute the query statement:
+                            $updatecartstmt->bind_param("iii", $quantity, $order_id, $product_id);
+                            if (!$updatecartstmt->execute())
+                            {
+                                $errorMsg = "Execute failed: (" . $updatecartstmt->errno . ") " . $updatecartstmt->error;
+                                $success = false;
+                            } else {
+                                $success = true;
+                            }
+                            $updatecartstmt->close();
+                        } else {
+                            // Prepare the statement:
+                            $putincartstmt = $conn->prepare("INSERT INTO mydb.Cart_Item (Products_product_id,Order_History_order_id,quantity,price) VALUES (?,?,?,?)");
+                            // Bind & execute the query statement:
+                            // $quantity = 2;
+                            $putincartstmt->bind_param("iiii", $product_id, $order_id, $quantity, $product_price);
+                            if (!$putincartstmt->execute())
+                            {
+                                $errorMsg = "Execute failed: (" . $putincartstmt->errno . ") " . $putincartstmt->error;
+                                $success = false;
+                            } else {
+                                $success = true;
+                            }
+                            $putincartstmt->close();
+                        }
+
+                    }
+                    $conn->close();
+                } else {
+                    header("Location: login.php");
+                }
+            }
+        ?>
+
         <div class="container">
             <?php
             // Establishing Global Variables
@@ -194,6 +313,9 @@
             }
             ?>
             
+            <?php
+                addtocart(1,2);
+            ?>
              <?php echo $html_output ?>
 
             <?php

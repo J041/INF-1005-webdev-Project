@@ -8,9 +8,25 @@
     <?php
     include "nav.inc.php";
     session_start();
-    foreach ($_SESSION as $key => $value) {
-        echo $key . ' => ' . $value . '<br>';
+    
+    // if (isset($_POST['submit'])) {
+    //     logout();
+    // }
+    logout();
+    
+    function logout(){
+        session_unset();
+        session_destroy();
+        $_SESSION = array();
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time() - 3600, '/');
+            header('Location: logout.php');
+        }
     }
+    
+    // foreach ($_SESSION as $key => $value) {
+    //     echo $key . ' => ' . $value . '<br>';
+    // }
     ?>
     <body>
         <main class="container">

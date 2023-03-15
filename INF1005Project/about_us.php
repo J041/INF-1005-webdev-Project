@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 mx-auto my-5">
-                    <img src="/static/assets/img/logo.png" class="img-fluid" alt="Responsive image">
+                    <img src="/static/assets/img/dollarStoreLogo.png" class="img-fluid" alt="Responsive image">
                 </div>
                 <div class="col-md-6 mx-auto my-5">
                     <h2>About Us</h2>

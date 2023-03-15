@@ -50,7 +50,7 @@
             // Given password
             $password = $_POST["pwd"];
 
- //Validate password strength
+            //Validate password strength
             $uppercase = preg_match('@[A-Z]@', $_POST["pwd"]);
             $lowercase = preg_match('@[a-z]@',$_POST["pwd"]);
             $number = preg_match('@[0-9]@', $_POST["pwd"]);
@@ -102,8 +102,8 @@
                     $errorMsg = "Connection failed: " . $conn->connect_error;
                     $success = false;
                 } else {
-                    echo "test2";
-                    $stmt = $conn->prepare("INSERT INTO Users (email, username,password,priority) VALUES (?,?,?,?)");
+//                    echo "test2";
+                    $stmt = $conn->prepare("INSERT INTO Users (email, username,password,priority) VALUES (?,?,?,?);");
                     $stmt->bind_param("ssss", $_POST["email"], $_POST["username"], $pwd_hashed, $priority);
                     echo "test3";
                     echo $priority . ($_POST["email"]);
@@ -119,6 +119,20 @@
                         $success = true;
                     }
                     $stmt->close();
+
+                    $stmt2 = $conn->prepare("INSERT INTO Order_History (Users_email, purchased) VALUES (?, ?)");
+                    $purchased = 0;
+                    $stmt2->bind_param("si", $_POST["email"], $purchased);
+                    $stmt2->execute();
+                    if (!$stmt2->execute()) {
+                        $errorMsg = "Execute failed: (" . $stmt2->errno . ") " . $stmt2->error;
+                        $success = false;
+                    } else {
+                        $result = $stmt2->get_result();
+                        $success = true;
+                    }
+                    $stmt2->close();
+
                     $conn->close();
                     header("Location: login.php");
                     header("Message: succesfully registered");

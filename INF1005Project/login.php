@@ -48,6 +48,7 @@
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
+                $email = $row["email"];
                 $username = $row["username"];
                 $pwd_hashed = $row["password"];
                 $priority = $row["priority"];
@@ -61,6 +62,8 @@
 //                    echo "<a href='register.php'><button>return to sign up</button></a>";
 //                }
                 if (password_verify($_POST["pwd"], $pwd_hashed)) {
+                    $_SESSION['email'] = $email;
+                    $_SESSION['username'] = $username;
                     $_SESSION['priority'] = $priority;
                     header("Location: index.php");
                 } else {
@@ -85,7 +88,7 @@
             <h1>Member Login</h1>
             <p>
                 existing members log in here. for new members,please go to the
-                <a href="#">Sign UP PAGE</a>.
+                <a href="/register.php">Sign UP PAGE</a>.
             </p>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="form-group">
