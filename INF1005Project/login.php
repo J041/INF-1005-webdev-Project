@@ -95,7 +95,7 @@
                 <div class="form-group">
                     <label for="fname">Username:</label>
                     <input class="form-control"type="text" id="username"
-                           name="username" maxlength="45" placeholder="Enter username or email"value="<?php echo $username; ?>"/>
+                           required name="username" maxlength="45" placeholder="Enter username or email" value="<?php echo $username; ?>"/>
                     <span class="error"><?php if (isset($usernameErr)) echo $usernameErr; ?></span>
                 </div>
                 <div class="form-group">
