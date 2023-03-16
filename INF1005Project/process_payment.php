@@ -1,101 +1,100 @@
-<?php
-$cardtype = $cardnumber = $cardexpiration = $securitycode = 
-        $fname = $lname = $error = "";
-$success = true;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST")
-{
-    if (!empty($_POST["lname"]))
-    {
-       $lname = sanitize_input($_POST["lname"]);
-    }
-    if (empty($_POST["fname"]))
-    {
-        $error .= "First name is required.<br>";
-        $success = false;
-    }
-    else
-    {
-        $fname = sanitize_input($_POST["fname"]);
-    }
-    
-    if (empty($_POST["cardtype"]))
-    {
-        $error .= "Please enter card type<br>";
-        $success = false;
-    }
-    else
-    {
-        $cardtype = $_POST["cardtype"];
-    }
-    
-    if (empty($_POST["securitycode"]))
-    {
-        $error .= "Please enter 3-digit card security code.<br>";
-        $success = false;
-    }
-    else
-    {
-        $securitycode = $_POST["securitycode"];
-        if (!is_numeric($securitycode) || strlen((string)$securitycode)!=3)
+        
+        
+        <?php
+        $cardtype = $cardnumber = $cardexpiration = $securitycode = 
+                $fname = $lname = $error = "";
+        $success = true;
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
         {
-            $error .= "Card security code must contain three digits.<br>";
-            $success = false;
+            if (!empty($_POST["lname"]))
+            {
+               $lname = sanitize_input($_POST["lname"]);
+            }
+            if (empty($_POST["fname"]))
+            {
+                $error .= "First name is required.<br>";
+                $success = false;
+            }
+            else
+            {
+                $fname = sanitize_input($_POST["fname"]);
+            }
+
+            if (empty($_POST["cardtype"]))
+            {
+                $error .= "Please enter card type<br>";
+                $success = false;
+            }
+            else
+            {
+                $cardtype = $_POST["cardtype"];
+            }
+
+            if (empty($_POST["securitycode"]))
+            {
+                $error .= "Please enter 3-digit card security code.<br>";
+                $success = false;
+            }
+            else
+            {
+                $securitycode = $_POST["securitycode"];
+                if (!is_numeric($securitycode) || strlen((string)$securitycode)!=3)
+                {
+                    $error .= "Card security code must contain three digits.<br>";
+                    $success = false;
+                }
+            }
+
+            if (empty($_POST["cardnumber"]))
+            {
+                $error .= "Please enter card number. <br>";
+                $success = false;
+            }
+            else
+            {
+                $cardnumber = $_POST["cardnumber"];
+                $cardnumber = str_replace("-","",$cardnumber);
+                if (strlen($cardnumber)!=16 || !is_numeric($cardnumber))
+                {
+                    $error .= "Card number must only contain 16-digits.<br>";
+                    $success = false;
+                }
+
+            }
+
+
+            if (empty($_POST["cardexpiration"]))
+            {
+                $error .= "Please enter card expiration date.<br>";
+                $success= false;
+            }
+            else
+            {
+                $cardexpiration = $_POST["cardexpiration"];
+            }
         }
-    }
-
-    if (empty($_POST["cardnumber"]))
-    {
-        $error .= "Please enter card number. <br>";
-        $success = false;
-    }
-    else
-    {
-        $cardnumber = $_POST["cardnumber"];
-        $cardnumber = str_replace("-","",$cardnumber);
-        if (strlen($cardnumber)!=16 || !is_numeric($cardnumber))
+        else
         {
-            $error .= "Card number must only contain 16-digits.<br>";
-            $success = false;
+            include "header.inc.php";
+            include "nav.inc.php";
+            echo "<main class='container'><h2>Error:</h2>";
+            echo "<h4>Enter payment details <a href='payment.php'>here</a> for it to be processed</h4></main>";
+            echo "<br><hr>";
+            include "footer.inc.php";
+            exit();
         }
         
-    }
-    
-    
-    if (empty($_POST["cardexpiration"]))
-    {
-        $error .= "Please enter card expiration date.<br>";
-        $success= false;
-    }
-    else
-    {
-        $cardexpiration = $_POST["cardexpiration"];
-    }
-}
-else
-{
-    include "header.inc.php";
-    include "nav.inc.php";
-    echo "<main class='container'><h2>Error:</h2>";
-    echo "<h4>Enter payment details <a href='payment.php'>here</a> for it to be processed</h4></main>";
-    echo "<br><hr>";
-    include "footer.inc.php";
-    exit();
-}
+        function sanitize_input($data)
+        {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
 
-
-function sanitize_input($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-?>
-
-
-
+        ?>
 
 <html>
     <head>
@@ -130,12 +129,35 @@ function sanitize_input($data)
         ?>
     </body>
 </html>
+<?php
+        if ($success)
+        {
+        $config = parse_ini_file('../private/db-config.ini');
+        $conn = new mysqli($config['servername'], $config['username'],
+        $config['password'], $config['dbname']);
+        if ($conn->connect_error)
+        {
+            echo "Connection failed: " . $conn->connect_error;
+        }
+        else
+        {
+            $dt = date('Y-m-d H:i:s');
+            $email = $_SESSION['email'];
+            /*$stmt = $conn->prepare("UPDATE mydb.Order_History a 
+                    SET a.purchased = 1, a.payment_mtd = ?, a.card_num=?, order_at=? 
+                    WHERE a.Users_email = ?
+                    AND a.puchased = 0");
 
+            $stmt->bind_param("ssss", $cardtype, $cardnumber, $dt, $email);
+            $stmt->execute();
 
-
-<!-- 
-add to order history table?
-remove from cart table?
-
-
--->
+        
+           $stmt2 = $conn->prepare("INSERT into mydb.Order_History (Users_email, purchased)
+                            VALUES (?, 0)");
+            $stmt2->bind_param("s",$email);
+            $stmt2->execute();
+            $conn->close();
+        */
+        }
+        }
+?>
