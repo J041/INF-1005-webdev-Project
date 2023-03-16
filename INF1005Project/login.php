@@ -52,15 +52,7 @@
                 $username = $row["username"];
                 $pwd_hashed = $row["password"];
                 $priority = $row["priority"];
-//                echo $pwd_hashed . " gapspace " . $_POST["pwd"];
-//                if ($_POST["pwd"] == $pwd_hashed) {
-//                    $_SESSION['priority'] = $priority;
-//                    header("Location: index.php");
-//                } else {
-//                    echo "<h4>The following input errors were detected:</h4>";
-//                    echo "<p>" . $errorMsg . "</p>";
-//                    echo "<a href='register.php'><button>return to sign up</button></a>";
-//                }
+
                 if (password_verify($_POST["pwd"], $pwd_hashed)) {
                     $_SESSION['email'] = $email;
                     $_SESSION['username'] = $username;
@@ -68,12 +60,13 @@
                     echo "<script>window.location.href = \"index.php\";</script>";
                     // header("Location: index.php");
                 } else {
-                    echo "<h4>The following input errors were detected:</h4>";
-                    echo "<p>" . $errorMsg . "</p>";
-                    echo "<a href='register.php'><button>return to sign up</button></a>";
+                    $errorMsg = "Wrong password, try again";
+                    echo "<span style='color:red;'>. $errorMsg </span>";
+                    
                 }
             } else {
-                $errorMsg = "Email not found or password doesn't match...";
+                $errorMsg = "Email or Username is not in registered.";
+                echo "<span style='color:red;'>. $errorMsg </span>";
                 $success = false;
             }
             $stmt->close();
