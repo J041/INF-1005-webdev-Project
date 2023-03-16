@@ -44,7 +44,7 @@
             $stmt->bind_param("ss", $_POST["username"], $_POST["username"]);
 
             $stmt->execute();
-            echo "test case2";
+            // echo "test case2";
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
@@ -52,7 +52,7 @@
                 $username = $row["username"];
                 $pwd_hashed = $row["password"];
                 $priority = $row["priority"];
-                echo $pwd_hashed . " gapspace " . $_POST["pwd"];
+//                echo $pwd_hashed . " gapspace " . $_POST["pwd"];
 //                if ($_POST["pwd"] == $pwd_hashed) {
 //                    $_SESSION['priority'] = $priority;
 //                    header("Location: index.php");
@@ -65,7 +65,8 @@
                     $_SESSION['email'] = $email;
                     $_SESSION['username'] = $username;
                     $_SESSION['priority'] = $priority;
-                    header("Location: index.php");
+                    echo "<script>window.location.href = \"index.php\";</script>";
+                    // header("Location: index.php");
                 } else {
                     echo "<h4>The following input errors were detected:</h4>";
                     echo "<p>" . $errorMsg . "</p>";
