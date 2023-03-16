@@ -11,6 +11,9 @@
         ?>
 
         <?php
+        
+            
+//            mysqli_error(MYSQLI_ERROR_OFF);
             function addtocart($product_id, $quantity){
                 if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
                     // Create database connection.
@@ -127,6 +130,7 @@
                     header("Location: login.php");
                 }
             }
+
         ?>
 
         <div class="container">
@@ -134,7 +138,9 @@
             // Establishing Global Variables
             global $search_query, $logic;
             $search_query = $_GET['search_bar'];
-
+//            ini_set("display_errors",1);
+//            error_reporting(E_ALL);
+            // echo "p";
             // Create database connection.
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
@@ -143,6 +149,7 @@
             if ($conn->connect_error) {
                 $errorMsg = "Connection failed: " . $conn->connect_error;
                 $success = false;
+                echo $errorMsg;
             }
 
             // Prepare, Bind & Execute SELECT statement to retrieve all active products
@@ -157,6 +164,11 @@
                 $logic = 1;
                 $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_category=?");
                 $stmt->bind_param("is", $is_active, $search_query);
+            } elseif ($search_query == "show all") {
+                // clicks on Show all on catalogue.php in dropdown --> Logic = 2
+                $logic = 2;
+                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
+                $stmt->bind_param("i", $is_active);
             } elseif ($search_query == "") {
                 // Manually enters catalogue.php in URL --> Logic = 2
                 $logic = 2;
@@ -315,6 +327,8 @@
             
             <?php
                 addtocart(1,2);
+                // addreview(3, 'test comment');
+                // getreviews(3);
             ?>
              <?php echo $html_output ?>
 
