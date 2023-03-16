@@ -60,8 +60,7 @@
                 WHERE a.product_id = b.Products_product_id
                 AND b.Order_History_order_id = (SELECT b.order_id FROM mydb.Order_History b
                 WHERE b.purchased=0 AND b.Users_email=?);");
-                //$outputemail = $_SESSION["email"];
-                $outputemail = "test@test.com";
+                $outputemail = $_SESSION["email"];
                 $stmt->bind_param("s",$outputemail);
                 $stmt->execute();
                 $result = $stmt->get_result();
