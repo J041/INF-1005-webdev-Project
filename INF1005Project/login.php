@@ -6,13 +6,14 @@
     </head>
     <?php
     include "nav.inc.php";
-    $usernameErr = $passwordErr = "";
+
     ?>
     <?php
     session_start();
-    global $username, $pwd;
+    global $username, $pwd, $errorMsg;
     $username = "";
     $pwd = "";
+    $errorMsg = "";
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
     if (isset($_GET['message'])) {
@@ -20,14 +21,10 @@
         echo $message;
     }
     // display form data on submission if no errors
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $echo = "test0";
-        authenticateUser2();
-    }
 
     function authenticateUser2() {
 
-
+        $usernameErr = $passwordErr = "";
         $echo = "test 01";
         $config = parse_ini_file('../private/db-config.ini');
         $conn = new mysqli($config['servername'], $config['username'],
@@ -61,14 +58,16 @@
                     // header("Location: index.php");
                 } else {
                     // $errorMsg = "Wrong password, try again";
-                    $errorMsg = "Invalid username or password";
-                    echo "<span style='color:red;'>. $errorMsg </span>";
-                    
+
+                    $passwordErr .= "invalid password.<br>";
+                    echo"yes";
+                    $success = false;
                 }
             } else {
                 // $errorMsg = "Email or Username is not in registered.";
-                $errorMsg = "Invalid username or password";
-                echo "<span style='color:red;'>. $errorMsg </span>";
+
+                echo "invalid username or email";
+ 
                 $success = false;
             }
             $stmt->close();
@@ -102,10 +101,15 @@
 
                 <div class="form-group">
                     <button class="btn btn-primary" name = "submit" type="submit">Submit</button>
+                    <div id="login-error-msg"></div>
                 </div>
             </form>
         </main>
-
+    <?php 
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        authenticateUser2();
+    }
+    ?>
         <?php
         include "footer.inc.php";
         ?>
