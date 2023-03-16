@@ -191,6 +191,14 @@
                                 // . "</div>";
                     }
 
+                    $html_output .= '
+                                        <div class="row">
+                                        <div class="col-xs-12">
+                                        <input type="submit" name="search_bar" value="show all">
+                                        </div>
+                                        </div>
+                                        ';
+
                     $html_output .= "</form>" . "</div>";
 
                     // Check connection
