@@ -54,7 +54,7 @@
                 <br>
                 <div id="paybtn">
                     <div class="form-group">
-                    <a href="checkout.php" class="btn btn-danger" id="cancelpayment">Cancel</a>
+                    <a href="cart.php" class="btn btn-danger" id="cancelpayment">Cancel</a>
                     </div>
                     <div class="form-group">
                     <button class="btn btn-success" type="submit" id="pay">Confirm Payment</button>
