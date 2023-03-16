@@ -60,12 +60,14 @@
                     echo "<script>window.location.href = \"index.php\";</script>";
                     // header("Location: index.php");
                 } else {
-                    $errorMsg = "Wrong password, try again";
+                    // $errorMsg = "Wrong password, try again";
+                    $errorMsg = "Invalid username or password";
                     echo "<span style='color:red;'>. $errorMsg </span>";
                     
                 }
             } else {
-                $errorMsg = "Email or Username is not in registered.";
+                // $errorMsg = "Email or Username is not in registered.";
+                $errorMsg = "Invalid username or password";
                 echo "<span style='color:red;'>. $errorMsg </span>";
                 $success = false;
             }
@@ -81,7 +83,7 @@
         <main class="container">
             <h1>Member Login</h1>
             <p>
-                existing members log in here. for new members,please go to the
+                existing members log in here. <br> for new members, please go to the
                 <a href="/register.php">Sign UP PAGE</a>.
             </p>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
