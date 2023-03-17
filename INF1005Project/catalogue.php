@@ -12,8 +12,6 @@
 
         <?php
         
-            
-//            mysqli_error(MYSQLI_ERROR_OFF);
             function addtocart($product_id, $quantity){
                 if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
                     // Create database connection.
@@ -148,6 +146,149 @@
                 }
             }
 
+            function addreview($product_id, $comment){
+                if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
+                    // Create database connection.
+                    $config = parse_ini_file('../private/db-config.ini');
+                    $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+                    
+                    // Check connection
+                    if ($conn->connect_error)
+                    {
+                        $errorMsg = "Connection failed: " . $conn->connect_error;
+                        $success = false;
+                    }
+                    else
+                    {
+                        // Prepare the statement:
+                        $addreviewstmt = $conn->prepare("INSERT INTO Feedback (Products_product_id, Users_email, comments) VALUES (?,?,?)");
+                        // Bind & execute the query statement:
+                        $user_email = $_SESSION['email'];
+                        echo $product_id;
+                        echo $user_email;
+                        echo $comment;
+                        $addreviewstmt->bind_param("iss", $product_id, $user_email, $comment);
+                        if (!$addreviewstmt->execute())
+                        {
+                            echo "failed to add comment";
+                            $errorMsg = "Execute failed: (" . $addreviewstmt->errno . ") " . $addreviewstmt->error;
+                            $success = false;
+                        } else {
+                            echo "comment added";
+                            $success = true;
+                        }
+                        $addreviewstmt->close();
+                    }
+                    $conn->close();
+                } else {
+                    header("Location: login.php");
+                }
+            }
+
+            function getusername($email){
+                // Create database connection
+                $config = parse_ini_file('../private/db-config.ini');
+                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+                
+                // Check connection
+                if ($conn->connect_error)
+                {
+                    $errorMsg = "Connection failed: " . $conn->connect_error;
+                    $success = false;
+                }
+                else
+                {
+                    $getusernametmt = $conn->prepare("SELECT username FROM Users where email = ?");
+                    $getusernametmt->bind_param("s", $email);
+                    if (!$getusernametmt->execute())
+                    {
+                        $errorMsg = "Execute failed: (" . $getusernametmt->errno . ") " . $getusernametmt->error;
+                        $success = false;
+                    } else {
+                        $success = true;
+                        $result = $getusernametmt->get_result();
+                        if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            $username = $row["username"];
+                        } else {
+                            $username = 'user does not exist';
+                        }
+                        return $username;
+                    }
+
+                }
+            }
+
+            function editreviews($product_id, $comment){
+                // Create database connection.
+                $config = parse_ini_file('../private/db-config.ini');
+                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+                
+                // Check connection
+                if ($conn->connect_error)
+                {
+                    $errorMsg = "Connection failed: " . $conn->connect_error;
+                    $success = false;
+                }
+                else
+                {
+                    $updatereviewstmt = $conn->prepare("UPDATE Feedback SET comments = ? WHERE Products_product_id = ? AND Users_email = ?");
+                    // Bind & execute the query statement:
+                    $updatereviewstmt->bind_param("sis", $comment, $product_id, $_SESSION['email']);
+                    if (!$updatereviewstmt->execute())
+                    {
+                        $errorMsg = "Execute failed: (" . $updatereviewstmt->errno . ") " . $updatereviewstmt->error;
+                        $success = false;
+                    } else {
+                        $success = true;
+                    }
+                    $updatereviewstmt->close();
+
+                }
+            }
+
+            function getreviews($product_id){
+                // Create database connection.
+                $config = parse_ini_file('../private/db-config.ini');
+                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+                
+                // Check connection
+                if ($conn->connect_error)
+                {
+                    $errorMsg = "Connection failed: " . $conn->connect_error;
+                    $success = false;
+                }
+                else
+                {
+                    $reviews_full = array();
+                    // Prepare the statement:
+                    $getreviewstmt = $conn->prepare("SELECT * FROM Feedback where Products_product_id = ?");
+                    // Bind & execute the query statement:
+                    $getreviewstmt->bind_param("i", $product_id);
+                    if (!$getreviewstmt->execute())
+                    {
+                        $errorMsg = "Execute failed: (" . $getreviewstmt->errno . ") " . $getreviewstmt->error;
+                        $success = false;
+                    } else {
+                        $success = true;
+                        $result = $getreviewstmt->get_result();
+                        if ($result->num_rows > 0) {
+                            $review = array();
+                            $row = $result->fetch_assoc();
+                            $user_email = $row["Users_email"];
+                            $user_comment = $row["comments"];
+                            $username = getusername($user_email);
+                            array_push($review, $username, $user_comment);
+                            array_push($reviews_full, $review);
+                        }
+                        echo var_dump($reviews_full);
+                        return $reviews_full;
+                    }
+                    $getreviewstmt->close();
+                }
+                $conn->close();
+            }
+
         ?>
 
         <div class="container">
@@ -155,9 +296,6 @@
             // Establishing Global Variables
             global $search_query, $logic;
             $search_query = $_GET['search_bar'];
-//            ini_set("display_errors",1);
-//            error_reporting(E_ALL);
-            // echo "p";
             // Create database connection.
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
@@ -343,8 +481,9 @@
             ?>
             
             <?php
-                addtocart(1,2);
-                // addreview(3, 'test comment');
+                // addtocart(1,2);
+                // addreview(3, 'new test comment');
+                // editreviews(3,'editted');
                 // getreviews(3);
             ?>
              <?php echo $html_output ?>
