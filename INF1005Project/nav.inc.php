@@ -142,10 +142,10 @@
                     $html_output .= '
                     
                                     <div class="item nav-item dropdown">
-                                    <a class="" href="/catalogue.php" role="dropdownCatalogue" id="dropdownCatalogue">
-                                    <span class="responsive_text">CATALOGUE</span>
-                                    <i class="fa-solid fa-book"></i>
-                                    </a>
+                                        <a class="" href="/catalogue.php" role="dropdownCatalogue" id="dropdownCatalogue">
+                                            <span class="responsive_text">CATALOGUE</span>
+                                            <i class="fa-solid fa-book"></i>
+                                        </a>
                                     </div>
                                     ';
                     
@@ -159,12 +159,12 @@
                     $html_output .= '
                     
                                     <div class="item nav-item dropdown">
-                                    <a class="dropdown-toggle" href="#" role="dropdownCatalogue" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="responsive_text">CATALOGUE</span>
-                                    <i class="fa-solid fa-book"></i>
-                                    </a>
+                                        <a class="dropdown-toggle" href="#" role="dropdownCatalogue" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="responsive_text">CATALOGUE</span>
+                                            <i class="fa-solid fa-book"></i>
+                                        </a>
                                     <div class="navb-catalogue dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCatalogue">
-                                    <form action="/catalogue.php" method="GET">
+                                        <form action="/catalogue.php" method="GET">
 
                                     ';
                     
@@ -178,9 +178,9 @@
                     for ($i = 0; $i < count($category_array); $i++) {
                         $html_output .= '
                                         <div class="row">
-                                        <div class="col-xs-12">' . 
-                                        "<input type=\"submit\" name=\"search_bar\" value=\"" . $category_array[$i] . "\">" .
-                                        '</div>
+                                            <div class="col-xs-12">' . 
+                                                "<input type=\"submit\" name=\"search_bar\" value=\"" . $category_array[$i] . "\">" .
+                                            '</div>
                                         </div>
                                         ';
                         
@@ -193,14 +193,20 @@
 
                     $html_output .= '
                                         <div class="row">
-                                        <div class="col-xs-12">
-                                        <input type="submit" name="search_bar" value="show all">
-                                        </div>
+                                            <div class="col-xs-12">
+                                                <input type="submit" name="search_bar" value="show all">
+                                            </div>
                                         </div>
                                         ';
 
-                    $html_output .= "</form>" . "</div>";
-
+                    $html_output .= '
+                                        </form>
+                                    </div>
+                                    ';
+                    
+                    // "</form>" . "</div>";
+                    $html_output .= "</div>";
+                    
                     // Check connection
                     if (!$conn) {
                         die("Connection failed: " . mysqli_connect_error());
@@ -209,7 +215,7 @@
                     }
                 }
 
-                $html_output .= "</div>";
+                
 
                 return $html_output;
             }
@@ -230,6 +236,21 @@
                         // . "<span class=\"responsive_text\">CART</span>"
                         // . "<a href=\"/cart.php\"><i class=\"fa-solid fa-cart-shopping\"></i></a>"
                         // . "</div>";
+
+                return $html_output;
+            }
+
+            function generate_aboutus($html_output) {
+
+                // Generating Cart in HTML
+                $html_output .= '
+                                <div class="item nav-item">
+                                <span class="responsive_text">ABOUT US</span>
+                                    <a href="/about_us.php">
+                                        <i class="fa-solid fa-info"></i>
+                                    </a>
+                                </div>
+                                ';
 
                 return $html_output;
             }
@@ -390,6 +411,7 @@
             $navbar_output = generate_search($navbar_output);
             $navbar_output = generate_catalogue($navbar_output);
             $navbar_output = generate_cart($navbar_output);
+            $navbar_output = generate_aboutus($navbar_output);
             $navbar_output = generate_login($navbar_output);
             $navbar_output = generate_user_details($navbar_output);
             $navbar_output = closing_divs($navbar_output);
