@@ -43,7 +43,7 @@
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();
                                 $product_price = $row["price"];
-                                echo "product_price is:" . $product_price . '<br>';
+                                // echo "product_price is:" . $product_price . '<br>';
                             } else {
                                 $errorMsg = "less than 1 result";
                                 $success = false;
@@ -66,7 +66,7 @@
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();
                                 $order_id = $row["order_id"];
-                                echo "order_id is:" . $order_id . '<br>';
+                                // echo "order_id is:" . $order_id . '<br>';
                             } else {
                                 $errorMsg = "less than 1 result";
                                 $success = false;
@@ -93,11 +93,27 @@
                         }
                         $check_if_in_cart_stmt->close();
 
+                        // Prepare the statement:
+                        $getitemquantitystmt = $conn->prepare("select quantity from Products where product_id=?");
+                        // Bind & execute the query statement:
+                        $getitemquantitystmt->bind_param("i", $product_id);
+                        if (!$getitemquantitystmt->execute())
+                        {
+                            $errorMsg = "Execute failed: (" . $getitemquantitystmt->errno . ") " . $getitemquantitystmt->error;
+                            $success = false;
+                        } else {
+                            $result = $getitemquantitystmt->get_result();
+                            $row = $result->fetch_assoc();
+                            $backend_quantity = $row["quantity"];
+                            $success = true;
+                        }
+                        $getitemquantitystmt->close();
+
                         if ($incart){
                             // Prepare the statement:
                             $updatecartstmt = $conn->prepare("UPDATE Cart_Item SET quantity = ? WHERE Order_History_order_id = ? and Products_product_id = ?");
                             $quantity = $prev_quantity + $quantity;
-                            echo $quantity;
+                            // echo $quantity;
                             // Bind & execute the query statement:
                             $updatecartstmt->bind_param("iii", $quantity, $order_id, $product_id);
                             if (!$updatecartstmt->execute())
@@ -122,6 +138,7 @@
                                 $success = true;
                             }
                             $putincartstmt->close();
+
                         }
 
                     }
@@ -214,7 +231,7 @@
                     $price_string = floatval($row["price"]);
                     $html_output .= "<div class=\"catalogue-box col-sm-12 col-md-6 col-lg-4\">"
                                     . "<div class=\"catalogue-items\">" 
-                                    . "<img src=\"static/assets/img/products/" . $row["product_name"] . ".jpg\" alt=\"img_" . $row["product_name"] . "\">"
+                                    . "<img src=\"static/assets/img/products/" . $row["product_name"] . ".png\" alt=\"img_" . $row["product_name"] . "\">"
                                     . "</div>"
                                     . "<div class=\"catalogue-items\">"
                                     . "<p>" . $row["product_name"] . "</p>"
@@ -252,7 +269,7 @@
                                 . "<div class=\"row\">"
                         
                                 . "<div class=\"product-item-img col-md-12 col-lg-6\">"
-                                . "<img src=\"static/assets/img/products/". $results_array[$i][1] .".jpg\" alt=\"img_". $results_array[$i][1] ."\">"
+                                . "<img src=\"static/assets/img/products/". $results_array[$i][1] .".png\" alt=\"img_". $results_array[$i][1] ."\">"
                                 . "</div>"
                         
                                 // Output & Styling Product Details
