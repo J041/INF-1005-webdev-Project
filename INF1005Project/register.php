@@ -123,12 +123,10 @@
                     $stmt2 = $conn->prepare("INSERT INTO Order_History (Users_email, purchased) VALUES (?, ?)");
                     $purchased = 0;
                     $stmt2->bind_param("si", $_POST["email"], $purchased);
-                    $stmt2->execute();
                     if (!$stmt2->execute()) {
                         $errorMsg = "Execute failed: (" . $stmt2->errno . ") " . $stmt2->error;
                         $success = false;
                     } else {
-                        $result = $stmt2->get_result();
                         $success = true;
                     }
                     $stmt2->close();
