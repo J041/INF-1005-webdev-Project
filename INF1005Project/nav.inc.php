@@ -220,6 +220,41 @@
                 return $html_output;
             }
 
+            function generate_cataloguebackend($html_output) {
+
+                // Generating Cart in HTML
+                $html_output .= '
+                                <div class="item nav-item">
+                                <span class="responsive_text">EDIT CATALOGUE</span>
+                                    <a href="/catalogue_backend.php">
+                                        <i class="fa-solid fa-info"></i>
+                                    </a>
+                                </div>
+                                ';
+
+                return $html_output;
+            }
+
+            function generate_dashboard($html_output) {
+
+                // Generating Cart in HTML
+                $html_output .= '
+                                <div class="item nav-item">
+                                <span class="responsive_text">DASHBOARD</span>
+                                    <a href="/dashboard.php">
+                                        <i class="fa-solid fa-desktop"></i>
+                                    </a>
+                                </div>
+                                ';
+
+                        // "<div class=\"item nav-item\">"
+                        // . "<span class=\"responsive_text\">CART</span>"
+                        // . "<a href=\"/cart.php\"><i class=\"fa-solid fa-cart-shopping\"></i></a>"
+                        // . "</div>";
+
+                return $html_output;
+            }
+
             function generate_cart($html_output) {
 
                 // Generating Cart in HTML
@@ -276,64 +311,98 @@
                 return $html_output;
             }
 
-            // function generate_user_details($html_output, $username) {
-            function generate_user_details($html_output) {
-
-                // Generating Links for User-Related tasks
-                // <span class="responsive_text">' . $username . '</span>
+            function generate_user_details($html_output, $username) {
+            // function generate_user_details($html_output) {
                 $html_output .= '
                             <div class="item nav-item dropdown">
                                 <a class="dropdown-toggle" href="#" role="dropdownProfile" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="responsive_text"></span>
+                                    <span class="responsive_text">' . $username . '</span>
                                     <i class="fa-solid fa-user"></i>
                                 </a>
                                 <div class="navb-profile dropdown-menu dropdown-menu-right" aria-labelledby="dropdownProfile">
-                                    <form action="/updateprofile.php" method="POST">
-
-                                        <!-- Display User Profile -->
-                                        <div class="row">
-                                            <div class="col-xs-1">
-                                                <i class="fa-solid fa-user"></i>
-                                            </div>
-                                            <div class="col-xs-11">
-                                                <input type="submit" name="profile_details" value="Profile">
-                                            </div>
-                                        </div>
-
-                                        <!-- Update User Profile -->
-                                        <div class="row">
-                                            <div class="col-xs-1">
-                                                <i class="fa-solid fa-user-pen"></i>
-                                            </div>
-                                            <div class="col-xs-11">
-                                                <input type="submit" name="profile_details" value="Update Profile">
-                                            </div>
-                                        </div>
-
-                                        <!-- Display Order History -->
-                                        <div class="row">
-                                            <div class="col-xs-1">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </div>
-                                            <div class="col-xs-11">
-                                                <input type="submit" name="profile_details" value="Order History">
-                                            </div>
-                                        </div>
-
-                                        <!-- Logout -->
-                                        <div class="row">
-                                            <div class="col-xs-1">
-                                                <i class="fa-solid fa-right-from-bracket"></i>
-                                            </div>
-                                            <div class="col-xs-11">
-                                                <input type="submit" name="profile_details" value="Logout">
-                                            </div>
-                                        </div>
-                                    </form>
+                                    <div class="item nav-item">
+                                        <a href="/profile.php">
+                                            <span class="responsive_text">VIEW PROFILE</span>
+                                            <i class="fa-solid fa-user"></i>
+                                        </a>
+                                    </div>
+                                    <div class="item nav-item">
+                                        <a href="/updateprofile.php">
+                                            <span class="responsive_text">UPDATE PROFILE</span>
+                                            <i class="fa-solid fa-user-pen"></i>
+                                        </a>
+                                    </div>
+                                    <div class="item nav-item">
+                                        <a href="/order_history.php">
+                                            <span class="responsive_text">ORDER HISTORY</span>
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </a>
+                                    </div>
+                                    <div class="item nav-item">
+                                        <a href="/logout.php">
+                                            <span class="responsive_text">LOGOUT</span>
+                                            <i class="fa-solid fa-right-from-bracket"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                 
                         ';
+                // Generating Links for User-Related tasks
+                // <span class="responsive_text">' . $username . '</span>
+                // $html_output .= '
+                //             <div class="item nav-item dropdown">
+                //                 <a class="dropdown-toggle" href="#" role="dropdownProfile" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                //                     <span class="responsive_text">' . $username . '</span>
+                //                     <i class="fa-solid fa-user"></i>
+                //                 </a>
+                //                 <div class="navb-profile dropdown-menu dropdown-menu-right" aria-labelledby="dropdownProfile">
+                //                     <form action="/updateprofile.php" method="POST">
+
+                //                         <!-- Display User Profile -->
+                //                         <div class="row">
+                //                             <div class="col-xs-1">
+                //                                 <i class="fa-solid fa-user"></i>
+                //                             </div>
+                //                             <div class="col-xs-11">
+                //                                 <input type="submit" name="profile_details" value="Profile">
+                //                             </div>
+                //                         </div>
+
+                //                         <!-- Update User Profile -->
+                //                         <div class="row">
+                //                             <div class="col-xs-1">
+                //                                 <i class="fa-solid fa-user-pen"></i>
+                //                             </div>
+                //                             <div class="col-xs-11">
+                //                                 <input type="submit" name="profile_details" value="Update Profile">
+                //                             </div>
+                //                         </div>
+
+                //                         <!-- Display Order History -->
+                //                         <div class="row">
+                //                             <div class="col-xs-1">
+                //                                 <i class="fa-regular fa-pen-to-square"></i>
+                //                             </div>
+                //                             <div class="col-xs-11">
+                //                                 <input type="submit" name="profile_details" value="Order History">
+                //                             </div>
+                //                         </div>
+
+                //                         <!-- Logout -->
+                //                         <div class="row">
+                //                             <div class="col-xs-1">
+                //                                 <i class="fa-solid fa-right-from-bracket"></i>
+                //                             </div>
+                //                             <div class="col-xs-11">
+                //                                 <input type="submit" name="profile_details" value="Logout">
+                //                             </div>
+                //                         </div>
+                //                     </form>
+                //                 </div>
+                //             </div>
+                
+                //         ';
                 
                         // "<div class=\"item nav-item dropdown\">"
                         // . "<a class=\"dropdown-toggle\" href=\"#\" role=\"dropdownProfile\" id=\"dropdownProfile\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">"
@@ -407,48 +476,52 @@
 
             $navbar_output = "";
 
-            $navbar_output = generate_index($navbar_output);
-            $navbar_output = generate_search($navbar_output);
-            $navbar_output = generate_catalogue($navbar_output);
-            $navbar_output = generate_cart($navbar_output);
-            $navbar_output = generate_aboutus($navbar_output);
-            $navbar_output = generate_login($navbar_output);
-            $navbar_output = generate_user_details($navbar_output);
-            $navbar_output = closing_divs($navbar_output);
+            // $navbar_output = generate_index($navbar_output);
+            // $navbar_output = generate_search($navbar_output);
+
+            // $navbar_output = generate_catalogue($navbar_output);
+            // $navbar_output = generate_cart($navbar_output);
+            // $navbar_output = generate_aboutus($navbar_output);
+            // $navbar_output = generate_login($navbar_output);
+            // $navbar_output = generate_user_details($navbar_output);
+            // $navbar_output = closing_divs($navbar_output);
 
             
-            // if (isset($_SESSION['priority']) && !empty($_SESSION['priority'])) {
-            //     $username = $_SESSION['username'];
-            //     if (($_SESSION['priority']) == 1) { // admin
-            //         $navbar_output = generate_index($navbar_output);
-            //         $navbar_output = generate_search($navbar_output);
-            //         $navbar_output = generate_catalogue($navbar_output);
-            //         // dashboard
-            //         $navbar_output = generate_user_details($navbar_output, $username);
-            //         $navbar_output = closing_divs($navbar_output);
-            //     } elseif (($_SESSION['priority']) == 2) { // staff
-            //         $navbar_output = generate_index($navbar_output);
-            //         $navbar_output = generate_search($navbar_output);
-            //         $navbar_output = generate_catalogue($navbar_output);
-            //         // update catalogue
-            //         $navbar_output = generate_user_details($navbar_output, $username);
-            //         $navbar_output = closing_divs($navbar_output);
-            //     } elseif (($_SESSION['priority']) == 3) { // customer
-            //         $navbar_output = generate_index($navbar_output);
-            //         $navbar_output = generate_search($navbar_output);
-            //         $navbar_output = generate_catalogue($navbar_output);
-            //         $navbar_output = generate_cart($navbar_output);
-            //         $navbar_output = generate_user_details($navbar_output, $username);
-            //         $navbar_output = closing_divs($navbar_output);
-            //     }
-            // } else {
-            //     $navbar_output = generate_index($navbar_output);
-            //     $navbar_output = generate_search($navbar_output);
-            //     $navbar_output = generate_catalogue($navbar_output);
-            //     // about us
-            //     $navbar_output = generate_login($navbar_output);
-            //     $navbar_output = closing_divs($navbar_output);
-            // }
+            if (isset($_SESSION['priority']) && !empty($_SESSION['priority'])) {
+                $username = $_SESSION['username'];
+                if (($_SESSION['priority']) == 1) { // admin
+                    $navbar_output = generate_index($navbar_output);
+                    $navbar_output = generate_search($navbar_output);
+                    $navbar_output = generate_catalogue($navbar_output);
+                    $navbar_output = generate_dashboard($navbar_output);
+                    $navbar_output = generate_aboutus($navbar_output);
+                    $navbar_output = generate_user_details($navbar_output, $username);
+                    $navbar_output = closing_divs($navbar_output);
+                } elseif (($_SESSION['priority']) == 2) { // staff
+                    $navbar_output = generate_index($navbar_output);
+                    $navbar_output = generate_search($navbar_output);
+                    $navbar_output = generate_catalogue($navbar_output);
+                    $navbar_output = generate_cataloguebackend($navbar_output);
+                    $navbar_output = generate_aboutus($navbar_output);
+                    $navbar_output = generate_user_details($navbar_output, $username);
+                    $navbar_output = closing_divs($navbar_output);
+                } elseif (($_SESSION['priority']) == 3) { // customer
+                    $navbar_output = generate_index($navbar_output);
+                    $navbar_output = generate_search($navbar_output);
+                    $navbar_output = generate_catalogue($navbar_output);
+                    $navbar_output = generate_aboutus($navbar_output);
+                    $navbar_output = generate_cart($navbar_output);
+                    $navbar_output = generate_user_details($navbar_output, $username);
+                    $navbar_output = closing_divs($navbar_output);
+                }
+            } else {
+                $navbar_output = generate_index($navbar_output);
+                $navbar_output = generate_search($navbar_output);
+                $navbar_output = generate_catalogue($navbar_output);
+                $navbar_output = generate_aboutus($navbar_output);
+                $navbar_output = generate_login($navbar_output);
+                $navbar_output = closing_divs($navbar_output);
+            }
 
             echo $navbar_output;
             ?>
