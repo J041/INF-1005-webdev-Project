@@ -73,7 +73,7 @@
                         echo "<form method='post' action='cart.php'>"
                                 . "<div class='flexcontainer'>";
                         echo "<div class='checkoutproduct'>
-                            <img src='static/assets/img/products/".$row["product_name"].".jpg'"
+                            <img src='static/assets/img/products/".$row["product_name"].".png'"
                                 . " alt='".$row["product_name"].".jpg'>
                             <p>".$row["product_name"]."</p></div>";
                         echo "<h4>".$row["quantity"]."</h4>";
