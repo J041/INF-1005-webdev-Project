@@ -458,22 +458,56 @@ div .catalogue-button {
     transform: translate(-50%, -90%);
 }
 
+.home .header .header-line {
+  border: 2px solid lightgray;
+  border-radius: 5px;
+}
+
 .home .container.header {
     position: relative;
     text-align: center;
 }
 
+.indexPromoCarousel {
+    width: 100%;
+}
+
 #myCarousel {
-    width: 80%;
+    width: 100%;
     height: 100%;
     margin:auto;
     box-shadow:0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12);
 }
+.main-categories .row {
+    flex-wrap: nowrap;
+}
+
+.main-daily-deals .row {
+    flex-wrap: nowrap;
+}
+
+.main-trending-items .row {
+    flex-wrap: nowrap;
+}
+
+@media (min-width: 768px) {
+    .category-icon {     /*for categories thumbnail img*/
+        width:200px;
+        height: 200px;
+        object-fit: cover;
+    }
+}
 
 .category-icon {     /*for categories thumbnail img*/
-    width: 200px;
-    height: 200px;
+    width:100%;
+    display:block;
     object-fit: cover;
+}
+
+.categories .thumbnail{
+    border-style: solid;
+    border-color: white;
+    padding-top: 7.5%;
 }
 
 .categories .thumbnail a {
@@ -496,6 +530,7 @@ div .catalogue-button {
 .productbox .thumbnail>img {
     width:100%;
     display:block;
+    
 }
 
 .productbox .thumbnail h3 {
@@ -524,9 +559,39 @@ div .catalogue-button {
     justify-content: flex-end;
 }
 
+.view-catalogue-button {
+    background-color: gold;
+    border-radius: 12px;
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px 5px;
+    margin: 5px 0px;
+    text-align: center;
+    transition: 200ms;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    font-size: 16px;
+}
+
+.view-catalogue-button:not(:disabled):hover,
+.view-catalogue-button:not(:disabled):focus {
+    outline: 0;
+    background: #f4b403;
+    box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
+}
+
+.view-catalogue-button:disabled {
+    filter: saturate(0.2) opacity(0.5);
+    -webkit-filter: saturate(0.2) opacity(0.5);
+    cursor: not-allowed;
+}
+
 .productbox .productitem {
     background: darkgoldenrod;
 }
+/*End of index.php CSS*/
 
 /* Dynamic Resizing (.col-sm & col-xs) */
 @media (max-width: 768px) {
@@ -639,12 +704,6 @@ div .catalogue-button {
     }
 
 }
-
-
-
-
-
-/*End Home Page CSS - Keefe*/
 
 .responsive_text {
     padding-right: 15px;
