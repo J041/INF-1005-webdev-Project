@@ -530,11 +530,29 @@ div .catalogue-button {
 .productbox .thumbnail>img {
     width:100%;
     display:block;
-    
+    object-fit: cover;
 }
 
-.productbox .thumbnail h3 {
-    font-size:26px;
+@media (min-width: 768px) {
+    .productbox .thumbnail h3 {
+        font-size:30px;
+    }
+    
+    .productbox .thumbnail p {
+        padding-top:8px;
+        font-size:20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .productbox .thumbnail h3 {
+        font-size:4vw;
+    }
+    
+    .productbox .thumbnail p {
+        padding-top:8px;
+        font-size:3vw;
+    }
 }
 
 .productbox .thumbnail h3,.card-description {
@@ -543,10 +561,12 @@ div .catalogue-button {
     border-bottom:solid 1px #eee;
 }
 
-.productbox .thumbnail p {
+/*.productbox .thumbnail p {
     padding-top:8px;
-    font-size:20px
-}
+    font-size:20px;
+    font-size:2vw;
+
+}*/
 
 .productbox .thumbnail .btn {
     border-radius:0;
