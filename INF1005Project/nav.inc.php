@@ -141,7 +141,7 @@
                     // No active products in Database
                     $html_output .= '
                     
-                                    <div class="item nav-item dropdown">
+                                    <div class="item nav-item pl-3 dropdown">
                                         <a class="" href="/catalogue.php" role="dropdownCatalogue" id="dropdownCatalogue">
                                             <span class="responsive_text">CATALOGUE</span>
                                             <i class="fa-solid fa-book"></i>
@@ -158,7 +158,7 @@
                 } else {
                     $html_output .= '
                     
-                                    <div class="item nav-item dropdown">
+                                    <div class="item nav-item pl-3 dropdown">
                                         <a class="dropdown-toggle" href="#" role="dropdownCatalogue" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <span class="responsive_text">CATALOGUE</span>
                                             <i class="fa-solid fa-book"></i>
@@ -226,7 +226,7 @@
 
                 // Generating Backend Catalogue in HTML
                 $html_output .= '
-                                <div class="item nav-item">
+                                <div class="item nav-item pl-3">
                                 <span class="responsive_text">EDIT CATALOGUE</span>
                                     <a href="/catalogue_backend.php">
                                         <i class="fa-solid fa-info"></i>
@@ -241,7 +241,7 @@
 
                 // Generating Admin Dashboard in HTML
                 $html_output .= '
-                                <div class="item nav-item">
+                                <div class="item nav-item pl-3">
                                 <span class="responsive_text">DASHBOARD</span>
                                     <a href="/dashboard.php">
                                         <i class="fa-solid fa-desktop"></i>
@@ -261,7 +261,7 @@
 
                 // Generating Cart in HTML
                 $html_output .= '
-                                <div class="item nav-item">
+                                <div class="item nav-item pl-3">
                                 <span class="responsive_text">CART</span>
                                     <a href="/cart.php">
                                         <i class="fa-solid fa-cart-shopping"></i>
@@ -281,7 +281,7 @@
 
                 // Generating Cart in HTML
                 $html_output .= '
-                                <div class="item nav-item">
+                                <div class="item nav-item pl-3">
                                 <span class="responsive_text">ABOUT US</span>
                                     <a href="/about_us.php">
                                         <i class="fa-solid fa-info"></i>
@@ -296,7 +296,7 @@
 
                 // Generating Login in HTML
                 $html_output .= '
-                                <div class="item nav-item">
+                                <div class="item nav-item pl-3">
                                 <span class="responsive_text">LOGIN</span>
                                     <a href="/login.php">
                                         <i class="fa-solid fa-right-to-bracket"></i>
@@ -316,7 +316,7 @@
             function generate_user_details($html_output, $username) {
             // function generate_user_details($html_output) {
                 $html_output .= '
-                            <div class="item nav-item dropdown">
+                            <div class="item nav-item pl-3 dropdown">
                                 <a class="dropdown-toggle" href="#" role="dropdownProfile" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <span class="responsive_text">' . $username . '</span>
                                     <i class="fa-solid fa-user"></i>
@@ -324,25 +324,25 @@
                                 <div class="navb-profile dropdown-menu dropdown-menu-right" aria-labelledby="dropdownProfile">
                                     <div class="item nav-item">
                                         <a href="/profile.php">
-                                            <span class="responsive_text">VIEW PROFILE</span>
+                                            <span>VIEW PROFILE</span>
                                             <i class="fa-solid fa-user"></i>
                                         </a>
                                     </div>
                                     <div class="item nav-item">
                                         <a href="/updateprofile.php">
-                                            <span class="responsive_text">UPDATE PROFILE</span>
+                                            <span>UPDATE PROFILE</span>
                                             <i class="fa-solid fa-user-pen"></i>
                                         </a>
                                     </div>
                                     <div class="item nav-item">
                                         <a href="/order_history.php">
-                                            <span class="responsive_text">ORDER HISTORY</span>
+                                            <span>ORDER HISTORY</span>
                                             <i class="fa-regular fa-pen-to-square"></i>
                                         </a>
                                     </div>
                                     <div class="item nav-item">
                                         <a href="/logout.php">
-                                            <span class="responsive_text">LOGOUT</span>
+                                            <span>LOGOUT</span>
                                             <i class="fa-solid fa-right-from-bracket"></i>
                                         </a>
                                     </div>
