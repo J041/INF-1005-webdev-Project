@@ -444,7 +444,7 @@
                                 . "</div>"
                                 . "<div class=\"product-item-row row\">"
                                 . "<div class=\"product-item-line col-lg-12\">"
-                                ."<button type=\"button\" class=\"btn btn-outline-success btn-sm catalogue_cart_item_". $row["product_id"] ."\">"
+                                ."<button type=\"button\" class=\"btn btn-outline-success btn-sm catalogue_cart_item_". $results_array[$i][0] ."\">"
                                 . "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>"
                                 . "</button>"
                                 . "</div>"
@@ -481,7 +481,7 @@
             ?>
             
             <?php
-                // addtocart(1,2);
+                 addtocart(1,2);
                 // addreview(3, 'new test comment');
                 // editreviews(3,'editted');
                 // getreviews(3);
