@@ -60,7 +60,7 @@
                     // $errorMsg = "Wrong password, try again";
 
                     $passwordErr .= "invalid password.<br>";
-                    echo"yes";
+                    // echo"yes";
                     $success = false;
                 }
             } else {
