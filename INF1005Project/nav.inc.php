@@ -224,7 +224,7 @@
 
             function generate_cataloguebackend($html_output) {
 
-                // Generating Cart in HTML
+                // Generating Backend Catalogue in HTML
                 $html_output .= '
                                 <div class="item nav-item">
                                 <span class="responsive_text">EDIT CATALOGUE</span>
@@ -239,7 +239,7 @@
 
             function generate_dashboard($html_output) {
 
-                // Generating Cart in HTML
+                // Generating Admin Dashboard in HTML
                 $html_output .= '
                                 <div class="item nav-item">
                                 <span class="responsive_text">DASHBOARD</span>
