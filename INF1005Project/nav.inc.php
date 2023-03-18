@@ -192,9 +192,11 @@
                     }
 
                     $html_output .= '
+                                        <div class="dropdown-divider"></div>
+
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <input type="submit" name="search_bar" value="show all">
+                                                <input type="submit" name="search_bar" value="All Products">
                                             </div>
                                         </div>
                                         ';
