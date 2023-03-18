@@ -8,6 +8,10 @@
     <body>
         <?php
         include "nav.inc.php";
+        include "function.php";
+        
+        $temp = $_POST['product_name'];
+        echo sanitize_regex_input($temp);
         ?>
 
         <div class="backend-catalogue container-fluid">
@@ -16,6 +20,7 @@
                     <h1>Product Catalogue Database</h1>
                 </div>
             </div>
+            
             <div class="backend-catalogue-add-header row">
                 <div class="col-md-12 col-xl-6">
                     <p>You may create, update or remove product(s) from the Product Catalogue Database table. </p>
@@ -25,8 +30,9 @@
                     <button class="btn btn-outline-danger d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
                 </div>
             </div>
+            
             <div class="backend-catalogue-add-form row">
-                <form action="/catalogue_backend" method="POST">
+                <form action="/catalogue_backend.php" method="POST">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -79,7 +85,7 @@
             </div>
             
             
-            <div class="backend-catalogue-table col-sm-12 col-md-12 col-xl-12">              
+            <div class="backend-catalogue-data row">              
                 <table class="table table-responsive-xl">
                     <thead>
                         <tr>
