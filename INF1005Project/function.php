@@ -18,15 +18,23 @@ function sanitize_regex_input($data) {
     $data = sanitize_input($data);
 
     // Regular Expression that only allow accepts alphanumeric and whitespace characters
-    if ($data == " ") {
-        $data = "";
-    } elseif (preg_match('/[^A-Za-z0-9 ]/', $data)) {
-        echo preg_match('/[^A-Za-z0-9 ]/', $data);
+    if (preg_match('/[^A-Za-z0-9 ]/', $data)) {
+        // echo preg_match('/[^A-Za-z0-9 ]/', $data);
         return "Unidentified Character";
     } else {
-        echo preg_match('/[^A-Za-z0-9 ]/', $data);
+        // echo preg_match('/[^A-Za-z0-9 ]/', $data);
         return "No Issues!";
     }
+    
+//    if ($data == " ") {
+//        $data = "";
+//    } elseif (preg_match('/[^A-Za-z0-9 ]/', $data)) {
+//        echo preg_match('/[^A-Za-z0-9 ]/', $data);
+//        return "Unidentified Character";
+//    } else {
+//        echo preg_match('/[^A-Za-z0-9 ]/', $data);
+//        return "No Issues!";
+//    }
 }
 
 function logout(){
