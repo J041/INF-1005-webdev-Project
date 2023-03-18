@@ -236,13 +236,13 @@
                                             ON mydb.Cart_Item.Order_History_order_id=mydb.Order_History.order_id
                                             INNER JOIN mydb.Products
                                             ON mydb.Cart_Item.Products_product_id=mydb.Products.product_id
-                                            WHERE mydb.Order_History.purchased=1
+                                            WHERE mydb.Order_History.purchased=?
                                             GROUP BY mydb.Cart_Item.Products_product_id
                                             ORDER BY quantity_sold DESC
                                             LIMIT 6;
                                             ");
-//        $purchased = 1;
-//        $stmt->bind_param("i", $purchased);
+        $purchased = 1;
+        $trending_items_stmt->bind_param("i", $purchased);
         $trending_items_stmt->execute();
 
         // Storing Product Categories into a list
