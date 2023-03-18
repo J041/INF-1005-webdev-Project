@@ -344,48 +344,58 @@ div .catalogue-button {
 /* Backend Catalogue */
 
 .backend-catalogue {
-    padding: 10px 20px;
+    margin: 0px 2vw;
 }
 
-.backend-catalogue-display-row {
+.backend-catalogue-add-header div:nth-child(2) {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-/*
-.backend-catalogue-display-row form {
-    width: 100%;
-    padding: 15px 10px;
+    justify-content: flex-end;
+    padding-right: 4vw;
+    margin-bottom: 1vw;
 }
 
-.backend-catalogue-display-item {
-    display: flex;
-    padding: 15px;
-    width: 100%;
-    flex-grow: 1;
-}
-
-.backend-catalogue-display-item label{
-    letter-spacing: 1px;
+.backend-catalogue-add-header div:nth-child(2) button{
     font-size: 14px;
-    padding-top: 5px;
-    padding-right: 12px;
-    letter-spacing: 1px;
 }
 
-.backend-catalogue-display-item input{
+.backend-catalogue-add-form form {
+    width: 96%;
+}
+
+.backend-catalogue-add-form form .row div label{
+    font-size: 15px;
+    letter-spacing: 1px;
+    padding: 0px 5px;
+}
+
+.backend-catalogue-add-form form .row div input{
+    font-size: 12px;
+    font-style: italic;
+    width: 65%;
+    letter-spacing: 1.5px;
+    border: 1px solid black;
+    border-radius: 5px;
     padding: 5px 10px;
+    margin: 5px;
+}
+
+.backend-catalogue-add-form form .row div select{
+    font-size: 13px;
+    font-style: italic;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+.backend-catalogue-add-form-save {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.backend-catalogue-add-form-save button {
     font-size: 14px;
-    letter-spacing: 1px;
-    width: 70%;
+    margin: 10px 15px;
 }
-
-.backend-catalogue-table table thead, tbody{
-    text-align: center;
-    letter-spacing: 1px;
-}
-*/
-
 
 /*Payment Page*/
 #creditcardinfo .form-group, #cardname .form-group, #paybtn .form-group{

@@ -11,74 +11,74 @@
         ?>
 
         <div class="backend-catalogue container-fluid">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <div class="backend-catalogue-display-row">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
                     <h1>Product Catalogue Database</h1>
                 </div>
-                <div class="backend-catalogue-display-row">
-                    <div>
+            </div>
+            <div class="backend-catalogue-add-header row">
+                <div class="col-md-12 col-xl-6">
                     <p>You may create, update or remove product(s) from the Product Catalogue Database table. </p>
-                    </div>
-                    <div>
-                    <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-plus"></i>&nbsp; Add </button>
-                    </div>
-                    <div>
-                    <button class="btn btn-outline-danger d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
-                    </div>
                 </div>
+                <div class="col-md-12 col-xl-6">
+                    <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-plus"></i>&nbsp; Add </button>
+                    <button class="btn btn-outline-danger d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
+                </div>
+            </div>
+            <div class="backend-catalogue-add-form row">
                 <form action="/catalogue_backend" method="POST">
                     <div class="card">
                         <div class="card-body">
-                            <div class="backend-catalogue-display-row col-sm-12 col-md-12 col-lg-12 row">
-                                <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
+                            <div class="row">
+                                <div class="col-lg-12 col-xl-4">
                                     <label class="" for="product_name">Product Name: </label>
                                     <input class="" type="text" name="product_name" placeholder="E.g. Calendar" aria-labelledby="product_name">
                                 </div>
 
-                                <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
+                                <div class="col-lg-12 col-xl-4">
                                     <label class="" for="product_category">Product Category: </label>
                                     <input class="" type="text" name="product_category" placeholder="E.g. Eggs and Diary Products" aria-labelledby="product_category">
                                 </div>
 
-                                <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
+                                <div class="col-lg-12 col-xl-4">
                                     <label class="" for="product_desc">Product Description: </label>
                                     <input class="" type="text" name="product_desc" placeholder="E.g. 2023 Calendar" aria-labelledby="product_desc">
                                 </div>
-                            </div>
-
-                            <div class="backend-catalogue-display-row col-sm-12 col-md-12 col-xl-12 row">
-                                <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
+                                
+                                <div class="col-lg-12 col-xl-4">
                                     <label class="" for="quantity">Quantity: </label>
                                     <input class="" type="number" name="quantity" placeholder="E.g. 150" aria-labelledby="quantity">
                                 </div>
 
-                                <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
+                                <div class="col-lg-12 col-xl-4">
                                     <label class="" for="price">Price: </label>
                                     <input class="" type="text" name="price" placeholder="E.g. '3.20' for $3.20" aria-labelledby="price">
                                 </div>
 
-                                <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
+                                <div class="col-lg-12 col-xl-4">
                                     <label class="" for="promotion">Promotion: </label>
                                     <input class="" type="text" name="promotion" placeholder="E.g. '0.2' for 20% of Item Price" aria-labelledby="promotion">
                                 </div>
-                            </div>
-
-                            <div class="backend-catalogue-display-row col-sm-12 col-md-12 col-xl-12 row">
-                                <div class="backend-catalogue-display-item col-sm-12 col-lg-4">
+                                
+                                <div class="col-lg-12 col-xl-4">
                                     <label class="" for="product_name">Active?: </label>
-                                    <select class="" name="is_active" aria-labelledby="product_name">
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
+                                    <select class="form-select" name="is_active" aria-label="active_product_indicator" aria-labelledby="active_product_indicator">
+                                        <option selected value="1">Active</option>
+                                        <option value="0">Inactive</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="backend-catalogue-display-row">
-                            <button class="btn btn-outline-success" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Save </button>
+                        <div class="row">
+                            <div class="backend-catalogue-add-form-save col-md-12 col-lg-12">
+                                <button class="btn btn-outline-success" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Save </button>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
+            
+            
             <div class="backend-catalogue-table col-sm-12 col-md-12 col-xl-12">              
                 <table class="table table-responsive-xl">
                     <thead>
