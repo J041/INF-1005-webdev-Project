@@ -319,7 +319,7 @@
                 $logic = 1;
                 $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_category=?");
                 $stmt->bind_param("is", $is_active, $search_query);
-            } elseif ($search_query == "show all") {
+            } elseif ($search_query == "All Products") {
                 // clicks on Show all on catalogue.php in dropdown --> Logic = 2
                 $logic = 2;
                 $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
