@@ -51,6 +51,8 @@ function sanitize_regex_float($data) {
     }
 }
 
+
+
 function logout(){
     session_unset();
     session_destroy();
