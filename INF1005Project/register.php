@@ -22,8 +22,8 @@
             } else {
                 $name = test_input($_POST["username"]);
                 // check if name only contains letters and whitespace
-                if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-                    $usernameErr = "Only letters and white space allowed";
+                if (!preg_match("/^[a-zA-Z0-9]*$/", $name)) {
+                    $usernameErr = "Only letters, numbers and white space allowed";
                 }
             }
 
@@ -74,7 +74,11 @@
             error_reporting(E_ALL);
             // display form data on submission if no errors
             if (isset($_POST['submit'])) {
-                echo "pre test2";
+                echo "pre test2" . '<br>';
+                echo $usernameErr . '<br>';
+                echo $emailErr . '<br>';
+                echo $passwordErr . '<br>';
+                echo $pwd_confirmErr . '<br>';
                 if (empty($usernameErr) && empty($emailErr) && empty($passwordErr) && empty($pwd_confirmErr)) {
 
                     echo "pre test";
@@ -141,7 +145,7 @@
             <h1>Register as a User</h1>
             <p>
                 If you are already registered,
-                <a href="/login.php">Click here </a>to Sign in!!!.
+                <a href="/login.php">Click here to Sign in !</a>.
             </p>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="form-group">
