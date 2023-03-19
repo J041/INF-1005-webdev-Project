@@ -82,7 +82,7 @@
             }
             $category_output .= "<div class=\"col-sm-4 categories\" >" .
                     "<div class=\"thumbnail d-flex align-items-center justify-content-center categories\">" .
-                    "<a href=\"#\">" .
+                    "<a href=\"catalogue.php?search_bar=".$category_array[$i]."\">" .
                     "<img src=\"static\assets\img\home/" . $category_array[$i] . "_icon.png\" alt=\"" . $category_array[$i] . "\" class=\"category-icon\">" .
                     "<p class=\"text-center\">" .ucfirst($category_array[$i]). "</p>" .
                     "</a>" .
@@ -271,8 +271,9 @@
                     "<h3>" . ucfirst($trending_items_array[$i]) . "</h3>" .
                     "<p class=\"card-description\">Price: \$$product_price</p>" .
                     "<div class=\"flex-box cartbutton\">" .
-                    "<form action = \"#\">" .
-                    "<button class = \"view-catalogue-button\" role = \"button\">View Catalogue</button>" .
+                    "<form action = \"catalogue.php\">" .
+                    "<input type=\"hidden\" name=\"search_bar\" value=".$trending_items_array[$i]." \>". 
+                    "<button class = \"view-catalogue-button\" type=\"submit\" role = \"button\">View Catalogue</button>" .
                     "</form>" .
                     "</div>" .
                     "</div>" .
