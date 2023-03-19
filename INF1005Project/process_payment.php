@@ -124,7 +124,14 @@
                         // echo $cardnumber . "\n";
                         // echo $dt . "\n";
                         // echo $email . "\n";
-
+                        $updateprodquantity = $conn->prepare("UPDATE mydb.Products a, mydb.Cart_Item b
+                                SET a.quantity = a.quantity - b.quantity
+                                WHERE a.product_id = b.Products_product_id
+                                AND b.Order_History_order_id = (SELECT b.order_id FROM mydb.Order_History b
+                                WHERE b.purchased=0 AND b.Users_email=?)");
+                        $updateprodquantity->bind_param("s", $email);
+                        $updateprodquantity->execute();
+                                
                         $stmt = $conn->prepare("UPDATE Order_History a 
                                 SET a.purchased = 1, a.payment_mtd = ?, a.card_num=?, order_at=? 
                                 WHERE a.Users_email = ?
