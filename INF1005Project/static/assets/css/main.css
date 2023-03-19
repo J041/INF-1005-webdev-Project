@@ -347,6 +347,24 @@ div .catalogue-button {
     margin: 0px 2vw;
 }
 
+.backend-catalogue .card {
+    width: 96%;
+}
+
+.output-msg {
+    margin: 15px 0px;
+}
+
+.backend-catalogue .output-msg .card-body {
+    padding: 20px 30px 5px;
+}
+
+.backend-catalogue .output-msg .card-body p{
+    font-size: 15px;
+    font-style: italic;
+    letter-spacing: 0.5px;
+}
+
 .backend-catalogue-add-header div:nth-child(2) {
     display: flex;
     justify-content: flex-end;
@@ -359,7 +377,7 @@ div .catalogue-button {
 }
 
 .backend-catalogue-add-form form {
-    width: 96%;
+    width: 100%;
 }
 
 .backend-catalogue-add-form form .row div label{
