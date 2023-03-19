@@ -63,7 +63,7 @@ function logout(){
     // }
 }
 
-function UpdateUser($new_username, $new_password)
+function UpdateUser($new_username, $old_password, $new_password)
 {
     mysqli_error(MYSQLI_ERROR_OFF);
     ini_set("display_errors",1);
@@ -73,20 +73,24 @@ function UpdateUser($new_username, $new_password)
     // Create database connection.
     $config = parse_ini_file('../private/db-config.ini');
     $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+   
     $returnval = array();
+    $iserror = false;
 
     // Check connection
     if ($conn->connect_error)
     {
         $errorMsg = "Connection failed: " . $conn->connect_error;
-        $success = false;
+        $iserror = true;
     }
     else
     {       
         $errorMsg = "Connection succeed";
-        $updatedusername = false;
-        $updatedpassword = false;
-        $success = false;
+
+        $updatedusername = 0;
+        $updatedpassword = 3;
+        $missingoldpw = false;
+
         $email = $_SESSION['email'];
 
         if (!empty($new_username)) {
@@ -95,54 +99,82 @@ function UpdateUser($new_username, $new_password)
             $stmt->bind_param("ss", $sanitize_username, $email);
             if (!$stmt->execute()) {
                 $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-                $success = false;
+                $iserror = true;
             } else {
                 $result = $stmt->get_result();
                 $_SESSION['username'] = $sanitize_username;
-                $updatedusername = true;
-                $success = true;
+                $updatedusername = 1;
             }
             $stmt->close();
         }
         
         
-        if (!empty($new_password)) {
-            $stmt = $conn->prepare("UPDATE Users SET password=? where email = ?");
-            $pwd_hashed = password_hash($new_password, PASSWORD_DEFAULT);
-            $stmt->bind_param("ss", $pwd_hashed, $email);
-            // $stmt->bind_param("ss", $_POST["pwd"]);
-            if (!$stmt->execute()) {
-                $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-                $success = false;
+        if (!empty($new_password) && !empty($old_password)) {
+            $userpwstmt = $conn->prepare("SELECT * FROM Users WHERE email = ?");
+            $userpwstmt->bind_param("s", $_SESSION["email"]);
+            $userpwstmt->execute();
+            $result = $userpwstmt->get_result();
+            $row = $result->fetch_assoc();
+            $pwd_hashed = $row["password"];
+        
+            if (password_verify($old_password, $pwd_hashed)) {
+                $stmt = $conn->prepare("UPDATE Users SET password=? where email = ?");
+                $pwd_hashed = password_hash($new_password, PASSWORD_DEFAULT);
+                $stmt->bind_param("ss", $pwd_hashed, $email);
+                // $stmt->bind_param("ss", $_POST["pwd"]);
+                if (!$stmt->execute()) {
+                    $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                    $iserror = true;
+                } else {
+                    $result = $stmt->get_result();
+                    $updatedpassword = 1;
+                }
+                $stmt->close();
             } else {
-                $result = $stmt->get_result();
-                $success = true;
-                $updatedpassword = true;
+                $updatedpassword = 0;
             }
-            $stmt->close();
-        }
-
-        if ($updatedusername && $updatedpassword){
-            $errorMsg = "Update Successful! Username and Password has been updated";
-        } elseif ($updatedusername && !$updatedpassword){
-            $errorMsg = "Update successful!. Username has been updated";
-        } elseif (!$updatedusername && $updatedpassword){
-            $errorMsg = "Update Successful!. Password has been updated";
+            
+            $userpwstmt->close();
+        } elseif (!empty($new_password) && empty($old_password)){
+            $updatedpassword = 2;
         }
     }
     $conn->close();
 
-    $returnval['errorMsg'] = $errorMsg;
-    $returnval['updatedpassword'] = $updatedpassword;
-
     // array_push( $returnval, $errorMsg );
     // array_push( $returnval, $updatedpassword );
 
-    if ($success){
-        return $returnval;
-    } else {
-        return False;
+    if ($iserror){
+        $returnval['errorMsg'] = $errorMsg;
+        $returnval['iserror'] = $iserror;
+    } else { 
+        $returnval['updatedusername'] = $updatedusername;
+        $returnval['updatedpassword'] = $updatedpassword;
+        $returnval['iserror'] = $iserror;
     }
+
+    return $returnval;
+
+    // if ($success){
+
+    //     if ($updatedusername && $updatedpassword){
+    //         $errorMsg = "Update Successful! Username and Password has been updated";
+    //     } elseif ($updatedusername && !$updatedpassword){
+    //         $errorMsg = "Update successful!. Username has been updated";
+    //     } elseif (!$updatedusername && $updatedpassword){
+    //         $errorMsg = "Update Successful!. Password has been updated";
+    //     }
+
+    //     $returnval['errorMsg'] = $errorMsg;
+    //     $returnval['updatedpassword'] = $updatedpassword;
+    //     $returnval['success'] = $success;
+
+    //     return $returnval;
+    // } else {
+    //     $returnval['errorMsg'] = $errorMsg;
+    //     $returnval['success'] = $success;
+    //     return $returnval;
+    // }
 
 }
 
