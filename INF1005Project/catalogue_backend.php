@@ -29,31 +29,31 @@
 
             $error_msg = [];
             $success_msg = [];
-
-            // Form Validation
-//            if (empty($name) && empty($category) && empty($desc) && empty($quantity) && empty($price) && empty($active)) {
-//                echo "True";
-//            } else {
-//                if ($quantity <= 0) {
-//                    array_push($error_msg, "Value must be greater than 0.");
-//                } else {
-//                    if ($quantity <= 0 || $price <= 0) {
-//                        array_push($error_msg, "Value must be greater than 0.");
-//                        if ($promo < 0 || promo >= 1) {
-//                            array_push($error_msg, "Value must be between 0 to 1.");
-//                        } else {
-//
-//                            for ($i = 0; $i < 3; $i++) {
-//                                sanitize_regex_float($$text_array[$i]);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-
+            
+            // Checks string fields
             for ($i = 0; $i < 3; $i++) {
-                if (sanitize_regex_float($$text_array[$i]) == "Unidentified Character"){
-                    $sanitize_output = sanitize_regex_float($$text_array[$i]);
+                $sanitize_output = sanitize_regex_input($text_array[$i]);
+                
+                if ($sanitize_output == "Unidentified Character") {
+                    
+                    if ($i == 0) {
+                        $output_msg = "$sanitize_output found in Product Name.";
+                    } else if ($i == 1) {
+                        $output_msg = "$sanitize_output found in Product Category.";
+                    } else {
+                        $output_msg = "$sanitize_output found in Product Description.";
+                    }
+                    
+                    array_push($error_msg, $output_msg);
+                }
+            }
+            
+            // Checks Float/Integer fields
+            for ($i = 0; $i < 3; $i++) {
+                $sanitize_output = sanitize_regex_float($float_array[$i]);
+                
+                if ($sanitize_output == "Unidentified Character") {
+                    
                     if ($i == 0) {
                         $output_msg = "$sanitize_output found in Quantity.";
                     } else if ($i == 1) {
@@ -61,28 +61,25 @@
                     } else {
                         $output_msg = "$sanitize_output found in Product 'Active' indicator.";
                     }
+                    
                     array_push($error_msg, $output_msg);
                 }
             }
 
-            echo print_r($error_msg);
-//            echo "'" . $name . "''" . $category . "''" . $desc . "''" . $quantity . "''" . $price . "''" . $promo . "''" . $active . "'";
-
-            if (!empty($error_msg)) {
-                for ($i = 0; $i < sizeof($error_msg); $i++) {
-                    $html_output .= "<div class=\"row\">"
-                            . "<div class=\"output-msg card\">"
-                            . "<div class=\"card-body\">"
-                            . "<p class=\"text-danger\">" . $error_msg[$i] . "</p>"
-                            . "</div>"
-                            . "</div>"
-                            . "</div>";
-                }
+            for ($i = 0; $i < sizeof($error_msg); $i++) {
+                $html_output .= "<div class=\"row\">"
+                        . "<div class=\"output-msg card\">"
+                        . "<div class=\"card-body\">"
+                        . "<p class=\"text-danger\">" . $error_msg[$i] . "</p>"
+                        . "</div>"
+                        . "</div>"
+                        . "</div>";
             }
+            echo $html_output;
             ?>
 
 
-            <div class="row">
+            <div class="backend-catalogue-header row">
                 <div class="col-lg-12 col-xl-12">
                     <h1>Product Catalogue Database</h1>
                 </div>

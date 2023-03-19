@@ -352,7 +352,7 @@ div .catalogue-button {
 }
 
 .output-msg {
-    margin: 15px 0px;
+    margin: 10px 0px 5px;
 }
 
 .backend-catalogue .output-msg .card-body {
@@ -363,6 +363,10 @@ div .catalogue-button {
     font-size: 15px;
     font-style: italic;
     letter-spacing: 0.5px;
+}
+
+.backend-catalogue-header {
+    margin-top: 25px;
 }
 
 .backend-catalogue-add-header div:nth-child(2) {
