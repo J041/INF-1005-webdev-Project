@@ -42,7 +42,7 @@
                     $conn->close();
                 }
             ?>
-            
+                                   
             <?php         
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'],
@@ -56,7 +56,8 @@
                     /*read from cart where cart.orderid = orderhistory.orderid, 
                     where orderhistory.email = current logged in email, 
                     AND orderhistory.purchase is 0*/
-                $stmt = $conn->prepare("SELECT a.product_name, b.* FROM mydb.Products a, mydb.Cart_Item b
+                $stmt = $conn->prepare("SELECT a.product_name, a.quantity AS prodquantity, a.is_active,
+                    b.* FROM mydb.Products a, mydb.Cart_Item b
                 WHERE a.product_id = b.Products_product_id
                 AND b.Order_History_order_id = (SELECT b.order_id FROM mydb.Order_History b
                 WHERE b.purchased=0 AND b.Users_email=?);");
@@ -67,11 +68,24 @@
                 if ($result->num_rows > 0)
                 {
                     $total = 0;
+                    $outofstock = 0;
                     echo"<div class='cartitems'>";
                     while ($row = $result->fetch_assoc())
                     {
-                        echo "<form method='post' action='cart.php'>"
-                                . "<div class='flexcontainer'>";
+                        echo "<form method='post' action='cart.php'>";
+                        if ($row["prodquantity"] <= 0){
+                            echo "<div class='greyout'></div><h3>Out of Stock!</h3><br>";
+                            $outofstock+=1;
+                        }
+                        elseif ($row["is_active"]<>1) {
+                            echo "<div class='greyout'></div><h3>Product Not Active!</h3><br>";
+                                $outofstock+=1;
+                        }
+                        else
+                        {
+                            $total += $row["price"] * $row["quantity"];
+                        }
+                        echo "<div class='flexcontainer'>";
                         echo "<div class='checkoutproduct'>
                             <img src='static/assets/img/products/".$row["product_name"].".jpg'"
                                 . " alt='".$row["product_name"].".jpg'>
@@ -80,8 +94,7 @@
                         echo "<h4>$".$row["price"]."</h4>"
                                 . "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">"
                                 . "<input type='hidden' name='cartorderid' value=".$row["Order_History_order_id"].">"
-                                . "<h4><button type='submit'>X</button></h4></div></form>";
-                        $total += $row["price"] * $row["quantity"];
+                                . "<h4><button type='submit'>X</button></h4></div></form>";                        
                     }
                     echo "</div>";
                     $conn->close();
@@ -101,7 +114,17 @@
             <br>
             <div class="checkoutbtns">
                 <a href='catalogue.php' class='btn btn-warning'>Continue Browsing</a>
-                <a href='payment.php' class='btn btn-success'>Pay Now</a>
+                <?php
+                if ($outofstock>0)
+                {
+                    echo "<a href='#' class='btn btn-default'>Pay Now</a>";
+                }
+                else
+                {
+                    echo "<a href='payment.php' class='btn btn-success'>Pay Now</a>";
+                }
+                ?>
+                
             </div>
         </main>
          <?php

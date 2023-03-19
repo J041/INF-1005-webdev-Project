@@ -448,6 +448,10 @@ div .catalogue-button {
     color:white;
     margin-right: 10px;
 }
+.checkout .checkoutbtns .btn-default{
+    background-color:grey;
+    color: white;
+}
 .checkout .checkoutbtns .btn-success{
     padding-right:50px;
     padding-left:50px;
@@ -456,6 +460,21 @@ div .catalogue-button {
     display:flex;
     justify-content: end;
     margin-top:10px;
+}
+.checkout form{
+    position:relative;
+}
+.checkout .greyout{
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  position:absolute;
+  background: rgba(0, 0, 0, 0.3);
+}
+.checkout button{
+    position:relative;
+    z-index: 11;
 }
 
 /*Start Home Page CSS - Keefe*/
