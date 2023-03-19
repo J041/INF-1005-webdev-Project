@@ -59,6 +59,7 @@
                         $result = $getorderidsstmt->get_result();
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
+                                $final_total = 0;
                                 $product_ids = array();
 
                                 $getdetailssstmt = $conn->prepare("SELECT a.product_name, b.* FROM mydb.Products a, mydb.Cart_Item b WHERE a.product_id = b.Products_product_id AND b.Order_History_order_id = ?");
@@ -76,6 +77,7 @@
                                             $product_details["product_name"] = $row2["product_name"];
                                             $product_details["quantity"] = $row2["quantity"];
                                             $product_details["price"] = $row2["price"];
+                                            $product_details["total"] = $row2["quantity"] * $row2["price"];
                                             $product_ids[$row2["Products_product_id"]] = $product_details;
                                         }
                                     } else {
