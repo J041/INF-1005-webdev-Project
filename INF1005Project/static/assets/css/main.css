@@ -401,12 +401,18 @@ div .catalogue-button {
     margin: 5px;
 }
 
+.backend-catalogue-add-form form .row div p{
+    font-size: 14px;
+    font-style: italic;
+    padding-bottom: 5px;
+}
+
 .backend-catalogue-add-form form .row div select{
     font-size: 13px;
     font-style: italic;
     border-radius: 5px;
     padding: 5px 10px;
-    margin: 5px;
+    margin: 8px 0px;
 }
 
 .backend-catalogue-add-form-save {

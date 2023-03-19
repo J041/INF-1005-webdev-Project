@@ -16,7 +16,9 @@
             <?php
             // Defining Form Variables for New Product Item
             $name = $_POST['product_name'];
+            $product_img = $_POST['product_img_file'];
             $category = $_POST['product_category'];
+            $category_img = $_POST['product_cat_img_file'];
             $desc = $_POST['product_desc'];
             $quantity = $_POST['quantity'];
             $price = $_POST['price'];
@@ -100,32 +102,53 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-lg-12 col-xl-4">
+                                <div class="col-lg-12 col-xl-12">
+                                    <p>** Supported file formats: .jpg, .jpeg, .png</p>
+                                </div>
+                                
+                                <div class="col-lg-12 col-xl-6">
                                     <label class="" for="product_name">Product Name: </label>
                                     <input class="" type="text" name="product_name" placeholder="E.g. Calendar" aria-labelledby="product_name" required>
                                 </div>
-
-                                <div class="col-lg-12 col-xl-4">
-                                    <label class="" for="product_category">Product Category: </label>
-                                    <input class="" type="text" name="product_category" placeholder="E.g. Eggs and Diary Products" aria-labelledby="product_category" required>
+                                
+                                <div class="col-lg-12 col-xl-6">
+                                    <label class="" for="product_img_file">Product Image: </label>
+                                    <input class="" type="file" name="product_img_file" aria-labelledby="product_img_file">
                                 </div>
-
-                                <div class="col-lg-12 col-xl-4">
+                                
+                                <div class="col-lg-12 col-xl-6">
+                                    <label class="" for="product_category">Product Category: </label>
+                                    <input class="" type="text" name="product_category" list="backend_catalouge_product_cat" placeholder="E.g. Eggs and Diary Products" aria-labelledby="product_category" required>
+                                    <datalist id="backend_catalouge_product_cat">
+                                        <?php
+                                        for ($i = 0; $i < sizeof($category_array); $i++) {
+                                            echo "<option value=\"".$category_array[$i]."\">";
+                                        }
+                                        ?>
+                                    </datalist>
+                                </div>
+                                
+                                <div class="col-lg-12 col-xl-6">
+                                    <label class="" for="product_cat_img_file">Product Category Image: </label>
+                                    <input class="" type="file" name="product_cat_img_file" aria-labelledby="product_cat_img_file">
+                                </div>
+                                
+                                 <div class="col-lg-12 col-xl-6">
                                     <label class="" for="product_desc">Product Description: </label>
                                     <input class="" type="text" name="product_desc" placeholder="E.g. 2023 Calendar" aria-labelledby="product_desc" required>
                                 </div>
-
-                                <div class="col-lg-12 col-xl-4">
+                                
+                                <div class="col-lg-12 col-xl-6">
                                     <label class="" for="quantity">Quantity: </label>
                                     <input class="" type="number" name="quantity" placeholder="E.g. 150" aria-labelledby="quantity" required>
                                 </div>
 
-                                <div class="col-lg-12 col-xl-4">
+                                <div class="col-lg-12 col-xl-6">
                                     <label class="" for="price">Price: </label>
                                     <input class="" type="text" name="price" placeholder="E.g. '3.20' for $3.20" aria-labelledby="price" required>
                                 </div>
 
-                                <div class="col-lg-12 col-xl-4">
+                                <div class="col-lg-12 col-xl-6">
                                     <label class="" for="product_name">Active?: </label>
                                     <select class="form-select" name="is_active" aria-label="active_product_indicator" aria-labelledby="active_product_indicator">
                                         <option selected value="1">Active</option>
