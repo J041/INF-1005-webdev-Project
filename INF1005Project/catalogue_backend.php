@@ -51,7 +51,7 @@
                 $price = $_POST['price'];
                 $active = $_POST['is_active'];
                 $created_at = '';
-
+                
                 // 3 arrays containing fields to be validated, 2 arrays(placeholders) for potential message(s)
                 $text_array = array($name, $category, $desc);
                 $float_array = array($quantity, $price, $active);
@@ -99,7 +99,6 @@
                 if (empty($error_msg)) {
                     $timezone = date_default_timezone_set('Asia/Singapore');
                     $datetime = date('Y-m-d H:i:s', time());
-//                    echo "The current server timezone is: " . $timezone;
 
                     // Create database connection.
                     $config = parse_ini_file('../private/db-config.ini');
@@ -122,7 +121,7 @@
                     
                     // Prepare, Bind & Execute SELECT statement to insert new product into 'Products' Table
                     $stmt = $conn->prepare("INSERT INTO Products (product_id, product_name, product_desc, product_category, quantity, price, is_active, created_at) VALUES (?,?,?,?,?,?,?,?)");
-                    $stmt->bind_param("isssidis", $product_id, $name, $desc, $category, $quantity, $price, $is_active, $datetime);
+                    $stmt->bind_param("isssidis", $product_id, $name, $desc, $category, $quantity, $price, $active, $datetime);
                     $stmt->execute();
 
                     // Check connection
