@@ -593,7 +593,7 @@ div .catalogue-button {
 }
 .checkout button{
     position:relative;
-    z-index: 11;
+    z-index: 1;
 }
 
 /*Start Home Page CSS - Keefe*/
