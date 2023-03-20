@@ -20,7 +20,7 @@
             if (empty($_POST["username"])) {
                 $usernameErr = "Name is required";
             } else {
-                $name = test_input($_POSlT["username"]);
+                $name = test_input($_POST["username"]);
                 // check if name only contains letters and whitespace
                 if (!preg_match("/^[a-zA-Z0-9]*$/", $name)) {
                     $usernameErr = "Only letters, numbers and white space allowed";
@@ -34,8 +34,25 @@
                 // check if email address is well-formed
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $emailErr = "Invalid email format";
+                } else {
+//                    $config = parse_ini_file('../private/db-config.ini');
+//                    $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+//                    echo "test1";
+//
+//                    // Check connection
+//                    if ($conn->connect_error) {
+//                        $errorMsg = "Connection failed: " . $conn->connect_error;
+//                        $success = false;
+//                    } else {
+//                        $stmt = $conn->prepare("SELECT * FROM Users WHERE email = ?");
+//                        $stmt->bind_param("s", $_POST["email"]);
+//                        if ($result->num_rows > 0) {
+//                            $emailErr = "Duplicate Email";
+//                        }
+//                    }
                 }
             }
+
 
             if (empty($_POST["pwd"])) {
                 $passwordErr = "password is required.<br>";
@@ -170,13 +187,13 @@
         </main>';
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            if ($usernameErr !==null) {
+            if ($usernameErr !== null) {
                 echo '<div class="alert alert-warning" role="alert"><p>' . $usernameErr . '</p></div>';
-            } elseif ($emailErr!==null) {
+            } elseif ($emailErr !== null) {
                 echo '<div class="alert alert-warning" role="alert"><p>' . $emailErr . '</p></div>';
-            } elseif ($passwordErr!==null) {
+            } elseif ($passwordErr !== null) {
                 echo '<div class="alert alert-warning" role="alert"><p>' . $passwordErr . '</p></div>';
-            } elseif ($pwd_confirmErr!==null) {
+            } elseif ($pwd_confirmErr !== null) {
                 echo '<div class="alert alert-warning" role="alert"><p>]' . $pwd_confirmErr . '</p></div>';
             } else {
                 
