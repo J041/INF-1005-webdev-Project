@@ -144,8 +144,7 @@
                     }
                 }
 
-                echo var_dump($_FILES);
-                echo $img_file_name_full . '<br>', $img_file_name . '<br>', $img_file_size . '<br>', $img_file_tmp . '<br>', $img_file_ext . '<br>';
+                // echo var_dump($_FILES);
                 // Checks submitted files for correct file type and duplicates
                 if (isset($_FILES['product_img_file'])) {
                     // Indicates if error has occurred
@@ -153,10 +152,11 @@
 
                     // Variables for Product Image
                     $img_file_name_full = $_FILES['product_img_file']['name'];
-                    $img_file_name = explode('.', $_FILES['product_img_file']['name']);
+                    $img_file_name = explode('.', $_FILES['product_img_file']['name'])[0];
                     $img_file_size = $_FILES['product_img_file']['size'];
                     $img_file_tmp = $_FILES['product_img_file']['tmp_name'];
                     $img_file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
+                    echo $img_file_name_full . '<br>', $img_file_name . '<br>', $img_file_size . '<br>', $img_file_tmp . '<br>', $img_file_ext . '<br>';
 
                     // Accepted file extensions
                     $extensions = array("jpeg", "jpg", "png");
@@ -292,7 +292,7 @@
             </div>
 
             <div class="backend-catalogue-add-form row">
-                <form action="/catalogue_backend.php" method="POST">
+                <form action="catalogue_backend.php" method="POST" enctype="multipart/form-data">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
