@@ -15,39 +15,15 @@
 
             <?php
             // Code to add new products into Products table.
-//            if (isset($_FILES['product_img_file'])) {
-//                $file_name = $_FILES['product_img_file']['name'];
-//                $file_size = $_FILES['product_img_file']['size'];
-//                $file_tmp = $_FILES['product_img_file']['tmp_name'];
-//                $file_type = $_FILES['product_img_file']['type'];
-//                $file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
-//
-//                $extensions = array("jpeg", "jpg", "png");
-//
-//                array_push($error_msg, $file_name);
-//
-//                if (in_array($file_ext, $extensions) === false) {
-//                    array_push($error_msg, "extension not allowed, please choose a JPEG or PNG file.");
-//                }
-//
-//                if ($file_size > 2097152) {
-//                    array_push($error_msg, 'File size must be excately 2 MB');
-//                }
-//
-//                if (empty($errors) == true) {
-//                    move_uploaded_file($file_tmp, "static/assets/img/products/" . $file_name);
-//                    array_push($success_msg, "Success");
-//                }
-//            }
             // Checks if user has submitted a form to add a new product
             if (isset($_POST['add_product'])) {
                 // Defining Form Variables for New Product Item
-                $name = $_POST['product_name'];
-                $category = $_POST['product_category'];
-                $desc = $_POST['product_desc'];
-                $quantity = $_POST['quantity'];
-                $price = $_POST['price'];
-                $active = $_POST['is_active'];
+                $name = sanitize_input($_POST['product_name']);
+                $category = sanitize_input($_POST['product_category']);
+                $desc = sanitize_input($_POST['product_desc']);
+                $quantity = sanitize_input($_POST['quantity']);
+                $price = sanitize_input($_POST['price']);
+                $active = sanitize_input($_POST['is_active']);
                 $created_at = '';
 
                 // 3 arrays containing fields to be validated, 2 arrays(placeholders) for potential message(s)
@@ -62,40 +38,116 @@
                 for ($i = 0; $i < 3; $i++) {
                     $sanitize_output = sanitize_regex_input($text_array[$i]);
 
-                    if ($sanitize_output == "Unidentified Character") {
-
-                        if ($i == 0) {
-                            $output_msg = "$sanitize_output found in Product Name.";
-                        } else if ($i == 1) {
-                            $output_msg = "$sanitize_output found in Product Category.";
+                    if ($i == 0) {
+                        // Checks if Blank Product Name has been injected.
+                        if ($text_array[$i] == null || $text_array[$i] == '') {
+                            array_push($error_msg, "Please enter a Product Name.");
                         } else {
-                            $output_msg = "$sanitize_output found in Product Description.";
+                            // Ensure Product Name begins with an alphabet
+                            $first_char = substr($name, 0, 1);
+                            if (sanitize_regex_alpha($first_char) == "Unidentified Character") {
+                                array_push($error_msg, "Please enter a Product Name that begins with an alphabet.");
+                            }
+                            
+                            // Check for unspecified characters
+                            if ($sanitize_output == "Unidentified Character") {
+                                $output_msg = "$sanitize_output found in Product Name.";
+                                array_push($error_msg, $output_msg);
+                            }
                         }
-
-                        array_push($error_msg, $output_msg);
+                    } else if ($i == 1) {
+                        // Checks if Blank Product Category has been injected.
+                        if ($text_array[$i] == null || $text_array[$i] == '') {
+                            array_push($error_msg, "Please enter a Product Category.");
+                        } else {
+                            // Ensure Product Name begins with an alphabet
+                            $first_char = substr($category, 0, 1);
+                            if (sanitize_regex_alpha($first_char) == "Unidentified Character") {
+                                array_push($error_msg, "Please enter a Product Category that begins with an alphabet.");
+                            }
+                            // Check for unspecified characters
+                            if ($sanitize_output == "Unidentified Character") {
+                                $output_msg = "$sanitize_output found in Product Category.";
+                                array_push($error_msg, $output_msg);
+                            }
+                        }
+                    } else {
+                        // Checks if Blank Product Description has been injected.
+                        if ($text_array[$i] == null || $text_array[$i] == '') {
+                            array_push($error_msg, "Please enter a Product Description.");
+                        } else {
+                            // Check for unspecified characters
+                            if ($sanitize_output == "Unidentified Character") {
+                                $output_msg = "$sanitize_output found in Product Description.";
+                                array_push($error_msg, $output_msg);
+                            }
+                        }
                     }
                 }
 
                 // Checks Float/Integer fields
                 for ($i = 0; $i < 3; $i++) {
-                    $sanitize_output = sanitize_regex_float($float_array[$i]);
-
-                    if ($sanitize_output == "Unidentified Character") {
-
-                        if ($i == 0) {
-                            $output_msg = "$sanitize_output found in Quantity.";
-                        } else if ($i == 1) {
-                            $output_msg = "$sanitize_output found in Price.";
+                    if ($i == 0) {
+                        // Checks if Blank Quantity has been injected.
+                        if ($float_array[$i] == null || $float_array[$i] == '') {
+                            array_push($error_msg, "Please enter a Quantity.");
                         } else {
-                            $output_msg = "$sanitize_output found in Product 'Active' indicator.";
-                        }
+                            // Checks if Quantity is greater than 0.
+                            if ($float_array[$i] <= 0) {
+                                array_push($error_msg, "Please enter a Quantity that is greater than 0.");
+                            }
 
-                        array_push($error_msg, $output_msg);
+                            // Check for unspecified characters
+                            $sanitize_output = sanitize_regex_int($float_array[$i]);
+
+                            if ($sanitize_output == "Unidentified Character") {
+                                $output_msg = "$sanitize_output found in Quantity.";
+                                array_push($error_msg, $output_msg);
+                            }
+                        }
+                    } else if ($i == 1) {
+                        // Checks if Blank Quantity has been injected.
+                        if ($float_array[$i] == null || $float_array[$i] == '') {
+                            array_push($error_msg, "Please enter a Price.");
+                        } else {
+                            // Checks if Price is greater than 0.
+                            if ($float_array[$i] <= 0) {
+                                array_push($error_msg, "Please enter a Price that is greater than 0.");
+                            }
+
+                            // Check for unspecified characters
+                            $sanitize_output = sanitize_regex_float($float_array[$i]);
+
+                            if ($sanitize_output == "Unidentified Character") {
+                                $output_msg = "$sanitize_output found in Price.";
+                                array_push($error_msg, $output_msg);
+                            }
+                        }
+                    } else {
+                        // Checks if Blank Quantity has been injected.
+                        if ($float_array[$i] == null || $float_array[$i] == '') {
+                            array_push($error_msg, "Please select an indicator from the dropdown.");
+                        } else {
+                            // Checks in other indicator values have been injected.
+                            if ($active < 0 || $active > 1) {
+                                array_push($error_msg, "Please select an indicator from the dropdown.1");
+                            }
+                            
+                            // Checks for unspecified characters
+                            $sanitize_output = sanitize_regex_int($float_array[$i]);
+
+                            if ($sanitize_output == "Unidentified Character") {
+                                $output_msg = "$sanitize_output found in Product 'Active' indicator.";
+                                array_push($error_msg, $output_msg);
+                            }
+                        }
                     }
                 }
 
+                echo var_dump($_FILES);
+                echo $img_file_name_full . '<br>', $img_file_name . '<br>', $img_file_size . '<br>', $img_file_tmp . '<br>', $img_file_ext . '<br>';
                 // Checks submitted files for correct file type and duplicates
-//                if (isset($_FILES['product_img_file'])) {
+                if (isset($_FILES['product_img_file'])) {
                     // Indicates if error has occurred
                     $indicator = 0;
 
@@ -105,12 +157,11 @@
                     $img_file_size = $_FILES['product_img_file']['size'];
                     $img_file_tmp = $_FILES['product_img_file']['tmp_name'];
                     $img_file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
-                    echo print_r($img_file_name);
-                    
+
                     // Accepted file extensions
                     $extensions = array("jpeg", "jpg", "png");
 
-                    if (in_array($img_file_ext, $extensions) == false) {
+                    if (in_array($img_file_ext, $extensions) === false) {
                         array_push($error_msg, "Unaccepted file discovered. Please choose a JPG, JPEG or PNG file.");
                         $indicator = 1;
                     }
@@ -119,11 +170,16 @@
                         array_push($error_msg, 'Please upload files that are less than 2MB.');
                         $indicator = 1;
                     }
-                    
+
+                    if ($img_file_name != $name) {
+                        array_push($error_msg, "Please rename the file to match its product name.");
+                        $indicator = 1;
+                    }
+
                     // Array of possible files on the server
                     $img_server = array($img_file_name . '.jpg', $img_file_name . '.JPG', $img_file_name . '.png', $img_file_name . '.PNG', $img_file_name . '.jpeg', $img_file_name . '.JPEG');
                     echo print_r($img_server);
-                    
+
                     // Checks if files with similar/duplicated naming convension can be found in the server.
                     for ($i = 0; $i < sizeof($img_server); $i++) {
                         $server_img_path = "static/assets/img/products/" . $img_server;
@@ -136,7 +192,7 @@
                     if ($indicator == 0) {
                         move_uploaded_file($img_file_tmp, "static/assets/img/products/" . $img_file_name_full);
                     }
-//                }
+                }
 
                 if (empty($error_msg)) {
                     $timezone = date_default_timezone_set('Asia/Singapore');
@@ -152,19 +208,32 @@
                         $success = false;
                         echo $errorMsg;
                     }
-                    // Prepare, Bind & Execute SELECT statement to retrieve last Product ID
-                    $sql = "SELECT MAX(product_id) FROM mydb.Products";
+
+                    // Defining 2 arrays to store all Product ID and Product Names
+                    $products_id_server = [];
+                    $products_server = [];
+
+                    // Prepare, Bind & Execute SELECT statement to retrieve all Product IDs & Product Names
+                    $sql = "SELECT product_id, product_name FROM mydb.Products";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            $product_id = $row['MAX(product_id)'] + 1;
+                            array_push($products_id_server, $row["product_id"]);
+                            array_push($products_server, $row["product_name"]);
                         }
                     }
 
-                    // Prepare, Bind & Execute SELECT statement to insert new product into 'Products' Table
-                    $stmt = $conn->prepare("INSERT INTO Products (product_id, product_name, product_desc, product_category, quantity, price, is_active, created_at) VALUES (?,?,?,?,?,?,?,?)");
-                    $stmt->bind_param("isssidis", $product_id, $name, $desc, $category, $quantity, $price, $active, $datetime);
-                    $stmt->execute();
+                    // Checks if product exist in Database
+                    if (in_array($name, $products_server)) {
+                        array_push($error_msg, "Duplicated products found in the database. Please consider updating the product.");
+                    } else {
+                        $product_id = max($products_id_server) + 1;
+
+                        // Prepare, Bind & Execute SELECT statement to insert new product into 'Products' Table
+                        $stmt = $conn->prepare("INSERT INTO Products (product_id, product_name, product_desc, product_category, quantity, price, is_active, created_at) VALUES (?,?,?,?,?,?,?,?)");
+                        $stmt->bind_param("isssidis", $product_id, $name, $desc, $category, $quantity, $price, $active, $datetime);
+                        $stmt->execute();
+                    }
 
                     // Check connection
                     if (!$conn) {
@@ -223,7 +292,7 @@
             </div>
 
             <div class="backend-catalogue-add-form row">
-                <form action="/catalogue_backend.php" method="POST" enctype='multipart/form-data'>
+                <form action="/catalogue_backend.php" method="POST">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -245,11 +314,11 @@
                                     <label class="" for="product_category">Product Category: </label>
                                     <input class="" type="text" name="product_category" list="backend_catalouge_product_cat" placeholder="E.g. Eggs and Diary Products" aria-labelledby="product_category" required>
                                     <datalist id="backend_catalouge_product_cat">
-<?php
-for ($i = 0; $i < sizeof($category_array); $i++) {
-    echo "<option value=\"" . $category_array[$i] . "\">";
-}
-?>
+                                    <?php
+                                    for ($i = 0; $i < sizeof($category_array); $i++) {
+                                        echo "<option value=\"" . $category_array[$i] . "\">";
+                                    }
+                                    ?>
                                     </datalist>
                                 </div>
 
@@ -295,33 +364,33 @@ for ($i = 0; $i < sizeof($category_array); $i++) {
                 </form>
             </div>
 
-<?php
-// Code to display all products stored in the 'Products' table.
-// Create database connection.
-$config = parse_ini_file('../private/db-config.ini');
-$conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+            <?php
+            // Code to display all products stored in the 'Products' table.
+            // Create database connection.
+            $config = parse_ini_file('../private/db-config.ini');
+            $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
 
-// Check connection
-if ($conn->connect_error) {
-    $errorMsg = "Connection failed: " . $conn->connect_error;
-    $success = false;
-    echo $errorMsg;
-}
+            // Check connection
+            if ($conn->connect_error) {
+                $errorMsg = "Connection failed: " . $conn->connect_error;
+                $success = false;
+                echo $errorMsg;
+            }
 
-// Prepare, Bind & Execute SELECT statement to retrieve all active products
-$sql = "SELECT * FROM Products";
-$result = $conn->query($sql);
+            // Prepare, Bind & Execute SELECT statement to retrieve all active products
+            $sql = "SELECT * FROM Products";
+            $result = $conn->query($sql);
 
-// Defining array to store SQL output
-$results_array = [];
+            // Defining array to store SQL output
+            $results_array = [];
 
-// Output Query Results into results_array.
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        array_push($results_array, array($row["product_id"], $row["product_name"], $row["product_desc"], $row["product_category"], $row["quantity"], number_format($price_string, 2, '.', ''), $row["is_active"], $row["created_at"]));
-    }
-}
-?>
+            // Output Query Results into results_array.
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    array_push($results_array, array($row["product_id"], $row["product_name"], $row["product_desc"], $row["product_category"], $row["quantity"], number_format($price_string, 2, '.', ''), $row["is_active"], $row["created_at"]));
+                }
+            }
+            ?>
 
             <div class="backend-catalogue-data row">              
                 <table class="table table-striped table-hover table-responsive-xl">
@@ -336,34 +405,34 @@ if ($result->num_rows > 0) {
                         </tr>
                     </thead>
                     <tbody>
-<?php
-$html_output = "";
+                        <?php
+                        $html_output = "";
 
-// Output Products into HTML Table
-for ($i = 0; $i < sizeof($results_array); $i++) {
-    // Highlight rows with product quantity <= 30
-    if ($results_array[$i][4] <= 30) {
-        $html_output .= "<tr class=\"table-warning\">";
-    } else {
-        $html_output .= "<tr>";
-    }
-    $html_output .= "<td scope=\"row\">" . $results_array[$i][0] . "</td>"
-            . "<td>" . $results_array[$i][1] . "</td>"
-            . "<td>" . $results_array[$i][3] . "</td>"
-            . "<td>" . $results_array[$i][4] . "</td>";
-    if ($results_array[$i][6] == 0) {
-        $html_output .= "<td class=\"text-danger font-weight-bold\">Inctive</td>";
-    } else {
-        $html_output .= "<td class=\"text-success font-weight-bold\">Active</td>";
-    }
-    $html_output .= "<td>"
-            . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#backend_catalogue_item_" . $results_array[$i][0] . "\">Details</button>"
-            . "</td>"
-            . "</tr>";
-}
+                        // Output Products into HTML Table
+                        for ($i = 0; $i < sizeof($results_array); $i++) {
+                            // Highlight rows with product quantity <= 30
+                            if ($results_array[$i][4] <= 30) {
+                                $html_output .= "<tr class=\"table-warning\">";
+                            } else {
+                                $html_output .= "<tr>";
+                            }
+                            $html_output .= "<td scope=\"row\">" . $results_array[$i][0] . "</td>"
+                                    . "<td>" . $results_array[$i][1] . "</td>"
+                                    . "<td>" . $results_array[$i][3] . "</td>"
+                                    . "<td>" . $results_array[$i][4] . "</td>";
+                            if ($results_array[$i][6] == 0) {
+                                $html_output .= "<td class=\"text-danger font-weight-bold\">Inctive</td>";
+                            } else {
+                                $html_output .= "<td class=\"text-success font-weight-bold\">Active</td>";
+                            }
+                            $html_output .= "<td>"
+                                    . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#backend_catalogue_item_" . $results_array[$i][0] . "\">Details</button>"
+                                    . "</td>"
+                                    . "</tr>";
+                        }
 
-echo $html_output;
-?>
+                        echo $html_output;
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -461,11 +530,11 @@ echo $html_output;
                                                 <label class="" for="product_category_edit">Product Category: </label>
                                                 <input class="" type="text" name="product_category_edit" value="Sweets and Snacks" list="backend_catalouge_product_cat_edit" placeholder="Product Category: " aria-labelledby="product_category_edit" required>
                                                 <datalist id="backend_catalouge_product_cat_edit">
-<?php
-for ($i = 0; $i < sizeof($category_array); $i++) {
-    echo "<option value=\"" . $category_array[$i] . "\">";
-}
-?>
+                                                <?php
+                                                for ($i = 0; $i < sizeof($category_array); $i++) {
+                                                    echo "<option value=\"" . $category_array[$i] . "\">";
+                                                }
+                                                ?>
                                                 </datalist>
                                             </div>
                                         </div>
@@ -541,63 +610,10 @@ for ($i = 0; $i < sizeof($category_array); $i++) {
                 </div>
             </div>
 
-
-<?php
-//            // Code to generate "More Details" Modal for each product.
-//            $html_output = "";
-//            
-//            // Output Details of Products into HTML Modals
-//            for ($i = 0; $i < sizeof($results_array); $i++) {
-//                $html_output .= '
-//                    <div class="product-item modal fade" id="backend_catalogue_item_1" tabindex="-1" role="dialog" aria-labelledby="backend_catalogue_item_1" aria-hidden="true">
-//                        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-//                            <div class="modal-content">
-//                                <div class="modal-body">
-//                                    <div class="container-fluid">
-//                                        <div class="product-item-btn row">
-//                                            <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
-//                                        </div>
-//                                        <div class="row">
-//                                            <div class="product-item-img col-md-12 col-lg-6"><img
-//                                                    alt="img_sweets" src="static/assets/img/products/sweets.png"></div>
-//                                            <div class="col-md-12 col-lg-6">
-//                                                <div class="product-item-row row">
-//                                                    <div class="product-item-line col-lg-12"><h1>Sweets and Snacks</h1></div>
-//                                                </div>
-//                                                <div class="product-item-row row">
-//                                                    <div class="product-item-line col-lg-12"><h2>sweets</h2></div>
-//                                                </div>
-//                                                <div class="product-item-row row">
-//                                                    <div class="product-item-line col-lg-12"><h3>SGD $1.00</h3></div>
-//                                                </div>
-//                                                <div class="product-item-row row">
-//                                                    <div class="product-item-line col-lg-12"><h4>1000 in stock</h4></div>
-//                                                </div>
-//                                                <div class="product-item-row row">
-//                                                    <div class="product-item-line col-lg-12"><h5>Details: </h5></div>
-//                                                </div>
-//                                                <div class="product-item-row row">
-//                                                    <div class="product-item-line col-lg-12"><p>sweets are sweet</p></div>
-//                                                </div>
-//                                                </div>
-//                                            </div>
-//                                        </div>
-//                                    </div>
-//                                </div>
-//                            </div>
-//                        </div>
-//                    </div>
-//                ';
-//            }
-//            
-//            echo $html_output;
-//            
-?>
-
         </div>
 
-<?php
-include "footer.inc.php";
-?>
+            <?php
+            include "footer.inc.php";
+            ?>
     </body>
 </html>

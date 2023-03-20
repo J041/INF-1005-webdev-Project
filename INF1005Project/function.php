@@ -14,8 +14,6 @@ function sanitize_input($data)
 }
 
 function sanitize_regex_input($data) {
-    // Strips whitespace on both sides of string, slashes and converts special characters to HTML format
-    $data = sanitize_input($data);
 
     // Regular Expression that only allow accepts alphanumeric and whitespace characters
     if (preg_match('/[^A-Za-z0-9 ]/', $data)) {
@@ -37,9 +35,27 @@ function sanitize_regex_input($data) {
 //    }
 }
 
+function sanitize_regex_alpha($data) {
+
+    // Regular Expression that only allow accepts alphabets
+    if (preg_match('/[^A-Za-z]/', $data)) {
+        return "Unidentified Character";
+    } else {
+        return "No Issues!";
+    }
+    
+//    if ($data == " ") {
+//        $data = "";
+//    } elseif (preg_match('/[^A-Za-z0-9 ]/', $data)) {
+//        echo preg_match('/[^A-Za-z0-9 ]/', $data);
+//        return "Unidentified Character";
+//    } else {
+//        echo preg_match('/[^A-Za-z0-9 ]/', $data);
+//        return "No Issues!";
+//    }
+}
+
 function sanitize_regex_float($data) {
-    // Strips whitespace on both sides of string, slashes and converts special characters to HTML format
-    $data = sanitize_input($data);
 
     // Regular Expression that only allow accepts numeric characters and dots (.)
     if (preg_match('/[^0-9. ]/', $data)) {
@@ -52,8 +68,6 @@ function sanitize_regex_float($data) {
 }
 
 function sanitize_regex_int($data) {
-    // Strips whitespace on both sides of string, slashes and converts special characters to HTML format
-    $data = sanitize_input($data);
 
     // Regular Expression that only allow accepts numeric characters and dots (.)
     if (preg_match('/[^0-9 ]/', $data)) {
