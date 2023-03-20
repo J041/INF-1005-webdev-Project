@@ -94,18 +94,37 @@ function UpdateUser($new_username, $old_password, $new_password)
         $email = $_SESSION['email'];
 
         if (!empty($new_username)) {
-            $stmt = $conn->prepare("UPDATE Users SET username=? where email = ?");
-            $sanitize_username = sanitize_input($new_username);
-            $stmt->bind_param("ss", $sanitize_username, $email);
-            if (!$stmt->execute()) {
-                $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-                $iserror = true;
+            
+            if (!preg_match("/^[a-zA-Z0-9]*$/", $new_username)) {
+                $updatedusername = 2;
+                $usernameErr = "Only letters, numbers and white space allowed";
             } else {
-                $result = $stmt->get_result();
-                $_SESSION['username'] = $sanitize_username;
-                $updatedusername = 1;
+                $stmt = $conn->prepare("UPDATE Users SET username=? where email = ?");
+                $sanitize_username = sanitize_input($new_username);
+                $stmt->bind_param("ss", $sanitize_username, $email);
+                if (!$stmt->execute()) {
+                    $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                    $iserror = true;
+                } else {
+                    $result = $stmt->get_result();
+                    $_SESSION['username'] = $sanitize_username;
+                    $updatedusername = 1;
+                }
+                $stmt->close();
             }
-            $stmt->close();
+            
+            // $stmt = $conn->prepare("UPDATE Users SET username=? where email = ?");
+            // $sanitize_username = sanitize_input($new_username);
+            // $stmt->bind_param("ss", $sanitize_username, $email);
+            // if (!$stmt->execute()) {
+            //     $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            //     $iserror = true;
+            // } else {
+            //     $result = $stmt->get_result();
+            //     $_SESSION['username'] = $sanitize_username;
+            //     $updatedusername = 1;
+            // }
+            // $stmt->close();
         }
         
         

@@ -104,12 +104,35 @@
                         // } else {
                             
                         // }
-            
+                        
+
                         if ($updatedusername == 1 && $updatedpassword == 3){
                             $Msg = "Update successful !. Username has been updated";
                             echo    '<div class="alert alert-success" role="alert">'.
                                         '<p>'. $Msg . '</p>' . 
                                     '</div>';
+                        } elseif ($updatedusername == 2){
+                            $Msg = "Update Failed !. Only letters, numbers and white space allowed for username";
+                            if ($updatedpassword == 3){
+                                echo '<div class="alert alert-danger" role="alert"><p>'. $Msg . '</p></div>';
+                            } elseif ($updatedpassword == 1){
+                                $tmpMsg = "Update Successful for Password but Failed for Username !<br>";
+                                $Msg =  $tmpMsg . substr($Msg,17);
+                                echo '<div class="alert alert-warning" role="alert"><p>'. $Msg . '</p></div>';
+                            } else {
+                                $tmpMsg = "Update Failed for username and password !<br>";
+                                $Msg =  $tmpMsg . substr($Msg,17) . '<br>' ;
+
+                                if ($updatedpassword == 0){
+                                    $Msg .= "Current password is Incorrect";
+                                } 
+                    
+                                if ($updatedpassword == 2){
+                                    $Msg .= "Current password is required to update password";
+                                }
+
+                                echo '<div class="alert alert-danger" role="alert"><p>'. $Msg . '</p></div>';
+                            }
                         } else {
                             if ($updatedpassword == 1){
                                 $Msg = "Update Successful !. Password has been updated";
