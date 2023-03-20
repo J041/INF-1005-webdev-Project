@@ -227,8 +227,8 @@
                 // Generating Backend Catalogue in HTML
                 $html_output .= '
                                 <div class="item nav-item pl-5">
-                                <span class="responsive_text">EDIT CATALOGUE</span>
                                     <a href="/catalogue_backend.php">
+                                        <span class="responsive_text">EDIT CATALOGUE</span>
                                         <i class="fa-solid fa-info"></i>
                                     </a>
                                 </div>
@@ -242,8 +242,8 @@
                 // Generating Admin Dashboard in HTML
                 $html_output .= '
                                 <div class="item nav-item pl-5">
-                                <span class="responsive_text">DASHBOARD</span>
                                     <a href="/dashboard.php">
+                                        <span class="responsive_text">DASHBOARD</span>
                                         <i class="fa-solid fa-desktop"></i>
                                     </a>
                                 </div>
@@ -262,8 +262,8 @@
                 // Generating Cart in HTML
                 $html_output .= '
                                 <div class="item nav-item pl-5">
-                                <span class="responsive_text">CART</span>
                                     <a href="/cart.php">
+                                        <span class="responsive_text">CART</span>
                                         <i class="fa-solid fa-cart-shopping"></i>
                                     </a>
                                 </div>
@@ -282,8 +282,8 @@
                 // Generating Cart in HTML
                 $html_output .= '
                                 <div class="item nav-item pl-5">
-                                <span class="responsive_text">ABOUT US</span>
                                     <a href="/about_us.php">
+                                        <span class="responsive_text">ABOUT US</span>
                                         <i class="fa-solid fa-info"></i>
                                     </a>
                                 </div>
@@ -297,8 +297,8 @@
                 // Generating Login in HTML
                 $html_output .= '
                                 <div class="item nav-item pl-5">
-                                <span class="responsive_text">LOGIN</span>
                                     <a href="/login.php">
+                                        <span class="responsive_text">LOGIN</span>
                                         <i class="fa-solid fa-right-to-bracket"></i>
                                     </a>
                                 </div>
