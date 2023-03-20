@@ -20,7 +20,7 @@
             if (empty($_POST["username"])) {
                 $usernameErr = "Name is required";
             } else {
-                $name = test_input($_POSlT["username"]);
+                $name = test_input($_POST["username"]);
                 // check if name only contains letters and whitespace
                 if (!preg_match("/^[a-zA-Z0-9]*$/", $name)) {
                     $usernameErr = "Only letters, numbers and white space allowed";
