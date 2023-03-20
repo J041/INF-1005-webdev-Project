@@ -156,13 +156,13 @@
                     $img_file_size = $_FILES['product_img_file']['size'];
                     $img_file_tmp = $_FILES['product_img_file']['tmp_name'];
                     $img_file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
-                    echo $img_file_name_full . '<br>', $img_file_name . '<br>', $img_file_size . '<br>', $img_file_tmp . '<br>', $img_file_ext . '<br>';
+//                    echo $img_file_name_full . '<br>', $img_file_name . '<br>', $img_file_size . '<br>', $img_file_tmp . '<br>', $img_file_ext . '<br>';
 
                     // Accepted file extensions
                     $extensions = array("jpeg", "jpg", "png");
 
                     if (in_array($img_file_ext, $extensions) === false) {
-                        array_push($error_msg, "Unaccepted file discovered. Please choose a JPG, JPEG or PNG file.");
+                        array_push($error_msg, "Unaccepted file discovered in Product Image. Please choose a JPG, JPEG or PNG file.");
                         $indicator = 1;
                     }
 
@@ -172,25 +172,83 @@
                     }
 
                     if ($img_file_name != $name) {
-                        array_push($error_msg, "Please rename the file to match its product name.");
+                        // Storing current image file name in a temporary variable
+                        $current_file_name = $img_file_name;
+                        $img_file_name_full = "$name.$img_file_ext";
+                        $output = "$current_file_name.$img_file_ext has been renamed to $img_file_name_full";
+                    }
+
+//                    // Array of possible files on the server
+//                    $img_server = array($name . '.jpg', $name . '.JPG', $name . '.png', $name . '.PNG', $name . '.jpeg', $name . '.JPEG');
+//                    echo print_r($img_server);
+//
+//                    // Checks if files with similar/duplicated naming convension can be found in the server.
+//                    for ($i = 0; $i < sizeof($img_server); $i++) {
+//                        $server_img_path = "var/html/www/static/assets/img/products/" . $img_server;
+//                        echo $server_img_path;
+//                        echo file_exists($server_img_path);
+//                        if (file_exists($server_img_path)) {
+//                            array_push($error_msg, "Similar/Duplicated images found in the server. Please rectify.");
+//                            $indicator = 1;
+//                        }
+//                    }
+
+                    if ($indicator == 0) {
+                        array_push($success_msg, $output);
+                        move_uploaded_file($img_file_tmp, "static/assets/img/products/" . $img_file_name_full);
+                    }
+                }
+                
+                if (isset($_FILES['product_cat_img_file'])) {
+                    // Indicates if error has occurred
+                    $indicator = 0;
+
+                    // Variables for Product Image
+                    $img_cat_file_name_full = $_FILES['product_cat_img_file']['name'];
+                    $img_cat_file_name = explode('.', $_FILES['product_cat_img_file']['name'])[0];
+                    $img_cat_file_size = $_FILES['product_cat_img_file']['size'];
+                    $img_cat_file_tmp = $_FILES['product_cat_img_file']['tmp_name'];
+                    $img_cat_file_ext = strtolower(end(explode('.', $_FILES['product_cat_img_file']['name'])));
+//                    echo $img_file_name_full . '<br>', $img_file_name . '<br>', $img_file_size . '<br>', $img_file_tmp . '<br>', $img_file_ext . '<br>';
+
+                    // Accepted file extensions
+                    $extensions = array("jpeg", "jpg", "png");
+
+                    if (in_array($img_cat_file_ext, $extensions) === false) {
+                        array_push($error_msg, "Unaccepted file discovered in Product Category Image. Please choose a JPG, JPEG or PNG file.");
                         $indicator = 1;
                     }
 
-                    // Array of possible files on the server
-                    $img_server = array($img_file_name . '.jpg', $img_file_name . '.JPG', $img_file_name . '.png', $img_file_name . '.PNG', $img_file_name . '.jpeg', $img_file_name . '.JPEG');
-                    echo print_r($img_server);
-
-                    // Checks if files with similar/duplicated naming convension can be found in the server.
-                    for ($i = 0; $i < sizeof($img_server); $i++) {
-                        $server_img_path = "static/assets/img/products/" . $img_server;
-                        if (file_exists($server_img_path)) {
-                            array_push($error_msg, "Similar/Duplicated images found in the server. Please rectify.");
-                            $indicator = 1;
-                        }
+                    if ($img_cat_file_size >= 2097152) {
+                        array_push($error_msg, 'Please upload files that are less than 2MB.');
+                        $indicator = 1;
                     }
 
+                    if ($img_cat_file_name != $category) {
+                        // Storing current image file name in a temporary variable
+                        $current_cat_file_name = $img_cat_file_name;
+                        $img_cat_file_name_full = "$category.$img_cat_file_ext";
+                        $output = "$current_cat_file_name.$img_cat_file_ext has been renamed to $img_cat_file_name_full";
+                    }
+
+//                    // Array of possible files on the server
+//                    $img_server = array($name . '.jpg', $name . '.JPG', $name . '.png', $name . '.PNG', $name . '.jpeg', $name . '.JPEG');
+//                    echo print_r($img_server);
+//
+//                    // Checks if files with similar/duplicated naming convension can be found in the server.
+//                    for ($i = 0; $i < sizeof($img_server); $i++) {
+//                        $server_img_path = "var/html/www/static/assets/img/products/" . $img_server;
+//                        echo $server_img_path;
+//                        echo file_exists($server_img_path);
+//                        if (file_exists($server_img_path)) {
+//                            array_push($error_msg, "Similar/Duplicated images found in the server. Please rectify.");
+//                            $indicator = 1;
+//                        }
+//                    }
+
                     if ($indicator == 0) {
-                        move_uploaded_file($img_file_tmp, "static/assets/img/products/" . $img_file_name_full);
+                        array_push($success_msg, $output);
+                        move_uploaded_file($img_cat_file_tmp, "static/assets/img/home/" . $img_cat_file_name_full);
                     }
                 }
 
