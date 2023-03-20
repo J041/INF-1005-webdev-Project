@@ -13,14 +13,14 @@
         global $email, $username, $pwd_hashed;
         
         // define variables and set to empty values
-        $nameErr = $emailErr = $passwordErr = $pwd_confirmErr = "";
+        $usernameErr = $emailErr = $passwordErr = $pwd_confirmErr = "";
         $username = $email = $pwd = $pwd_confirm = "";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($_POST["username"])) {
                 $usernameErr = "Name is required";
             } else {
-                $name = test_input($_POST["username"]);
+                $name = test_input($_POSlT["username"]);
                 // check if name only contains letters and whitespace
                 if (!preg_match("/^[a-zA-Z0-9]*$/", $name)) {
                     $usernameErr = "Only letters, numbers and white space allowed";
@@ -50,16 +50,16 @@
             // Given password
             $password = $_POST["pwd"];
 
-            //Validate password strength
-            $uppercase = preg_match('@[A-Z]@', $_POST["pwd"]);
-            $lowercase = preg_match('@[a-z]@',$_POST["pwd"]);
-            $number = preg_match('@[0-9]@', $_POST["pwd"]);
-            $specialChars = preg_match('@[^\w]@', $_POST["pwd"]);
-
-            if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
-                $passwordErr . "Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.";
-                $success = false;
-            }
+//            //Validate password strength
+//            $uppercase = preg_match('@[A-Z]@', $_POST["pwd"]);
+//            $lowercase = preg_match('@[a-z]@',$_POST["pwd"]);
+//            $number = preg_match('@[0-9]@', $_POST["pwd"]);
+//            $specialChars = preg_match('@[^\w]@', $_POST["pwd"]);
+//
+//            if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
+//                $passwordErr . "Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.";
+//                $success = false;
+//            }
         }
 
         function test_input($data) {
@@ -106,7 +106,7 @@
                     $errorMsg = "Connection failed: " . $conn->connect_error;
                     $success = false;
                 } else {
-//                    echo "test2";
+//                    echo "test2";let
                     $stmt = $conn->prepare("INSERT INTO Users (email, username,password,priority) VALUES (?,?,?,?);");
                     $stmt->bind_param("ssss", $_POST["email"], $_POST["username"], $pwd_hashed, $priority);
                     echo "test3";
@@ -136,8 +136,9 @@
                     $stmt2->close();
 
                     $conn->close();
-                    header("Location: login.php");
-                    header("Message: succesfully registered");
+                    echo '<script>window.location.href = "login.php";</script>';
+
+                    //header("Message: succesfully registered");
                 }
             }
             ?>
@@ -152,7 +153,7 @@
                     <label for="fname">Username:</label>
                     <input class="form-control"type="text" id="username"
                            name="username" maxlength="45" placeholder="Enter username"value="<?php echo $username; ?>">
-                    <span class="error"><?php if (isset($nameErr)) echo $nameErr; ?></span>
+                    <span class="error"><?php if (isset($nameErr)) echo $usernameErr; ?></span>
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
