@@ -16,32 +16,41 @@
             <?php
             // Code to add new products into Products table.
             
+            echo isset($_FILES);
+//            $file_name = $_FILES['product_img_file']['name'];
+//            $file_size = $_FILES['product_img_file']['size'];
+//            $file_tmp = $_FILES['product_img_file']['tmp_name'];
+//            $file_type = $_FILES['product_img_file']['type'];
+//            $file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
+//            
+//            echo $file_name, $file_size, $file_tmp,$file_type, $file_ext;
+
             // IMAGE UPLOAD NOT WORKING!
-            if (isset($_FILES['product_img_file'])) {
-                $errors = array();
-                $file_name = $_FILES['product_img_file']['name'];
-                $file_size = $_FILES['product_img_file']['size'];
-                $file_tmp = $_FILES['product_img_file']['tmp_name'];
-                $file_type = $_FILES['product_img_file']['type'];
-                $file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
-
-                $extensions = array("jpeg", "jpg", "png");
-
-                array_push($error_msg, $file_name);
-
-                if (in_array($file_ext, $extensions) === false) {
-                    array_push($error_msg, "extension not allowed, please choose a JPEG or PNG file.");
-                }
-
-                if ($file_size > 2097152) {
-                    array_push($error_msg, 'File size must be excately 2 MB');
-                }
-
-                if (empty($errors) == true) {
-//                    move_uploaded_file($file_tmp, "images/" . $file_name);
-                    array_push($success_msg, "Success");
-                }
-            }
+//            if (isset($_FILES['product_img_file'])) {
+//                $errors = array();
+//                $file_name = $_FILES['product_img_file']['name'];
+//                $file_size = $_FILES['product_img_file']['size'];
+//                $file_tmp = $_FILES['product_img_file']['tmp_name'];
+//                $file_type = $_FILES['product_img_file']['type'];
+//                $file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
+//
+//                $extensions = array("jpeg", "jpg", "png");
+//
+//                array_push($error_msg, $file_name);
+//
+//                if (in_array($file_ext, $extensions) === false) {
+//                    array_push($error_msg, "extension not allowed, please choose a JPEG or PNG file.");
+//                }
+//
+//                if ($file_size > 2097152) {
+//                    array_push($error_msg, 'File size must be excately 2 MB');
+//                }
+//
+//                if (empty($errors) == true) {
+////                    move_uploaded_file($file_tmp, "images/" . $file_name);
+//                    array_push($success_msg, "Success");
+//                }
+//            }
 
             // Checks if user has submitted a form to add a new product
             if (isset($_POST['add_product'])) {
@@ -183,7 +192,7 @@
             </div>
 
             <div class="backend-catalogue-add-form row">
-                <form action="/catalogue_backend.php" method="POST">
+                <form action="/catalogue_backend.php" method="POST" enctype="multipart/form-data">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -253,7 +262,6 @@
 
             <?php
             // Code to display all products stored in the 'Products' table.
-            
             // Create database connection.
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
@@ -271,14 +279,13 @@
 
             // Defining array to store SQL output
             $results_array = [];
-            
+
             // Output Query Results into results_array.
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     array_push($results_array, array($row["product_id"], $row["product_name"], $row["product_desc"], $row["product_category"], $row["quantity"], number_format($price_string, 2, '.', ''), $row["is_active"], $row["created_at"]));
                 }
             }
-            
             ?>
 
             <div class="backend-catalogue-data row">              
@@ -294,52 +301,52 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                            $html_output = "";
-                            
-                            // Output Products into HTML Table
-                            for ($i = 0; $i < sizeof($results_array); $i++) {
-                                // Highlight rows with product quantity <= 30
-                                if ($results_array[$i][4] <= 30) {
-                                    $html_output .= "<tr class=\"table-warning\">";
-                                } else {
-                                    $html_output .= "<tr>";
-                                }
-                                $html_output .= "<td scope=\"row\">". $results_array[$i][0] ."</td>"
-                                        . "<td>". $results_array[$i][1] ."</td>"
-                                        . "<td>". $results_array[$i][3] ."</td>"
-                                        . "<td>". $results_array[$i][4] ."</td>";
-                                if ($results_array[$i][6] == 0) {
-                                    $html_output .= "<td class=\"text-danger font-weight-bold\">Inctive</td>";
-                                } else {
-                                    $html_output .= "<td class=\"text-success font-weight-bold\">Active</td>";
-                                }
-                                $html_output .= "<td>"
-                                        . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#backend_catalogue_item_". $results_array[$i][0] ."\">Details</button>"
-                                        . "</td>"
-                                        . "</tr>";
-                            }
-                            
-                            echo $html_output;
-                        ?>
+<?php
+$html_output = "";
+
+// Output Products into HTML Table
+for ($i = 0; $i < sizeof($results_array); $i++) {
+    // Highlight rows with product quantity <= 30
+    if ($results_array[$i][4] <= 30) {
+        $html_output .= "<tr class=\"table-warning\">";
+    } else {
+        $html_output .= "<tr>";
+    }
+    $html_output .= "<td scope=\"row\">" . $results_array[$i][0] . "</td>"
+            . "<td>" . $results_array[$i][1] . "</td>"
+            . "<td>" . $results_array[$i][3] . "</td>"
+            . "<td>" . $results_array[$i][4] . "</td>";
+    if ($results_array[$i][6] == 0) {
+        $html_output .= "<td class=\"text-danger font-weight-bold\">Inctive</td>";
+    } else {
+        $html_output .= "<td class=\"text-success font-weight-bold\">Active</td>";
+    }
+    $html_output .= "<td>"
+            . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#backend_catalogue_item_" . $results_array[$i][0] . "\">Details</button>"
+            . "</td>"
+            . "</tr>";
+}
+
+echo $html_output;
+?>
                     </tbody>
                 </table>
             </div>
-            
+
             <div aria-hidden="true" aria-labelledby="backend_catalogue_item_11" class="product-item modal fade" id="backend_catalogue_item_11" role="dialog"tabindex="-1">
                 <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
                             <div class="container-fluid">
-                                
-                                <div class=""> 
-                                    <div class="product-item-btn row">
+
+                                <div class="backend-product-details-display"> 
+                                    <div class="backend-product-item-btn row">
                                         <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
                                     </div>
 
-                                    <div class="backend-catalogue-add-header row">
+                                    <div class="backend-product-details-display-row row">
                                         <div class="col-md-12 col-xl-6">
-                                            <p>Product ID: #1</p>
+                                            <h1>Product ID: #1</h1>
                                         </div>
                                         <div class="col-md-12 col-xl-6">
                                             <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-pen"></i>&nbsp; Edit </button>
@@ -347,19 +354,19 @@
                                         </div>
                                     </div>
 
-                                    <div class="backend-catalogue-add-header row">
+                                    <div class="backend-product-details-display-row row">
                                         <div class="col-md-12 col-xl-6">
-                                            <h1>sweets</h1>
+                                            <h2>sweets</h2>
                                         </div>
                                         <div class="col-md-12 col-xl-6">
-                                            <h1>Sweets and Snacks</h1>
+                                            <h3>Sweets and Snacks</h3>
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="backend-product-details-display-row row">
                                         <div class="col-md-12 col-xl-6">
                                             <div class="col-md-12 col-xl-12">
-                                                <p>Product Image</p>
+                                                <h4 class="font-weight-bold">Product Image:</h4>
                                             </div>
                                             <div class="product-item-img col-md-12 col-xl-12">
                                                 <img alt="img_sweets" src="static/assets/img/products/sweets.png">
@@ -367,7 +374,7 @@
                                         </div>
                                         <div class="col-md-12 col-xl-6">
                                             <div class="col-md-12 col-lg-12">
-                                                <p>Product Category Image</p>
+                                                <h4 class="font-weight-bold">Product Category Image:</h4>
                                             </div>
                                             <div class="product-item-img col-md-12 col-xl-12">
                                                 <img alt="img_cat_Sweets and Snacks" src="static/assets/img/home/Sweets and Snacks.png">
@@ -377,32 +384,47 @@
 
                                     <div class="row">
                                         <div class="col-md-12 col-xl-4">
-                                            <div class="col-lg-12"><p>Product Description: sweets are sweet.</p></div>
+                                            <div class="col-lg-12">
+                                                <h4 class="font-weight-bold">Product Description: </h4>
+                                                <p>sweets are sweet.</p>
+                                            </div>
                                         </div>
                                         <div class="col-md-12 col-xl-4">
-                                            <div class="col-lg-12"><p>Quantity: 1000</p></div>
+                                            <div class="col-lg-12">
+                                                <h4 class="font-weight-bold">Quantity: </h4>
+                                                <p>1000</p>
+                                            </div>
                                         </div>
                                         <div class="col-md-12 col-xl-4">
-                                            <div class="col-lg-12"><p>Price: SGD $1.00</p></div>
+                                            <div class="col-lg-12">
+                                                <h4 class="font-weight-bold">Price: </h4>
+                                                <p>SGD $1.00</p>
+                                            </div>
                                         </div>
                                         <div class="col-md-12 col-xl-4">
-                                            <div class="col-lg-12"><p>Active?: Active </p></div>
+                                            <div class="col-lg-12">
+                                                <h4 class="font-weight-bold">Active?: </h4>
+                                                <p>Active</p>
+                                            </div>
                                         </div>
                                         <div class="col-md-12 col-xl-4">
-                                            <div class="col-lg-12"><p>Created At: 2020-11-11 09:09:09</p></div>
+                                            <div class="col-lg-12">
+                                                <h4 class="font-weight-bold">Created At: </h4>
+                                                <p>2020-11-11 09:09:09</p>
+                                            </div>
                                         </div>
 
-                                   </div>
+                                    </div>
                                 </div>
-                                
-                           </div>
-                       </div>
-                   </div>
-               </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            
-            <?php
+
+
+<?php
 //            // Code to generate "More Details" Modal for each product.
 //            $html_output = "";
 //            
@@ -452,7 +474,7 @@
 //            
 //            echo $html_output;
 //            
-            ?>
+?>
 
         </div>
 

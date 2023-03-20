@@ -252,12 +252,12 @@ div .catalogue-button {
     min-width: 90vw;
 }
 
-.product-item-btn {
+.product-item-btn, backend-product-item-btn {
     display: flex;
     justify-content: flex-end;
 }
 
-.product-item-btn button{
+.product-item-btn button, backend-product-item-btn button {
     border: none;
     font-size: 25px;
     background-color: #fff;
@@ -434,6 +434,9 @@ div .catalogue-button {
     padding-left: 25px;
 }
 
+.backend-product-details-display-row {
+    margin: 15px 0px;
+}
 
 /*Payment Page*/
 #creditcardinfo .form-group, #cardname .form-group, #paybtn .form-group{
