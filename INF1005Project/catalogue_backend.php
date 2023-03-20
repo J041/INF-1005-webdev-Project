@@ -349,7 +349,7 @@
                 </div>
             </div>
 
-            <div class="backend-catalogue-add-form row">
+            <div class="backend-catalogue-add-form row d-none">
                 <form action="catalogue_backend.php" method="POST" enctype="multipart/form-data">
                     <div class="card">
                         <div class="card-body">
