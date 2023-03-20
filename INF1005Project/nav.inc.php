@@ -423,7 +423,7 @@
                         // . "</div>"
                         // . "<div class=\"col-xs-11\">"
                         // . "<input type=\"submit\" name=\"profile_details\" value=\"Profile\">"
-                        // . "</div>"
+                       // . "</div>"
                         // . "</div>"
 
                         // // Update User Profile
