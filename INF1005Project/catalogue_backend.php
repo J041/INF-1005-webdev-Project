@@ -192,7 +192,7 @@
             </div>
 
             <div class="backend-catalogue-add-form row">
-                <form action="/catalogue_backend.php" method="POST" enctype="multipart/form-data">
+                <form action="/catalogue_backend.php" method="POST">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -301,34 +301,34 @@
                         </tr>
                     </thead>
                     <tbody>
-<?php
-$html_output = "";
+                        <?php
+                        $html_output = "";
 
-// Output Products into HTML Table
-for ($i = 0; $i < sizeof($results_array); $i++) {
-    // Highlight rows with product quantity <= 30
-    if ($results_array[$i][4] <= 30) {
-        $html_output .= "<tr class=\"table-warning\">";
-    } else {
-        $html_output .= "<tr>";
-    }
-    $html_output .= "<td scope=\"row\">" . $results_array[$i][0] . "</td>"
-            . "<td>" . $results_array[$i][1] . "</td>"
-            . "<td>" . $results_array[$i][3] . "</td>"
-            . "<td>" . $results_array[$i][4] . "</td>";
-    if ($results_array[$i][6] == 0) {
-        $html_output .= "<td class=\"text-danger font-weight-bold\">Inctive</td>";
-    } else {
-        $html_output .= "<td class=\"text-success font-weight-bold\">Active</td>";
-    }
-    $html_output .= "<td>"
-            . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#backend_catalogue_item_" . $results_array[$i][0] . "\">Details</button>"
-            . "</td>"
-            . "</tr>";
-}
+                        // Output Products into HTML Table
+                        for ($i = 0; $i < sizeof($results_array); $i++) {
+                            // Highlight rows with product quantity <= 30
+                            if ($results_array[$i][4] <= 30) {
+                                $html_output .= "<tr class=\"table-warning\">";
+                            } else {
+                                $html_output .= "<tr>";
+                            }
+                            $html_output .= "<td scope=\"row\">" . $results_array[$i][0] . "</td>"
+                                    . "<td>" . $results_array[$i][1] . "</td>"
+                                    . "<td>" . $results_array[$i][3] . "</td>"
+                                    . "<td>" . $results_array[$i][4] . "</td>";
+                            if ($results_array[$i][6] == 0) {
+                                $html_output .= "<td class=\"text-danger font-weight-bold\">Inctive</td>";
+                            } else {
+                                $html_output .= "<td class=\"text-success font-weight-bold\">Active</td>";
+                            }
+                            $html_output .= "<td>"
+                                    . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#backend_catalogue_item_" . $results_array[$i][0] . "\">Details</button>"
+                                    . "</td>"
+                                    . "</tr>";
+                        }
 
-echo $html_output;
-?>
+                        echo $html_output;
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -344,7 +344,7 @@ echo $html_output;
                                         <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
                                     </div>
 
-                                    <div class="backend-product-details-display-row row">
+                                    <div class="backend-catalogue-details-header row">
                                         <div class="col-md-12 col-xl-6">
                                             <h1>Product ID: #1</h1>
                                         </div>
@@ -356,7 +356,7 @@ echo $html_output;
 
                                     <div class="backend-product-details-display-row row">
                                         <div class="col-md-12 col-xl-6">
-                                            <h2>sweets</h2>
+                                            <h2>Ferrero Rocher</h2>
                                         </div>
                                         <div class="col-md-12 col-xl-6">
                                             <h3>Sweets and Snacks</h3>
@@ -364,52 +364,52 @@ echo $html_output;
                                     </div>
 
                                     <div class="backend-product-details-display-row row">
-                                        <div class="col-md-12 col-xl-6">
+                                        <div class="backend-product-item-img-row col-md-12 col-xl-6">
                                             <div class="col-md-12 col-xl-12">
-                                                <h4 class="font-weight-bold">Product Image:</h4>
+                                                <h4>Product Image:</h4>
                                             </div>
-                                            <div class="product-item-img col-md-12 col-xl-12">
+                                            <div class="backend-product-item-img col-md-12 col-xl-12">
                                                 <img alt="img_sweets" src="static/assets/img/products/sweets.png">
                                             </div>
                                         </div>
-                                        <div class="col-md-12 col-xl-6">
+                                        <div class="backend-product-item-img-row col-md-12 col-xl-6">
                                             <div class="col-md-12 col-lg-12">
-                                                <h4 class="font-weight-bold">Product Category Image:</h4>
+                                                <h4>Product Category Image:</h4>
                                             </div>
-                                            <div class="product-item-img col-md-12 col-xl-12">
+                                            <div class="backend-product-item-img col-md-12 col-xl-12">
                                                 <img alt="img_cat_Sweets and Snacks" src="static/assets/img/home/Sweets and Snacks.png">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-12 col-xl-4">
+                                    <div class="backend-product-details-display-row row">
+                                        <div class="backend-product-item-img-item col-md-12 col-xl-4">
                                             <div class="col-lg-12">
-                                                <h4 class="font-weight-bold">Product Description: </h4>
+                                                <h4>Product Description: </h4>
                                                 <p>sweets are sweet.</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 col-xl-4">
+                                        <div class="backend-product-item-img-item col-md-12 col-xl-4">
                                             <div class="col-lg-12">
-                                                <h4 class="font-weight-bold">Quantity: </h4>
+                                                <h4>Quantity: </h4>
                                                 <p>1000</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 col-xl-4">
+                                        <div class="backend-product-item-img-item col-md-12 col-xl-4">
                                             <div class="col-lg-12">
-                                                <h4 class="font-weight-bold">Price: </h4>
+                                                <h4>Price: </h4>
                                                 <p>SGD $1.00</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 col-xl-4">
+                                        <div class="backend-product-item-img-item col-md-12 col-xl-4">
                                             <div class="col-lg-12">
-                                                <h4 class="font-weight-bold">Active?: </h4>
+                                                <h4>Active? </h4>
                                                 <p>Active</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 col-xl-4">
+                                        <div class="backend-product-item-img-item col-md-12 col-xl-4">
                                             <div class="col-lg-12">
-                                                <h4 class="font-weight-bold">Created At: </h4>
+                                                <h4>Created At: </h4>
                                                 <p>2020-11-11 09:09:09</p>
                                             </div>
                                         </div>
