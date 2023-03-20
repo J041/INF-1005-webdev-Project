@@ -380,20 +380,20 @@ div .catalogue-button {
     font-size: 14px;
 }
 
-.backend-catalogue-add-form form {
+.backend-catalogue-add-form form, .backend-product-details-edit form {
     width: 100%;
 }
 
-.backend-catalogue-add-form form .row div label{
+.backend-catalogue-add-form form .row div label {
     font-size: 15px;
     letter-spacing: 1px;
     padding: 0px 5px;
 }
 
-.backend-catalogue-add-form form .row div input{
+.backend-catalogue-add-form form .row div input, .backend-product-details-edit form .row div input {
     font-size: 12px;
     font-style: italic;
-    width: 65%;
+    width: 100%;
     letter-spacing: 1.5px;
     border: 1px solid black;
     border-radius: 5px;
@@ -401,13 +401,13 @@ div .catalogue-button {
     margin: 5px;
 }
 
-.backend-catalogue-add-form form .row div p{
+.backend-catalogue-add-form form .row div p {
     font-size: 14px;
     font-style: italic;
     padding-bottom: 5px;
 }
 
-.backend-catalogue-add-form form .row div select{
+.backend-catalogue-add-form form .row div select, .backend-product-details-edit form .row div select {
     font-size: 13px;
     font-style: italic;
     border-radius: 5px;
@@ -415,12 +415,12 @@ div .catalogue-button {
     margin: 8px 0px;
 }
 
-.backend-catalogue-add-form-save {
+.backend-catalogue-add-form-save, .backend-catalogue-edit-form-save {
     display: flex;
     justify-content: flex-end;
 }
 
-.backend-catalogue-add-form-save button {
+.backend-catalogue-add-form-save button, .backend-catalogue-edit-form-save button {
     font-size: 14px;
     margin: 10px 15px;
 }
@@ -434,7 +434,7 @@ div .catalogue-button {
     padding-left: 25px;
 }
 
-.backend-product-details-display-row {
+.backend-product-details-display-row, .backend-product-details-edit-row {
     margin: 10px 0px 35px;
 }
 
@@ -465,8 +465,12 @@ div .catalogue-button {
     padding-top: 15px;
 }
 
-.backend-product-item-img-row {
+.backend-product-item-img-row, .backend-product-item-active-ind {
     padding: 0px;
+}
+
+.backend-product-item-img-row:nth-child(1), .backend-product-details-display-row div:nth-child(1) {
+    margin-bottom: 15px;
 }
 
 .backend-product-item-img {
@@ -480,7 +484,7 @@ div .catalogue-button {
     max-height: 320px;
 }
 
-.backend-product-item-img-item {
+.backend-product-item {
     padding: 20px 15px;
 }
 
@@ -493,6 +497,23 @@ div .catalogue-button {
 .backend-product-details-display-row div p {
     font-size: 18px;
     letter-spacing: 1.5px;
+}
+
+.backend-product-details-display-row div h4 {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+.backend-product-details-edit form .row div label {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 0px 5px;
+}
+
+.backend-product-item-edit {
+    padding: 20px 0px;
 }
 
 /*Payment Page*/
