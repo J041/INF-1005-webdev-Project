@@ -16,41 +16,45 @@
             <?php
             // Code to add new products into Products table.
             
-            echo isset($_FILES);
-//            $file_name = $_FILES['product_img_file']['name'];
-//            $file_size = $_FILES['product_img_file']['size'];
-//            $file_tmp = $_FILES['product_img_file']['tmp_name'];
-//            $file_type = $_FILES['product_img_file']['type'];
-//            $file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
-//            
-//            echo $file_name, $file_size, $file_tmp,$file_type, $file_ext;
+            // echo isset($_FILES) . '<br>';
+            // echo var_dump($_FILES);
+            // $file_name = $_FILES['product_img_file']['name'];
+            // $file_size = $_FILES['product_img_file']['size'];
+            // $file_tmp = $_FILES['product_img_file']['tmp_name'];
+            // $file_type = $_FILES['product_img_file']['type'];
+            // $file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
+
+            // echo $file_name . '<br>', $file_size . '<br>', $file_tmp . '<br>',$file_type . '<br>', $file_ext . '<br>';
 
             // IMAGE UPLOAD NOT WORKING!
-//            if (isset($_FILES['product_img_file'])) {
-//                $errors = array();
-//                $file_name = $_FILES['product_img_file']['name'];
-//                $file_size = $_FILES['product_img_file']['size'];
-//                $file_tmp = $_FILES['product_img_file']['tmp_name'];
-//                $file_type = $_FILES['product_img_file']['type'];
-//                $file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
-//
-//                $extensions = array("jpeg", "jpg", "png");
-//
-//                array_push($error_msg, $file_name);
-//
-//                if (in_array($file_ext, $extensions) === false) {
-//                    array_push($error_msg, "extension not allowed, please choose a JPEG or PNG file.");
-//                }
-//
-//                if ($file_size > 2097152) {
-//                    array_push($error_msg, 'File size must be excately 2 MB');
-//                }
-//
-//                if (empty($errors) == true) {
-////                    move_uploaded_file($file_tmp, "images/" . $file_name);
-//                    array_push($success_msg, "Success");
-//                }
-//            }
+           if (isset($_FILES['product_img_file'])) {
+               $errors = array();
+               $error_msg = array();
+               $success_msg = array();
+               $file_name = $_FILES['product_img_file']['name'];
+               $file_size = $_FILES['product_img_file']['size'];
+               $file_tmp = $_FILES['product_img_file']['tmp_name'];
+               $file_type = $_FILES['product_img_file']['type'];
+               $file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
+
+               $extensions = array("jpeg", "jpg", "png");
+
+
+               array_push($error_msg, $file_name);
+
+               if (in_array($file_ext, $extensions) === false) {
+                   array_push($error_msg, "extension not allowed, please choose a JPEG or PNG file.");
+               }
+
+               if ($file_size > 2097152) {
+                   array_push($error_msg, 'File size must be excately 2 MB');
+               }
+
+               if (empty($errors) == true) {
+                   move_uploaded_file($file_tmp, "static/assets/img/products/" . $file_name);
+                   array_push($success_msg, "Success");
+               } 
+           }
 
             // Checks if user has submitted a form to add a new product
             if (isset($_POST['add_product'])) {
