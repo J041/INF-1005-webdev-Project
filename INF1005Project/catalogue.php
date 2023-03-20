@@ -157,6 +157,75 @@
                 }
             }
 
+            function check_if_bought_before($product_id){                
+                // Create database connection
+                $config = parse_ini_file('../private/db-config.ini');
+                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+                
+                // Check connection
+                if ($conn->connect_error)
+                {
+                    $errorMsg = "Connection failed: " . $conn->connect_error;
+                    $success = false;
+                }
+                else
+                {
+                    $order_ids = array();
+                    // Prepare the statement:
+                    $orderidstmt = $conn->prepare("SELECT order_id FROM Order_History where Users_email = ? and purchased = ?");
+                    // Bind & execute the query statement:
+                    $Users_email = $_SESSION['email'];
+                    $purchased = 0;
+                    $orderidstmt->bind_param("si", $Users_email, $purchased);
+                    if (!$orderidstmt->execute())
+                    {
+                        $errorMsg = "Execute failed: (" . $orderidstmt->errno . ") " . $orderidstmt->error;
+                        $success = false;
+                    } else {
+                        $result = $orderidstmt->get_result();
+                        if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            array_push($order_ids, $row["order_id"]);
+                            // echo "order_id is:" . $order_id . '<br>';
+                        } else {
+                            $errorMsg = "less than 1 result";
+                            $success = false;
+                        }
+                    }
+                    $orderidstmt->close();
+
+                    $bought_productid = array();
+                    foreach ($order_ids as $order_id) {
+                        // echo "$order_id <br>";
+                        $productidstmt = $conn->prepare("SELECT Products_product_id FROM Cart_Item where Order_History_order_id = ?");
+                        $productidstmt->bind_param("i", $order_id);
+                        if (!$productidstmt->execute())
+                        {
+                            $errorMsg = "Execute failed: (" . $productidstmt->errno . ") " . $productidstmt->error;
+                            $success = false;
+                        } else {
+                            $result = $productidstmt->get_result();
+                            if ($result->num_rows > 0) {
+                                $row = $result->fetch_assoc();
+                                array_push($bought_productid, $row["Products_product_id"]);
+                            } else {
+                                $errorMsg = "less than 1 result";
+                                $success = false;
+                            }
+                        }
+                        $productidstmt->close();
+                    }
+
+                    if (in_array($product_id, $bought_productid)) {
+                        // echo "true";
+                        return True;
+                    } else {
+                        // echo "false";
+                        return FALSE;
+                    }
+                }
+            }
+
             function addreview($product_id, $comment){
                 if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
                     // Create database connection.
@@ -492,7 +561,8 @@
             ?>
             
             <?php
-                 addtocart(1,2);
+                // check_if_bought_before(1);
+                // addtocart(1,2);
                 // addreview(3, 'new test comment');
                 // editreviews(3,'editted');
                 // getreviews(3);
