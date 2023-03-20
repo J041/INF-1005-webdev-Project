@@ -73,7 +73,7 @@
                     while ($row = $result->fetch_assoc())
                     {
                         echo "<form method='post' action='cart.php'>";
-                        if ($row["prodquantity"] <= 0){
+                        if ($row["prodquantity"] <= 0 || $row["quantity"] > $row["prodquantity"]){
                             echo "<div class='greyout'></div><h3>Out of Stock!</h3><br>";
                             $outofstock+=1;
                         }
