@@ -108,34 +108,45 @@
                         $getitemquantitystmt->close();
 
                         if ($incart){
-                            // Prepare the statement:
-                            $updatecartstmt = $conn->prepare("UPDATE Cart_Item SET quantity = ? WHERE Order_History_order_id = ? and Products_product_id = ?");
                             $quantity = $prev_quantity + $quantity;
                             // echo $quantity;
-                            // Bind & execute the query statement:
-                            $updatecartstmt->bind_param("iii", $quantity, $order_id, $product_id);
-                            if (!$updatecartstmt->execute())
-                            {
-                                $errorMsg = "Execute failed: (" . $updatecartstmt->errno . ") " . $updatecartstmt->error;
+                            if ($quantity > $backend_quantity){
+                                $errorMsg = "Insufficient quantity";
                                 $success = false;
                             } else {
-                                $success = true;
+                                // Prepare the statement:
+                                $updatecartstmt = $conn->prepare("UPDATE Cart_Item SET quantity = ? WHERE Order_History_order_id = ? and Products_product_id = ?");
+                                // Bind & execute the query statement:
+                                $updatecartstmt->bind_param("iii", $quantity, $order_id, $product_id);
+                                if (!$updatecartstmt->execute())
+                                {
+                                    $errorMsg = "Execute failed: (" . $updatecartstmt->errno . ") " . $updatecartstmt->error;
+                                    $success = false;
+                                } else {
+                                    $success = true;
+                                }
+                                $updatecartstmt->close();
                             }
-                            $updatecartstmt->close();
                         } else {
-                            // Prepare the statement:
-                            $putincartstmt = $conn->prepare("INSERT INTO mydb.Cart_Item (Products_product_id,Order_History_order_id,quantity,price) VALUES (?,?,?,?)");
-                            // Bind & execute the query statement:
-                            // $quantity = 2;
-                            $putincartstmt->bind_param("iiii", $product_id, $order_id, $quantity, $product_price);
-                            if (!$putincartstmt->execute())
-                            {
-                                $errorMsg = "Execute failed: (" . $putincartstmt->errno . ") " . $putincartstmt->error;
+                            
+                            if ($quantity > $backend_quantity){
+                                $errorMsg = "Insufficient quantity";
                                 $success = false;
                             } else {
-                                $success = true;
+                                // Prepare the statement:
+                                $putincartstmt = $conn->prepare("INSERT INTO mydb.Cart_Item (Products_product_id,Order_History_order_id,quantity,price) VALUES (?,?,?,?)");
+                                // Bind & execute the query statement:
+                                // $quantity = 2;
+                                $putincartstmt->bind_param("iiii", $product_id, $order_id, $quantity, $product_price);
+                                if (!$putincartstmt->execute())
+                                {
+                                    $errorMsg = "Execute failed: (" . $putincartstmt->errno . ") " . $putincartstmt->error;
+                                    $success = false;
+                                } else {
+                                    $success = true;
+                                }
+                                $putincartstmt->close();
                             }
-                            $putincartstmt->close();
 
                         }
 
