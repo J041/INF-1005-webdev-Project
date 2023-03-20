@@ -15,6 +15,7 @@
 
             <?php
             // Code to add new products into Products table.
+<<<<<<< Updated upstream
             
             // echo isset($_FILES) . '<br>';
             // echo var_dump($_FILES);
@@ -56,6 +57,43 @@
                } 
            }
 
+=======
+
+            echo isset($_FILES);
+//            $file_name = $_FILES['product_img_file']['name'];
+//            $file_size = $_FILES['product_img_file']['size'];
+//            $file_tmp = $_FILES['product_img_file']['tmp_name'];
+//            $file_type = $_FILES['product_img_file']['type'];
+//            $file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
+//            
+//            echo $file_name, $file_size, $file_tmp,$file_type, $file_ext;
+            // IMAGE UPLOAD NOT WORKING!
+//            if (isset($_FILES['product_img_file'])) {
+//                $errors = array();
+//                $file_name = $_FILES['product_img_file']['name'];
+//                $file_size = $_FILES['product_img_file']['size'];
+//                $file_tmp = $_FILES['product_img_file']['tmp_name'];
+//                $file_type = $_FILES['product_img_file']['type'];
+//                $file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
+//
+//                $extensions = array("jpeg", "jpg", "png");
+//
+//                array_push($error_msg, $file_name);
+//
+//                if (in_array($file_ext, $extensions) === false) {
+//                    array_push($error_msg, "extension not allowed, please choose a JPEG or PNG file.");
+//                }
+//
+//                if ($file_size > 2097152) {
+//                    array_push($error_msg, 'File size must be excately 2 MB');
+//                }
+//
+//                if (empty($errors) == true) {
+////                    move_uploaded_file($file_tmp, "images/" . $file_name);
+//                    array_push($success_msg, "Success");
+//                }
+//            }
+>>>>>>> Stashed changes
             // Checks if user has submitted a form to add a new product
             if (isset($_POST['add_product'])) {
                 // Defining Form Variables for New Product Item
@@ -265,26 +303,26 @@
             </div>
 
             <?php
-            // Code to display all products stored in the 'Products' table.
-            // Create database connection.
+// Code to display all products stored in the 'Products' table.
+// Create database connection.
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
 
-            // Check connection
+// Check connection
             if ($conn->connect_error) {
                 $errorMsg = "Connection failed: " . $conn->connect_error;
                 $success = false;
                 echo $errorMsg;
             }
 
-            // Prepare, Bind & Execute SELECT statement to retrieve all active products
+// Prepare, Bind & Execute SELECT statement to retrieve all active products
             $sql = "SELECT * FROM Products";
             $result = $conn->query($sql);
 
-            // Defining array to store SQL output
+// Defining array to store SQL output
             $results_array = [];
 
-            // Output Query Results into results_array.
+// Output Query Results into results_array.
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     array_push($results_array, array($row["product_id"], $row["product_name"], $row["product_desc"], $row["product_category"], $row["quantity"], number_format($price_string, 2, '.', ''), $row["is_active"], $row["created_at"]));
@@ -308,7 +346,7 @@
                         <?php
                         $html_output = "";
 
-                        // Output Products into HTML Table
+// Output Products into HTML Table
                         for ($i = 0; $i < sizeof($results_array); $i++) {
                             // Highlight rows with product quantity <= 30
                             if ($results_array[$i][4] <= 30) {
@@ -342,22 +380,21 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <div class="container-fluid">
+                                <div class="backend-product-item-btn row">
+                                    <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
 
-                                <div class="backend-product-details-display"> 
-                                    <div class="backend-product-item-btn row">
-                                        <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
+                                <div class="backend-catalogue-details-header row">
+                                    <div class="col-md-12 col-xl-6">
+                                        <h1>Product ID: #1</h1>
                                     </div>
-
-                                    <div class="backend-catalogue-details-header row">
-                                        <div class="col-md-12 col-xl-6">
-                                            <h1>Product ID: #1</h1>
-                                        </div>
-                                        <div class="col-md-12 col-xl-6">
-                                            <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-pen"></i>&nbsp; Edit </button>
-                                            <button class="btn btn-outline-secondary d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
-                                        </div>
+                                    <div class="col-md-12 col-xl-6">
+                                        <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-pen"></i>&nbsp; Edit </button>
+                                        <button class="btn btn-outline-secondary d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
                                     </div>
+                                </div>
 
+                                <div class="backend-product-details-display d-none"> 
                                     <div class="backend-product-details-display-row row">
                                         <div class="col-md-12 col-xl-6">
                                             <h2>Ferrero Rocher</h2>
@@ -417,8 +454,88 @@
                                                 <p>2020-11-11 09:09:09</p>
                                             </div>
                                         </div>
-
                                     </div>
+                                </div>
+
+                                <div class="backend-product-details-edit">
+                                    <form action="/catalogue_backend.php" method="POST">
+                                        <div class="backend-product-details-display-row row">
+                                            <div class="col-md-12 col-xl-6">
+                                                <input class="" type="text" name="product_name_edit" value="Ferrero Rocher" placeholder="Product Name: " aria-labelledby="product_name_edit" required>
+                                            </div>
+                                            <div class="col-md-12 col-xl-6">
+                                                <input class="" type="text" name="product_category_edit" value="Sweets and Snacks" list="backend_catalouge_product_cat_edit" placeholder="Product Category: " aria-labelledby="product_category_edit" required>
+                                                <datalist id="backend_catalouge_product_cat_edit">
+                                                    <?php
+                                                    for ($i = 0; $i < sizeof($category_array); $i++) {
+                                                        echo "<option value=\"" . $category_array[$i] . "\">";
+                                                    }
+                                                    ?>
+                                                </datalist>
+                                            </div>
+                                        </div>
+
+                                        <div class="backend-product-details-display-row row">
+                                            <div class="backend-product-item-img-row col-md-12 col-xl-6">
+                                                <div class="col-md-12 col-xl-12">
+                                                    <h4>Product Image:</h4>
+                                                </div>
+                                                <div class="backend-product-item-img col-md-12 col-xl-12">
+                                                    <input class="" type="file" name="product_img_file_edit" aria-labelledby="product_img_file_edit">
+                                                </div>
+                                            </div>
+                                            <div class="backend-product-item-img-row col-md-12 col-xl-6">
+                                                <div class="col-md-12 col-lg-12">
+                                                    <h4>Product Category Image:</h4>
+                                                </div>
+                                                <div class="backend-product-item-img col-md-12 col-xl-12">
+                                                    <input class="" type="file" name="product_cat_img_file_edit" aria-labelledby="product_cat_img_file_edit">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="backend-product-details-display-row row">
+                                            <div class="backend-product-item-img-item col-md-12 col-xl-4">
+                                                <div class="col-lg-12">
+                                                    <h4>Product Description: </h4>
+                                                    <input class="" type="text" name="product_desc_edit" value="sweets are sweet." placeholder="E.g. 2023 Calendar" aria-labelledby="product_desc_edit" required>
+                                                </div>
+                                            </div>
+                                            <div class="backend-product-item-img-item col-md-12 col-xl-4">
+                                                <div class="col-lg-12">
+                                                    <h4>Quantity: </h4>
+                                                    <input class="" type="number" name="quantity_edit" value="1000" placeholder="E.g. 150" aria-labelledby="quantity_edit" required>
+                                                </div>
+                                            </div>
+                                            <div class="backend-product-item-img-item col-md-12 col-xl-4">
+                                                <div class="col-lg-12">
+                                                    <h4>Price: </h4>
+                                                    <input class="" type="text" name="price_edit" value="1" placeholder="E.g. '3.20' for $3.20" aria-labelledby="price_edit" required>
+                                                </div>
+                                            </div>
+                                            <div class="backend-product-item-img-item col-md-12 col-xl-4">
+                                                <div class="col-lg-12">
+                                                    <h4>Active? </h4>
+                                                    <select class="form-select" name="is_active_edit" aria-label="active_product_indicator_edit" aria-labelledby="active_product_indicator_edit">
+                                                        <option selected value="1">Active</option>
+                                                        <option value="0">Inactive</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="backend-product-item-img-item col-md-12 col-xl-4">
+                                                <div class="col-lg-12">
+                                                    <h4>Created At: </h4>
+                                                    <p>2020-11-11 09:09:09</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="backend-catalogue-add-form-save col-md-12 col-lg-12">
+                                                <button class="btn btn-outline-success" tabindex="0" name="edit_product" role="button" aria-pressed="false"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Update </button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
 
                             </div>
@@ -428,7 +545,7 @@
             </div>
 
 
-<?php
+            <?php
 //            // Code to generate "More Details" Modal for each product.
 //            $html_output = "";
 //            
@@ -478,12 +595,12 @@
 //            
 //            echo $html_output;
 //            
-?>
+            ?>
 
         </div>
 
-<?php
-include "footer.inc.php";
-?>
+        <?php
+        include "footer.inc.php";
+        ?>
     </body>
 </html>
