@@ -14,6 +14,8 @@
         <div class="backend-catalogue container-fluid">
 
             <?php
+            // Code to add new products into Products table.
+            
             // IMAGE UPLOAD NOT WORKING!
             if (isset($_FILES['product_img_file'])) {
                 $errors = array();
@@ -51,7 +53,7 @@
                 $price = $_POST['price'];
                 $active = $_POST['is_active'];
                 $created_at = '';
-                
+
                 // 3 arrays containing fields to be validated, 2 arrays(placeholders) for potential message(s)
                 $text_array = array($name, $category, $desc);
                 $float_array = array($quantity, $price, $active);
@@ -117,8 +119,8 @@
                         while ($row = $result->fetch_assoc()) {
                             $product_id = $row['MAX(product_id)'] + 1;
                         }
-                    } 
-                    
+                    }
+
                     // Prepare, Bind & Execute SELECT statement to insert new product into 'Products' Table
                     $stmt = $conn->prepare("INSERT INTO Products (product_id, product_name, product_desc, product_category, quantity, price, is_active, created_at) VALUES (?,?,?,?,?,?,?,?)");
                     $stmt->bind_param("isssidis", $product_id, $name, $desc, $category, $quantity, $price, $active, $datetime);
@@ -176,7 +178,7 @@
                 </div>
                 <div class="col-md-12 col-xl-6">
                     <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-plus"></i>&nbsp; Add </button>
-                    <button class="btn btn-outline-danger d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
+                    <button class="btn btn-outline-secondary d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
                 </div>
             </div>
 
@@ -249,49 +251,213 @@
                 </form>
             </div>
 
+            <?php
+            // Code to display all products stored in the 'Products' table.
+            
+            // Create database connection.
+            $config = parse_ini_file('../private/db-config.ini');
+            $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+
+            // Check connection
+            if ($conn->connect_error) {
+                $errorMsg = "Connection failed: " . $conn->connect_error;
+                $success = false;
+                echo $errorMsg;
+            }
+
+            // Prepare, Bind & Execute SELECT statement to retrieve all active products
+            $sql = "SELECT * FROM Products";
+            $result = $conn->query($sql);
+
+            // Defining array to store SQL output
+            $results_array = [];
+            
+            // Output Query Results into results_array.
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    array_push($results_array, array($row["product_id"], $row["product_name"], $row["product_desc"], $row["product_category"], $row["quantity"], number_format($price_string, 2, '.', ''), $row["is_active"], $row["created_at"]));
+                }
+            }
+            
+            ?>
 
             <div class="backend-catalogue-data row">              
-                <table class="table table-responsive-xl">
-                    <thead>
+                <table class="table table-striped table-hover table-responsive-xl">
+                    <thead class="thead-light">
                         <tr>
-                            <th>#</th>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Description</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Created At</th>
-                            <th>Active?</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Active?</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="" role="alert">
-                            <td>1</td>
-                            <td></td>
-                            <td>Item 1</td>
-                            <td>Miscellaneous</td>
-                            <td>Description 1</td>
-                            <td>1</td>
-                            <td>SGD $1.15</td>
-                            <td>09 Mar 2023, 21:00:12</td>
-                            <td>Active</td>
-
-                            <!-- Close Button
-                            <td>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
-                                </button>
-                            </td>
-                            -->
-                        </tr>
+                        <?php
+                            $html_output = "";
+                            
+                            // Output Products into HTML Table
+                            for ($i = 0; $i < sizeof($results_array); $i++) {
+                                // Highlight rows with product quantity <= 30
+                                if ($results_array[$i][4] <= 30) {
+                                    $html_output .= "<tr class=\"table-warning\">";
+                                } else {
+                                    $html_output .= "<tr>";
+                                }
+                                $html_output .= "<td scope=\"row\">". $results_array[$i][0] ."</td>"
+                                        . "<td>". $results_array[$i][1] ."</td>"
+                                        . "<td>". $results_array[$i][3] ."</td>"
+                                        . "<td>". $results_array[$i][4] ."</td>";
+                                if ($results_array[$i][6] == 0) {
+                                    $html_output .= "<td class=\"text-danger font-weight-bold\">Inctive</td>";
+                                } else {
+                                    $html_output .= "<td class=\"text-success font-weight-bold\">Active</td>";
+                                }
+                                $html_output .= "<td>"
+                                        . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#backend_catalogue_item_". $results_array[$i][0] ."\">Details</button>"
+                                        . "</td>"
+                                        . "</tr>";
+                            }
+                            
+                            echo $html_output;
+                        ?>
                     </tbody>
                 </table>
             </div>
+            
+            <div aria-hidden="true" aria-labelledby="backend_catalogue_item_11" class="product-item modal fade" id="backend_catalogue_item_11" role="dialog"tabindex="-1">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                
+                                <div class=""> 
+                                    <div class="product-item-btn row">
+                                        <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
+                                    </div>
+
+                                    <div class="backend-catalogue-add-header row">
+                                        <div class="col-md-12 col-xl-6">
+                                            <p>Product ID: #1</p>
+                                        </div>
+                                        <div class="col-md-12 col-xl-6">
+                                            <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-pen"></i>&nbsp; Edit </button>
+                                            <button class="btn btn-outline-secondary d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="backend-catalogue-add-header row">
+                                        <div class="col-md-12 col-xl-6">
+                                            <h1>sweets</h1>
+                                        </div>
+                                        <div class="col-md-12 col-xl-6">
+                                            <h1>Sweets and Snacks</h1>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-xl-6">
+                                            <div class="col-md-12 col-xl-12">
+                                                <p>Product Image</p>
+                                            </div>
+                                            <div class="product-item-img col-md-12 col-xl-12">
+                                                <img alt="img_sweets" src="static/assets/img/products/sweets.png">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xl-6">
+                                            <div class="col-md-12 col-lg-12">
+                                                <p>Product Category Image</p>
+                                            </div>
+                                            <div class="product-item-img col-md-12 col-xl-12">
+                                                <img alt="img_cat_Sweets and Snacks" src="static/assets/img/home/Sweets and Snacks.png">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-xl-4">
+                                            <div class="col-lg-12"><p>Product Description: sweets are sweet.</p></div>
+                                        </div>
+                                        <div class="col-md-12 col-xl-4">
+                                            <div class="col-lg-12"><p>Quantity: 1000</p></div>
+                                        </div>
+                                        <div class="col-md-12 col-xl-4">
+                                            <div class="col-lg-12"><p>Price: SGD $1.00</p></div>
+                                        </div>
+                                        <div class="col-md-12 col-xl-4">
+                                            <div class="col-lg-12"><p>Active?: Active </p></div>
+                                        </div>
+                                        <div class="col-md-12 col-xl-4">
+                                            <div class="col-lg-12"><p>Created At: 2020-11-11 09:09:09</p></div>
+                                        </div>
+
+                                   </div>
+                                </div>
+                                
+                           </div>
+                       </div>
+                   </div>
+               </div>
+            </div>
+            
+            
+            <?php
+//            // Code to generate "More Details" Modal for each product.
+//            $html_output = "";
+//            
+//            // Output Details of Products into HTML Modals
+//            for ($i = 0; $i < sizeof($results_array); $i++) {
+//                $html_output .= '
+//                    <div class="product-item modal fade" id="backend_catalogue_item_1" tabindex="-1" role="dialog" aria-labelledby="backend_catalogue_item_1" aria-hidden="true">
+//                        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+//                            <div class="modal-content">
+//                                <div class="modal-body">
+//                                    <div class="container-fluid">
+//                                        <div class="product-item-btn row">
+//                                            <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
+//                                        </div>
+//                                        <div class="row">
+//                                            <div class="product-item-img col-md-12 col-lg-6"><img
+//                                                    alt="img_sweets" src="static/assets/img/products/sweets.png"></div>
+//                                            <div class="col-md-12 col-lg-6">
+//                                                <div class="product-item-row row">
+//                                                    <div class="product-item-line col-lg-12"><h1>Sweets and Snacks</h1></div>
+//                                                </div>
+//                                                <div class="product-item-row row">
+//                                                    <div class="product-item-line col-lg-12"><h2>sweets</h2></div>
+//                                                </div>
+//                                                <div class="product-item-row row">
+//                                                    <div class="product-item-line col-lg-12"><h3>SGD $1.00</h3></div>
+//                                                </div>
+//                                                <div class="product-item-row row">
+//                                                    <div class="product-item-line col-lg-12"><h4>1000 in stock</h4></div>
+//                                                </div>
+//                                                <div class="product-item-row row">
+//                                                    <div class="product-item-line col-lg-12"><h5>Details: </h5></div>
+//                                                </div>
+//                                                <div class="product-item-row row">
+//                                                    <div class="product-item-line col-lg-12"><p>sweets are sweet</p></div>
+//                                                </div>
+//                                                </div>
+//                                            </div>
+//                                        </div>
+//                                    </div>
+//                                </div>
+//                            </div>
+//                        </div>
+//                    </div>
+//                ';
+//            }
+//            
+//            echo $html_output;
+//            
+            ?>
+
         </div>
 
-        <?php
-        include "footer.inc.php";
-        ?>
+<?php
+include "footer.inc.php";
+?>
     </body>
 </html>

@@ -425,6 +425,16 @@ div .catalogue-button {
     margin: 10px 15px;
 }
 
+.backend-catalogue-data {
+    width: 97.5%;
+    margin-top: 45px;
+}
+
+.backend-catalogue-data table th, .backend-catalogue-data table td {
+    padding-left: 25px;
+}
+
+
 /*Payment Page*/
 #creditcardinfo .form-group, #cardname .form-group, #paybtn .form-group{
     display:inline-block;
