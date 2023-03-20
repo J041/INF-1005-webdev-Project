@@ -19,20 +19,19 @@
     }
     // display form data on submission if no errors
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        echo "test1";
+
         authenticateUser2();
     }
 
     function authenticateUser2() {
         global $usernameErr , $passwordErr;
         $usernameErr = $passwordErr = "";
-        echo "test 01";
         $config = parse_ini_file('../private/db-config.ini');
         $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
 
 // Check connection
         if ($conn->connect_error) {
-            echo "conn error";
+  
             $errorMsg = "Connection failed: " . $conn->connect_error;
             $success = false;
         } else {
@@ -50,10 +49,10 @@
             var_dump($result);
 
             if ($result->num_rows > 0) {
-                echo "result get";
+          
                 $row = $result->fetch_assoc();
 
-                var_dump($row);
+            
                 $email = $row["email"];
                 $username = $row["username"];
                 $pwd_hashed = $row["password"];
