@@ -117,12 +117,7 @@
                 if ($usernameErr || $passwordErr) {
                     echo '<div class="alert alert-danger" role="alert"><p>Invalid Credentials. Please try again</p></div>';
                 }
-                // if ($usernameErr == 1) {
-                //     echo '<div class="alert alert-danger" role="alert"><p> Wrong email or username entered.Please try again</p></div>';
-                // }
-                // if ($passwordErr == 1) {
-                //     echo '<div class="alert alert-danger" role="alert"><p> Wrong password entered.Please try again</p></div>';
-                // }
+
             }
 
 
