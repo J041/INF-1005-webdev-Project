@@ -44,10 +44,10 @@
                 if (isset($_SESSION['priority']) && !empty($_SESSION['priority'])) {
                     $order_ids = array();
                     if (($_SESSION['priority']) == 3){
-                        $getorderidsstmt = $conn->prepare("SELECT order_id FROM Order_History where Users_email=? and purchased = 1 ORDER BY order_id DESC");
+                        $getorderidsstmt = $conn->prepare("SELECT order_id, Users_email FROM Order_History where Users_email=? and purchased = 1 ORDER BY order_id DESC");
                         $getorderidsstmt->bind_param("s", $_SESSION['email']);
                     } else {
-                        $getorderidsstmt = $conn->prepare("SELECT order_id FROM Order_History where purchased = 1 ORDER BY order_id DESC");
+                        $getorderidsstmt = $conn->prepare("SELECT order_id, Users_email FROM Order_History where purchased = 1 ORDER BY order_id DESC");
                     }
 
                     if (!$getorderidsstmt->execute())
@@ -61,6 +61,7 @@
                             while ($row = $result->fetch_assoc()) {
                                 $final_total = 0;
                                 $product_ids = array();
+                                $product_ids_lst = array();
 
                                 $getdetailssstmt = $conn->prepare("SELECT a.product_name, b.* FROM mydb.Products a, mydb.Cart_Item b WHERE a.product_id = b.Products_product_id AND b.Order_History_order_id = ?");
                                 $getdetailssstmt->bind_param("i", $row["order_id"]);
@@ -79,6 +80,7 @@
                                             $product_details["price"] = $row2["price"];
                                             $product_details["total"] = $row2["quantity"] * $row2["price"];
                                             $product_ids[$row2["Products_product_id"]] = $product_details;
+                                            array_push($product_ids_lst, $row2["Products_product_id"]);
                                         }
                                     } else {
                                         $errorMsg = "Error: No Items found in Cart";
@@ -96,6 +98,12 @@
                 }
             }
             $conn->close();
+            for ($i = 1; $i < sizeof($order_ids) + 1; $i++) {
+                echo print_r($order_ids[$i])."<br>";
+//                echo print_r($product_ids[$i])."<br>";
+            }
+            echo print_r($product_ids_lst)."<br>";
+            
         ?>
 
         
