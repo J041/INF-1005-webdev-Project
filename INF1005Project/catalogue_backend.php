@@ -327,6 +327,7 @@
 
             $error_msg = [];
             $success_msg = [];
+            $info_msg = [];
 
             // Checks if user has submitted a form to add a new product
             if (isset($_POST['add_product'])) {
@@ -382,6 +383,7 @@
                         if (empty($error_msg)) {
                             $output_msg = "Product \"$name\" has been successfully created in the database.";
                             array_push($success_msg, $output_msg);
+                            array_push($info_msg, "Page will reload in ");
                         }
                     }
                 }
@@ -443,6 +445,7 @@
                             if (empty($error_msg)) {
                                 $output_msg = "Product \"$name\" has been successfully updated in the database.";
                                 array_push($success_msg, $output_msg);
+                                array_push($info_msg, "Page will reload in ");
                             }
                         }
                     }
@@ -470,9 +473,18 @@
                         . "</div>";
             }
 
+            for ($i = 0; $i < sizeof($info_msg); $i++) {
+                $html_output .= "<div class=\"row\">"
+                        . "<div class=\"output-msg card\">"
+                        . "<div class=\"card-body\">"
+                        . "<p class=\"text-info reload-page\">" . $info_msg[$i] . "</p>"
+                        . "</div>"
+                        . "</div>"
+                        . "</div>";
+            }
+
             echo $html_output;
             ?>
-
 
             <div class="backend-catalogue-header row">
                 <div class="col-lg-12 col-xl-12">
@@ -637,8 +649,8 @@
                 $html_output .= '
                         </div>
                         <div class="col-md-12 col-xl-6">
-                            <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-pen"></i>&nbsp; Edit </button>
-                            <button class="btn btn-outline-secondary d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
+                            <button class="btn btn-outline-primary backend-catalogue-details-edit" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-pen"></i>&nbsp; Edit </button>
+                            <button class="btn btn-outline-secondary backend-catalogue-details-close d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
                         </div>
                     </div>
 
@@ -680,7 +692,7 @@
                             <div class="backend-product-item-img col-md-12 col-xl-12">
                             ';
 
-                $html_output .= "<img alt=\"img_cat" . $results_array[$i][3] . "\" src=\"" . identify_image_type($results_array[$i][3], "static/assets/img/home/") . "\">";
+                $html_output .= "<img alt=\"img_cat_" . $results_array[$i][3] . "\" src=\"" . identify_image_type($results_array[$i][3], "static/assets/img/home/") . "\">";
 
                 $html_output .= '
                             </div>
@@ -747,7 +759,7 @@
                             ';
 
                 $html_output .= '
-                <div class="backend-product-details-edit">
+                <div class="backend-product-details-edit d-none">
                         <form action="/catalogue_backend.php" method="POST" enctype="multipart/form-data">
                             <div class="backend-product-details-display-row row">
                                 <div class="col-md-12 col-xl-6">
