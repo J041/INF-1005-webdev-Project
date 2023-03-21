@@ -79,6 +79,24 @@ function sanitize_regex_int($data) {
     }
 }
 
+function identify_image_type($image_name, $path) {
+    // Accepted file formats
+    $extensions = array("jpeg", "jpg", "png");
+    
+    for ($i = 0; $i < 3; $i++) {
+        $possible_file = "$image_name.$extensions[$i]";
+        $filetopath = "$path$possible_file";
+        
+        echo "$possible_file<br>";
+        echo "$filetopath<br>";
+        
+        if (file_exists($filetopath)) {
+            return $filetopath;
+        }
+    }
+    
+    return "Not Found";
+}
 
 
 function logout(){
