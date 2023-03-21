@@ -15,7 +15,7 @@
                 <img src="static\assets\img\home\banner.png" alt="PROMOTIONS" class="col-sm-12"/>
                 <h1 class="display-4">PROMOTIONS</h1>
             </div>-->
-
+            
             <div class="indexPromoCarousel">
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
@@ -75,8 +75,6 @@
         /* $category_array = array("Accessories", "Candy", "Drinks", "Household", "Snacks", "Toys", "Periodical"); */
         $columnCounter = 0;
         $category_output = "";
-        $imageSrc = identify_image_type("candy", "static/assets/img/home/");
-        echo $imageSrc;
         $category_output .= "<div class=\"container main-categories\">";
         
         for ($i = 0; $i < count($category_array); $i++) {
@@ -85,7 +83,7 @@
                 $category_output .= "<div class=\"row\">";
             }
             
-            echo $category_array[$i];
+            echo identify_image_type($category_array[$i], "static/assets/img/home/")."<br>";
             
             $category_output .= "<div class=\"col-sm-4 categories\" >" .
                     "<div class=\"thumbnail d-flex align-items-center justify-content-center categories\">" .
