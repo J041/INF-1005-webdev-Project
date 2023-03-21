@@ -327,8 +327,7 @@
 
             $error_msg = [];
             $success_msg = [];
-            $info_msg = [];
-
+            
             // Checks if user has submitted a form to add a new product
             if (isset($_POST['add_product'])) {
 
@@ -383,7 +382,7 @@
                         if (empty($error_msg)) {
                             $output_msg = "Product \"$name\" has been successfully created in the database.";
                             array_push($success_msg, $output_msg);
-                            array_push($info_msg, "Page will reload in ");
+                            redirect_page('catalogue_backend.php');
                         }
                     }
                 }
@@ -445,7 +444,7 @@
                             if (empty($error_msg)) {
                                 $output_msg = "Product \"$name\" has been successfully updated in the database.";
                                 array_push($success_msg, $output_msg);
-                                array_push($info_msg, "Page will reload in ");
+                                redirect_page('catalogue_backend.php');
                             }
                         }
                     }
@@ -468,16 +467,6 @@
                         . "<div class=\"output-msg card\">"
                         . "<div class=\"card-body\">"
                         . "<p class=\"text-success\">" . $success_msg[$i] . "</p>"
-                        . "</div>"
-                        . "</div>"
-                        . "</div>";
-            }
-
-            for ($i = 0; $i < sizeof($info_msg); $i++) {
-                $html_output .= "<div class=\"row\">"
-                        . "<div class=\"output-msg card\">"
-                        . "<div class=\"card-body\">"
-                        . "<p class=\"text-info reload-page\">" . $info_msg[$i] . "</p>"
                         . "</div>"
                         . "</div>"
                         . "</div>";
@@ -581,19 +570,19 @@
 
             $html_output .= '
 
-                                                <div class="backend-catalogue-data row">              
-                                                    <table class="table table-striped table-hover table-responsive-xl">
-                                                        <thead class="thead-light">
-                                                            <tr>
-                                                                <th scope="col">#</th>
-                                                                <th scope="col">Name</th>
-                                                                <th scope="col">Category</th>
-                                                                <th scope="col">Quantity</th>
-                                                                <th scope="col">Active?</th>
-                                                                <th scope="col"></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                <div class="backend-catalogue-data row">              
+                    <table class="table table-striped table-hover table-responsive-xl">
+                        <thead class="thead-light">
+                            <tr>
+                                <td scope="col">#</td>
+                                <td scope="col">Name</td>
+                                <td scope="col">Category</td>
+                                <td scope="col">Quantity</td>
+                                <td scope="col">Active?</td>
+                                <td scope="col"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
 
                             ';
 
@@ -627,9 +616,9 @@
 
 
                             ';
-// Output Products Detaisl into its respective HTML Modals
+            // Output Products Detaisl into its respective HTML Modals
             for ($i = 0; $i < sizeof($results_array); $i++) {
-                $html_output .= "<div aria-hidden=\"true\" aria-labelledby=\"backend_catalogue_item_" . $results_array[$i][0] . "\" class=\"product-item modal fade\" id=\"backend_catalogue_item_" . $results_array[$i][0] . "\" role=\"dialog\" tabindex=\"-1\">";
+                $html_output .= "<div aria-hidden=\"true\" aria-labelledby=\"backend_catalogue_item_" . $results_array[$i][0] . "\" class=\"backend-product-item modal fade\" id=\"backend_catalogue_item_" . $results_array[$i][0] . "\" role=\"dialog\" tabindex=\"-1\">";
 
                 $html_output .= '
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">

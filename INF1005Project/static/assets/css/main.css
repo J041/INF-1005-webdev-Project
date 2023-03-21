@@ -242,22 +242,22 @@ div .catalogue-button {
 
 /* Catalogue - Product Details*/
 
-.product-item .modal-dialog {
+.product-item .modal-dialog, .backend-product-item .modal-dialog, .order-history-item .modal-dialog {
     display: flex;
     justify-content: center;
 }
 
-.product-item .modal-content {
+.product-item .modal-content, .backend-product-item .modal-content, .order-history-item .modal-content {
     height: 90vh;
     min-width: 90vw;
 }
 
-.product-item-btn, .backend-product-item-btn {
+.product-item-btn, .backend-product-item-btn, .order-history-item-btn {
     display: flex;
     justify-content: flex-end;
 }
 
-.product-item-btn button, .backend-product-item-btn button {
+.product-item-btn button, .backend-product-item-btn button, .order-history-item-btn button {
     border: none;
     font-size: 25px;
     background-color: #fff;
@@ -347,7 +347,7 @@ div .catalogue-button {
 
 /* Backend Catalogue */
 
-.backend-catalogue {
+.backend-catalogue, .order-history {
     margin: 0px 2vw;
 }
 
@@ -369,7 +369,7 @@ div .catalogue-button {
     letter-spacing: 0.5px;
 }
 
-.backend-catalogue-header {
+.backend-catalogue-header, order-history-header {
     margin-top: 25px;
 }
 
@@ -434,12 +434,23 @@ div .catalogue-button {
     margin-top: 45px;
 }
 
-.backend-catalogue-data table th, .backend-catalogue-data table td {
-    padding-left: 25px;
+.backend-catalogue-data table th, .backend-catalogue-data table td, .order-history-data td, .order-history-data-details td {
+    padding: 15px 25px;
+}
+
+.backend-catalogue-data thead tr td, .order-history-data thead tr td, .order-history-data-details thead tr td {
+    font-size: 17px;
+    font-weight: bold;
+    padding: 15px 25px;
+    background-color: #f6f6f6;
 }
 
 .backend-product-details-display-row, .backend-product-details-edit-row {
-    margin: 10px 0px 35px;
+    margin: 40px 0px 65px;
+}
+
+.backend-catalogue-details-header, .backend-product-details-display, .backend-product-details-edit {
+    margin: 25px 35px;
 }
 
 .backend-catalogue-details-header div:nth-child(1) {
@@ -447,8 +458,7 @@ div .catalogue-button {
 }
 
 .backend-catalogue-details-header div:nth-child(1) h1 {
-    font-size: 16px;
-    padding-left: 15px;
+    font-size: 20px;
     letter-spacing: 1.5px;
 }
 
@@ -458,14 +468,14 @@ div .catalogue-button {
 }
 
 .backend-product-details-display-row div h2 {
-    font-size: 35px;
+    font-size: 45px;
     font-weight: bold;
     letter-spacing: 1.5px;
 }
 
 .backend-product-details-display-row div h3 {
-    font-size: 23px;
-    letter-spacing: 1.5px;
+    font-size: 30px;
+    letter-spacing: 3.5px;
     padding-top: 15px;
 }
 
@@ -493,7 +503,7 @@ div .catalogue-button {
 }
 
 .backend-product-details-display-row div h4 {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     letter-spacing: 1.5px;
 }
@@ -510,7 +520,7 @@ div .catalogue-button {
 }
 
 .backend-product-details-edit form .row div label {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
     letter-spacing: 1px;
     padding: 0px 5px;
@@ -767,6 +777,72 @@ div .catalogue-button {
 }
 /*End of index.php CSS*/
 
+.responsive_text {
+    padding-right: 15px;
+}
+
+@media  only screen and (min-width: 1200px){
+    .responsive_text {
+        display:none;
+    }
+}
+
+/*Admin Dashboard CSS Start*/
+.panel {
+    border-style: solid;
+    border-color: white;
+}
+
+.panel-heading .header{
+    padding-top: 3px;
+    margin-bottom: 0px;
+}
+
+.panel-heading hr {
+    margin-top: 0px;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+}
+
+.admin_dashboard #columnChartContainer {
+    height: 370px;
+    width: 100%;
+}
+
+.admin_dashboard #lineChartContainer {
+    height: 370px;
+    width: 100%;
+}
+
+/*Admin Dashboard CSS End*/
+
+
+/* Order History */
+
+.order-history-header h1 {
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    margin: 10px 0px 40px;
+}
+
+.order-history-data-details h1 {
+    font-size: 27px;
+    font-weight: bold;
+    letter-spacing: 2.5px;
+    margin: 25px 5px 20px;
+}
+
+.order-history-data-details thead tr th {
+    font-size: 19px;
+    padding: 19px 25px;
+    letter-spacing: 1.2px;
+}
+
+.order-history-data-details {
+    margin: 60px 45px;
+}
+
 /* Dynamic Resizing (.col-sm & col-xs) */
 @media (max-width: 768px) {
 
@@ -786,6 +862,47 @@ div .catalogue-button {
 
     nav .container-fluid .row .navb-items .navb-items-box .item .navb-profile form {
         max-width: 93%;
+    }
+
+
+    /* Backend Catalogue */
+
+    .backend-catalogue-details-header div:nth-child(1) h1 {
+        font-size: 18px;
+        letter-spacing: 1.5px;
+    }
+
+    .backend-product-details-display-row div h2 {
+        font-size: 30px;
+        font-weight: bold;
+        letter-spacing: 1.5px;
+    }
+
+    .backend-product-details-display-row div h3 {
+        font-size: 25px;
+        letter-spacing: 3.5px;
+        padding-top: 15px;
+    }
+
+    /* Order History */
+    .order-history-data-details h1 {
+        font-size: 25px;
+        font-weight: bold;
+        letter-spacing: 2.5px;
+        margin: 20px 5px 15px;
+    }
+
+    .order-history-data-details thead tr th {
+        font-size: 15px;
+        padding: 19px 25px;
+        letter-spacing: 1.2px;
+    }
+
+    .order-history-data-details thead tr td {
+        font-size: 16px;
+        font-weight: bold;
+        padding: 15px 25px;
+        background-color: #f6f6f6;
     }
 }
 
@@ -877,43 +994,23 @@ div .catalogue-button {
         justify-content: flex-start;
     }
 
-}
+    /* Backend Catalogue */
 
-.responsive_text {
-    padding-right: 15px;
-}
-
-@media  only screen and (min-width: 1200px){
-    .responsive_text {
-        display:none;
+    .backend-catalogue-details-header div:nth-child(1) h1 {
+        font-size: 17px;
+        letter-spacing: 1.5px;
     }
-}
 
-/*Admin Dashboard CSS Start*/
-.panel {
-    border-style: solid;
-    border-color: white;
-}
+    .backend-product-details-display-row div h2 {
+        font-size: 35px;
+        font-weight: bold;
+        letter-spacing: 1.5px;
+    }
 
-.panel-heading .header{
-    padding-top: 3px;
-    margin-bottom: 0px;
-}
+    .backend-product-details-display-row div h3 {
+        font-size: 25px;
+        letter-spacing: 3.5px;
+        padding-top: 15px;
+    }
 
-.panel-heading hr {
-    margin-top: 0px;
-    border: 2px solid lightgray;
-    border-radius: 5px;
 }
-
-.admin_dashboard #columnChartContainer {
-    height: 370px; 
-    width: 100%;
-}
-
-.admin_dashboard #lineChartContainer {
-    height: 370px; 
-    width: 100%;
-}
-
-/*Admin Dashboard CSS End*/
