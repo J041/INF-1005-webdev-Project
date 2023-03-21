@@ -8,6 +8,7 @@
     <body>
         <?php
         include "nav.inc.php";
+        include "function.php";
         ?>
 
         <?php
@@ -416,7 +417,7 @@
             
             <?php
                 // check_if_bought_before(1);
-                 addtocart(9,2);
+                // addtocart(1,2);
                 // addreview(3, 'new test comment');
                 // editreviews(3,'editted');
                 // getreviews(3);
