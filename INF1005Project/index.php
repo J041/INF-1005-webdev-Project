@@ -83,12 +83,12 @@
                 $category_output .= "<div class=\"row\">";
             }
             
-            echo identify_image_type($category_array[$i], "static/assets/img/home/")."<br>";
+            $categoryImgSrc = identify_image_type($category_array[$i], "static/assets/img/home/");
             
             $category_output .= "<div class=\"col-sm-4 categories\" >" .
                     "<div class=\"thumbnail d-flex align-items-center justify-content-center categories\">" .
                     "<a href=\"catalogue.php?search_bar=".$category_array[$i]."\">" .
-                    "<img src=\"static\assets\img\home/" . $category_array[$i] . "_icon.png\" alt=\"" . $category_array[$i] . "\" class=\"category-icon\">" .
+                    "<img src=\"" .$categoryImgSrc. "\" alt=\"" . $category_array[$i] . "\" class=\"category-icon\">" .
                     "<p class=\"text-center\">" .ucfirst($category_array[$i]). "</p>" .
                     "</a>" .
                     "</div>" .
@@ -269,9 +269,12 @@
                 $trending_items_output .= "<div class=\"row\">";
             }
             $product_price = $trending_items_array[$i + 1];
+            
+            $trendingItemsImgSrc = identify_image_type($trending_items_array[$i], "static/assets/img/products/");
+            
             $trending_items_output .= "<div class=\"col-lg productbox\">" .
                     "<div class=\"thumbnail productitem\">" .
-                    "<img src=\"static\assets\img\products/" . $trending_items_array[$i] . ".jpg\" alt=\"" . $trending_items_array[$i] . "\">" .
+                    "<img src=\"" .$trendingItemsImgSrc. "\" alt=\"" . $trending_items_array[$i] . "\">" .
                     "<div class=\"caption\">" .
                     "<h3>" . ucfirst($trending_items_array[$i]) . "</h3>" .
                     "<p class=\"card-description\">Price: \$$product_price</p>" .
