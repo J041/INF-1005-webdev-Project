@@ -242,7 +242,7 @@
                 // Generating Admin Dashboard in HTML
                 $html_output .= '
                                 <div class="item nav-item pl-5">
-                                    <a href="/dashboard.php">
+                                    <a href="/admin_dashboard.php">
                                         <span class="responsive_text">DASHBOARD</span>
                                         <i class="fa-solid fa-desktop"></i>
                                     </a>

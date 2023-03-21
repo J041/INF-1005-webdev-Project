@@ -1014,3 +1014,25 @@ div .catalogue-button {
     }
 
 }
+
+.panel-heading hr {
+    margin-top: 0px;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+}
+
+.admin_dashboard #columnChartContainer {
+    height: 370px; 
+    width: 100%;
+}
+
+.admin_dashboard #lineChartContainer {
+    height: 370px; 
+    width: 100%;
+}
+
+.admin_dashboard .container-fluid {
+    margin-top: 50px;
+}
+
+/*Admin Dashboard CSS End*/
