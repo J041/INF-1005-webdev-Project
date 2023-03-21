@@ -43,16 +43,6 @@ function sanitize_regex_alpha($data) {
     } else {
         return "No Issues!";
     }
-    
-//    if ($data == " ") {
-//        $data = "";
-//    } elseif (preg_match('/[^A-Za-z0-9 ]/', $data)) {
-//        echo preg_match('/[^A-Za-z0-9 ]/', $data);
-//        return "Unidentified Character";
-//    } else {
-//        echo preg_match('/[^A-Za-z0-9 ]/', $data);
-//        return "No Issues!";
-//    }
 }
 
 function sanitize_regex_float($data) {
