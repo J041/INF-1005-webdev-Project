@@ -184,22 +184,24 @@
                     <button class="btn btn-primary" name="submit" type="submit">Submit</button>
                 </div>
             </form>
-        </main>';
+        ';
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($usernameErr !== null) {
+                //echo '<div class="alert alert-danger" role="alert"><p>Invalid Credentials. Please try again</p></div>';
                 echo '<div class="alert alert-warning" role="alert"><p>' . $usernameErr . '</p></div>';
             } elseif ($emailErr !== null) {
                 echo '<div class="alert alert-warning" role="alert"><p>' . $emailErr . '</p></div>';
             } elseif ($passwordErr !== null) {
                 echo '<div class="alert alert-warning" role="alert"><p>' . $passwordErr . '</p></div>';
             } elseif ($pwd_confirmErr !== null) {
-                echo '<div class="alert alert-warning" role="alert"><p>]' . $pwd_confirmErr . '</p></div>';
+                echo '<div class="alert alert-warning" role="alert"><p>' . $pwd_confirmErr . '</p></div>';
             } else {
                 
             }
         }
         ?>
+        </main>
         <?php
         include "footer.inc.php";
         ?>
