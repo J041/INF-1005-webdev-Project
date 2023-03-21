@@ -83,18 +83,18 @@ function identify_image_type($image_name, $path) {
     // Accepted file formats
     $extensions = array("jpeg", "jpg", "png");
     
+    // Determines if Image can be found within the specified directory
     for ($i = 0; $i < 3; $i++) {
         $possible_file = "$image_name.$extensions[$i]";
         $filetopath = "$path$possible_file";
         
-        echo "$possible_file<br>";
-        echo "$filetopath<br>";
-        
+        // Returns file directory containing the correct type of image
         if (file_exists($filetopath)) {
             return $filetopath;
         }
     }
     
+    // Returns a string if image cannot be found.
     return "Not Found";
 }
 
