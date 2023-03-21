@@ -892,11 +892,11 @@ div .catalogue-button {
 /*Admin Dashboard CSS Start*/
 .panel {
     border-style: solid;
-    border-color: red;
-    border-width: 2px;
+    border-color: white;
 }
 
 .panel-heading .header{
+    padding-top: 3px;
     margin-bottom: 0px;
 }
 
@@ -905,4 +905,15 @@ div .catalogue-button {
     border: 2px solid lightgray;
     border-radius: 5px;
 }
+
+.admin_dashboard #columnChartContainer {
+    height: 370px; 
+    width: 100%;
+}
+
+.admin_dashboard #lineChartContainer {
+    height: 370px; 
+    width: 100%;
+}
+
 /*Admin Dashboard CSS End*/

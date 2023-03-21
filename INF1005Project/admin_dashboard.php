@@ -5,6 +5,7 @@
         include "header.inc.php";
         ?>
         <?php
+            // Arrays to store data fetched from database
             $all_time_top10_items_array = [];
             $store_revenue_by_month_array = [];
                     
@@ -12,11 +13,13 @@
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
 
+            // Check connection to database
             if ($conn->connect_error) {
                 $errorMsg = "Connection failed: " . $conn->connect_error;
                 $success = false;
             }
             
+            // SQL statement to retrieve the all-time top 10 most selling products
             $all_time_top10_items_stmt = $conn->prepare("SELECT mydb.Products.product_name, SUM(mydb.Cart_Item.quantity) AS quantity_sold 
                                                         FROM mydb.Cart_Item 
                                                         INNER JOIN mydb.Order_History 
@@ -28,11 +31,12 @@
                                                         ORDER BY quantity_sold DESC
                                                         LIMIT 10;");
             
+            // Prepared statements parameters and execute SQL statement
             $purchased = 1;
             $all_time_top10_items_stmt->bind_param("i", $purchased);
             $all_time_top10_items_stmt->execute();
         
-            // Storing Top 10 Products Into An Array
+            // Storing data into array
             $all_time_top10_items_result = $all_time_top10_items_stmt->get_result();
             if ($all_time_top10_items_result->num_rows > 0) {
                 while ($row = $all_time_top10_items_result->fetch_assoc()) {
@@ -40,16 +44,19 @@
                 }
             }
             
-            $store_revenue_by_month_stmt = $conn->prepare("SELECT SUM(mydb.Cart_Item.price) AS monthly_revenue, YEAR(mydb.Order_History.order_at) AS \"YEAR\", MONTH(mydb.Order_History.order_at) AS \"MONTH\"
+            // SQL statement to retrieve the monthly store's revenue for the last 12 months
+            $store_revenue_by_month_stmt = $conn->prepare("SELECT SUM(mydb.Cart_Item.price * mydb.Cart_Item.quantity) AS monthly_revenue, YEAR(mydb.Order_History.order_at) AS \"YEAR\", MONTH(mydb.Order_History.order_at) AS \"MONTH\"
                                                            FROM mydb.Cart_Item 
                                                            INNER JOIN mydb.Order_History 
                                                            ON mydb.Cart_Item.Order_History_order_id=mydb.Order_History.order_id
                                                            WHERE mydb.Order_History.purchased=? AND mydb.Order_History.order_at > now() - INTERVAL 12 MONTH
                                                            GROUP BY YEAR(mydb.Order_History.order_at), MONTH(mydb.Order_History.order_at);");
             
+            // Prepared statements parameters and execute SQL statement
             $store_revenue_by_month_stmt->bind_param("i", $purchased);
             $store_revenue_by_month_stmt->execute();
             
+            // Storing data into array
             $store_revenue_by_month_result = $store_revenue_by_month_stmt->get_result();
             if ($store_revenue_by_month_result->num_rows > 0) {
                 while ($row = $store_revenue_by_month_result->fetch_assoc()) {
@@ -57,9 +64,10 @@
                 }
             }
             
+            // Close database connection
             $conn->close(); 
         ?>
-        <script>
+        <script>    
         window.onload = function () {
             var columnChartData = [];
             var lineChartData = [];
@@ -126,7 +134,7 @@
         <?php
         include "nav.inc.php";
         ?>
-        <main>
+        <main class="admin_dashboard">
             <?php
             $overall_statistics_array = [];
             $yesterday_statistics_array = [];
@@ -170,10 +178,10 @@
                                           "</div>" .
                                           "<div class=\"row\">" .
                                           "<div class=\"col-6 panel-body\">" .
-                                          "<h5>REVENUE GAINED $". number_format($overall_statistics_array[0], 2, ".", "") ."</h5>" .
+                                          "<h5>REVENUE GAINED: $". number_format($overall_statistics_array[0], 2, ".", "") ."</h5>" .
                                           "</div>" .
                                           "<div class=\"col-6 panel-body\">" .
-                                          "<h5>NUMBER OF PRODUCTS SOLD ". $overall_statistics_array[1] ."</h5>" .
+                                          "<h5>NUMBER OF PRODUCTS SOLD: ". $overall_statistics_array[1] ."</h5>" .
                                           "</div>" .
                                           "</div>" .
                                           "</div>" .
@@ -181,7 +189,7 @@
                                           "</div>" .
                                           "<br>";
 
-            $yesterday_statistics_stmt = $conn->prepare("SELECT sum(mydb.Cart_Item.price) AS yesterday_revenue, SUM(mydb.Cart_Item.quantity) AS yesterday_units_sold 
+            $yesterday_statistics_stmt = $conn->prepare("SELECT sum(mydb.Cart_Item.price * mydb.Cart_Item.quantity) AS yesterday_revenue, SUM(mydb.Cart_Item.quantity) AS yesterday_units_sold 
                                                          FROM mydb.Cart_Item 
                                                          INNER JOIN mydb.Order_History 
                                                          ON mydb.Cart_Item.Order_History_order_id=mydb.Order_History.order_id
@@ -206,21 +214,21 @@
                             "<div class=\"col-4\">" .
                             "<div class=\"panel\">" .
                             "<div class=\"panel-heading\">" .
-                            "<h3 class=\"header\">YESTERDAY'S STATISTICS</h3>" .
+                            "<h5 class=\"header\">YESTERDAY'S STATISTICS</h5>" .
                             "<hr>" .
                             "</div>" .
                             "<div class=\"row\">" . 
-                            "<div class=\"col-6 panel-body\">" .
-                            "<h5>REVENUE GAINED $". number_format($yesterday_statistics_array[0], 2, ".", "") ."</h5>" .
+                            "<div class=\"col-lg-6 panel-body\">" .
+                            "<h6>REVENUE GAINED: $". number_format($yesterday_statistics_array[0], 2, ".", "") ."</h6>" .
                             "</div>" .
-                            "<div class=\"col-6 panel-body\">" .
-                            "<h5>NUMBER OF PRODUCTS SOLD ". $yesterday_statistics_array[1] ."</h5>" .
+                            "<div class=\"col-lg-6 panel-body\">" .
+                            "<h6>NUMBER OF PRODUCTS SOLD: ". $yesterday_statistics_array[1] ."</h6>" .
                             "</div>" .
                             "</div>" .
                             "</div>" .
                             "</div>" ;
 
-            $today_statistics_stmt = $conn->prepare("SELECT sum(mydb.Cart_Item.price) AS today_revenue, SUM(mydb.Cart_Item.quantity) AS today_units_sold 
+            $today_statistics_stmt = $conn->prepare("SELECT sum(mydb.Cart_Item.price * mydb.Cart_Item.quantity) AS today_revenue, SUM(mydb.Cart_Item.quantity) AS today_units_sold 
                                                      FROM mydb.Cart_Item 
                                                      INNER JOIN mydb.Order_History 
                                                      ON mydb.Cart_Item.Order_History_order_id=mydb.Order_History.order_id
@@ -243,21 +251,21 @@
             $html_output .= "<div class=\"col-4\">" .
                             "<div class=\"panel\">" .
                             "<div class=\"panel-heading\">" .
-                            "<h3 class=\"header\">TODAY'S STATISTICS</h3>" .
+                            "<h5 class=\"header\">TODAY'S STATISTICS</h5>" .
                             "<hr>" .
                             "</div>" .
                             "<div class=\"row\">" . 
-                            "<div class=\"col-6 panel-body\">" .
-                            "<h5>REVENUE GAINED $". number_format($today_statistics_array[0], 2, ".", "") ."</h5>" .
+                            "<div class=\"col-lg-6 panel-body\">" .
+                            "<h6>REVENUE GAINED: $". number_format($today_statistics_array[0], 2, ".", "") ."</h6>" .
                             "</div>" .
-                            "<div class=\"col-6 panel-body\">" .
-                            "<h5>NUMBER OF PRODUCTS SOLD ". $today_statistics_array[1] ."</h5>" .
+                            "<div class=\"col-lg-6 panel-body\">" .
+                            "<h6>NUMBER OF PRODUCTS SOLD: ". $today_statistics_array[1] ."</h6>" .
                             "</div>" .
                             "</div>" .
                             "</div>" .
                             "</div>" ;
 
-            $monthly_statistics_stmt = $conn->prepare("SELECT SUM(mydb.Cart_Item.price) AS monthly_revenue, SUM(mydb.Cart_Item.quantity) AS monthly_units_sold 
+            $monthly_statistics_stmt = $conn->prepare("SELECT SUM(mydb.Cart_Item.price * mydb.Cart_Item.quantity) AS monthly_revenue, SUM(mydb.Cart_Item.quantity) AS monthly_units_sold 
                                                        FROM mydb.Cart_Item 
                                                        INNER JOIN mydb.Order_History 
                                                        ON mydb.Cart_Item.Order_History_order_id=mydb.Order_History.order_id
@@ -265,6 +273,7 @@
 
             //GET THIS MONTH
             date_default_timezone_set("Singapore");
+            $current_month_word = strtoupper(date("F"));
             $current_month = date('m');
             $current_year = date('Y');
             $monthly_statistics_stmt->bind_param("ss", $current_month, $current_year);
@@ -280,15 +289,15 @@
             $html_output .= "<div class=\"col-4\">" .
                             "<div class=\"panel\">" .
                             "<div class=\"panel-heading\">" .
-                            "<h3 class=\"header\">CURRENT MONTH'S STATISTICS</h3>" .
+                            "<h5 class=\"header\">".$current_month_word."'S STATISTICS</h5>" .
                             "<hr>" .
                             "</div>" .
                             "<div class=\"row\">" . 
-                            "<div class=\"col-6 panel-body\">" .
-                            "<h5>REVENUE GAINED $". number_format($monthly_statistics_array[0], 2, ".", "") ."</h5>" .
+                            "<div class=\"col-lg-6 panel-body\">" .
+                            "<h6>REVENUE GAINED: $". number_format($monthly_statistics_array[0], 2, ".", "") ."</h6>" .
                             "</div>" .
-                            "<div class=\"col-6 panel-body\">" .
-                            "<h5>NUMBER OF PRODUCTS SOLD ". $monthly_statistics_array[1] ."</h5>" .
+                            "<div class=\"col-lg-6 panel-body\">" .
+                            "<h6>NUMBER OF PRODUCTS SOLD: ". $monthly_statistics_array[1] ."</h6>" .
                             "</div>" .
                             "</div>" .
                             "</div>" .
@@ -300,19 +309,19 @@
             ?>
             <br>
             <br>
-            <div class=\panel-heading\">
-                <h3 class=\header\">ALL-TIME TOP 10 BEST SELLERS</h3>
+            <div class="panel-heading">
+                <h3 class="header">ALL-TIME TOP 10 BEST SELLERS</h3>
                 <hr>
             </div>
-            <div id="columnChartContainer" style="height: 370px; width: 100%;"></div>
+            <div id="columnChartContainer"></div>
             <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
             <br>
             <br>
-            <div class=\panel-heading\">
-                <h3 class=\header\">STORE REVENUE BY MONTH</h3>
+            <div class="panel-heading">
+                <h3 class="header">STORE REVENUE BY MONTH</h3>
                 <hr>
             </div>
-            <div id="lineChartContainer" style="height: 370px; width: 100%;"></div>
+            <div id="lineChartContainer"></div>
             <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         </main>
     </body>
