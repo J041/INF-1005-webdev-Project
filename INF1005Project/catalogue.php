@@ -8,11 +8,9 @@
     <body>
         <?php
         include "nav.inc.php";
-        include "function.php";
         ?>
 
         <?php
-
             function check_if_bought_before($product_id){                
                 // Create database connection
                 $config = parse_ini_file('../private/db-config.ini');
@@ -418,7 +416,7 @@
             
             <?php
                 // check_if_bought_before(1);
-                // addtocart(1,2);
+                 addtocart(9,2);
                 // addreview(3, 'new test comment');
                 // editreviews(3,'editted');
                 // getreviews(3);

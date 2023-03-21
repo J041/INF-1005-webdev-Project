@@ -87,7 +87,7 @@ function identify_image_type($image_name, $path) {
     return "Not Found";
 }
 
-function add_to_cart($product_id, $quantity) {
+function addtocart($product_id, $quantity) {
     if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
         // Create database connection.
         $config = parse_ini_file('../private/db-config.ini');
