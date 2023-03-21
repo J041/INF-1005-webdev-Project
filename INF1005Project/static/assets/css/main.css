@@ -334,6 +334,10 @@ div .catalogue-button {
     padding: 10px 0px 30px;
 }
 
+.product-item-row:nth-child(7) .product-item-line form {
+    width: 100%;
+}
+
 .product-item-row:nth-child(7) .product-item-line button {
     width: 100%;
     padding: 7px 5px;

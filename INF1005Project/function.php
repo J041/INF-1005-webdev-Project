@@ -221,6 +221,11 @@ function addtocart($product_id, $quantity) {
     }
 }
 
+function redirect_page($url) {
+    echo "<script>window.location.href='". $url ."';</script>";
+    exit;
+}
+
 function logout() {
     session_unset();
     session_destroy();
