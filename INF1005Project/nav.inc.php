@@ -141,10 +141,10 @@
                     // No active products in Database
                     $html_output .= '
                     
-                                    <div class="item nav-item pl-5 dropdown">
+                                    <div class="item nav-item dropdown">
                                         <a class="" href="/catalogue.php" role="dropdownCatalogue" id="dropdownCatalogue">
-                                            <span class="responsive_text">CATALOGUE</span>
                                             <i class="fa-solid fa-book"></i>
+                                            <span class="responsive_text">Catalogue</span>
                                         </a>
                                     </div>
                                     ';
@@ -158,10 +158,10 @@
                 } else {
                     $html_output .= '
                     
-                                    <div class="item nav-item pl-5 dropdown">
+                                    <div class="item nav-item dropdown">
                                         <a class="dropdown-toggle" href="#" role="dropdownCatalogue" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <span class="responsive_text">CATALOGUE</span>
                                             <i class="fa-solid fa-book"></i>
+                                            <span class="responsive_text">Catalogue</span>
                                         </a>
                                     <div class="navb-catalogue dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCatalogue">
                                         <form action="/catalogue.php" method="GET">
@@ -177,7 +177,7 @@
                             // . "<form action=\"/catalogue.php\" method=\"GET\">";
                     for ($i = 0; $i < count($category_array); $i++) {
                         $html_output .= '
-                                        <div class="row">
+                                        <div class="item row">
                                             <div class="col-xs-12">' . 
                                                 "<input type=\"submit\" name=\"search_bar\" value=\"" . $category_array[$i] . "\">" .
                                             '</div>
@@ -226,10 +226,10 @@
 
                 // Generating Backend Catalogue in HTML
                 $html_output .= '
-                                <div class="item nav-item pl-5">
+                                <div class="item nav-item">
                                     <a href="/catalogue_backend.php">
-                                        <span class="responsive_text">EDIT CATALOGUE</span>
-                                        <i class="fa-solid fa-info"></i>
+                                        <i class="fa-solid fa-book-open-reader"></i>
+                                        <span class="responsive_text">Edit Catalogue</span>
                                     </a>
                                 </div>
                                 ';
@@ -241,10 +241,10 @@
 
                 // Generating Admin Dashboard in HTML
                 $html_output .= '
-                                <div class="item nav-item pl-5">
+                                <div class="item nav-item">
                                     <a href="/admin_dashboard.php">
-                                        <span class="responsive_text">DASHBOARD</span>
-                                        <i class="fa-solid fa-desktop"></i>
+                                        <i class="fa-solid fa-chart-line"></i>
+                                        <span class="responsive_text">Dashboard</span>
                                     </a>
                                 </div>
                                 ';
@@ -261,10 +261,10 @@
 
                 // Generating Cart in HTML
                 $html_output .= '
-                                <div class="item nav-item pl-5">
+                                <div class="item nav-item">
                                     <a href="/cart.php">
-                                        <span class="responsive_text">CART</span>
                                         <i class="fa-solid fa-cart-shopping"></i>
+                                        <span class="responsive_text">Cart</span>
                                     </a>
                                 </div>
                                 ';
@@ -279,12 +279,12 @@
 
             function generate_aboutus($html_output) {
 
-                // Generating Cart in HTML
+                // Generating About Us in HTML
                 $html_output .= '
-                                <div class="item nav-item pl-5">
+                                <div class="item nav-item">
                                     <a href="/about_us.php">
-                                        <span class="responsive_text">ABOUT US</span>
-                                        <i class="fa-solid fa-info"></i>
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        <span class="responsive_text">About Us</span>
                                     </a>
                                 </div>
                                 ';
@@ -296,10 +296,10 @@
 
                 // Generating Login in HTML
                 $html_output .= '
-                                <div class="item nav-item pl-5">
+                                <div class="item nav-item">
                                     <a href="/login.php">
-                                        <span class="responsive_text">LOGIN</span>
                                         <i class="fa-solid fa-right-to-bracket"></i>
+                                        <span class="responsive_text">Login</span>
                                     </a>
                                 </div>
                                 ';
@@ -314,38 +314,29 @@
             }
 
             function generate_user_details($html_output, $username) {
-            // function generate_user_details($html_output) {
                 $html_output .= '
-                            <div class="item nav-item pl-5 dropdown">
+                            <div class="item nav-item dropdown">
                                 <a class="dropdown-toggle" href="#" role="dropdownProfile" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <span>' . $username . '</span>
                                     <i class="fa-solid fa-user"></i>
                                 </a>
                                 <div class="navb-profile dropdown-menu dropdown-menu-right" aria-labelledby="dropdownProfile">
-                                    <!--
-                                    <div class="item nav-item">
-                                        <a href="/profile.php">
-                                            <span>VIEW PROFILE</span>
-                                            <i class="fa-solid fa-user"></i>
-                                        </a>
-                                    </div>
-                                    -->
                                     <div class="item nav-item">
                                         <a href="/updateprofile.php">
-                                            <span>UPDATE PROFILE</span>
                                             <i class="fa-solid fa-user-pen"></i>
+                                            <span>Update Profile</span>
                                         </a>
                                     </div>
                                     <div class="item nav-item">
                                         <a href="/order_history.php">
-                                            <span>ORDER HISTORY</span>
                                             <i class="fa-regular fa-pen-to-square"></i>
+                                            <span>Order History</span>
                                         </a>
                                     </div>
                                     <div class="item nav-item">
                                         <a href="/logout.php">
-                                            <span>LOGOUT</span>
                                             <i class="fa-solid fa-right-from-bracket"></i>
+                                            <span>Logout</span>
                                         </a>
                                     </div>
                                 </div>
@@ -498,6 +489,7 @@
                     $navbar_output = generate_search($navbar_output);
                     $navbar_output = generate_catalogue($navbar_output);
                     $navbar_output = generate_dashboard($navbar_output);
+                    $navbar_output = generate_cataloguebackend($navbar_output);
                     $navbar_output = generate_aboutus($navbar_output);
                     $navbar_output = generate_user_details($navbar_output, $username);
                     $navbar_output = closing_divs($navbar_output);

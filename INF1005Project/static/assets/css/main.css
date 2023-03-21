@@ -140,7 +140,9 @@ nav .container-fluid .row .navb-items .navbar-nav .navb-items-box{
 }
 
 nav .container-fluid .row .navb-items .row .item {
-    padding-left: 40px;
+    padding-left: 27px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 nav .container-fluid .row .navb-items .row .item:hover, nav .container-fluid .row .navb-items .row .item a:hover{
@@ -155,7 +157,7 @@ nav .container-fluid .row .navb-items .row .item a i, nav .container-fluid .row 
 
 nav .container-fluid .row .navb-items .row .item .navb-profile, nav .container-fluid .row .navb-items .row .item .navb-catalogue {
     margin-top: 8px;
-    width: 15vw;
+    width: 18vw;
 }
 
 nav .container-fluid .row .navb-items .row .item .navb-catalogue {
@@ -171,12 +173,13 @@ nav .container-fluid .row .navb-items .row .item .navb-catalogue .row {
     margin-left: 1px;
 }
 
-nav .container-fluid .row .navb-items .row .item .navb-profile .row div, nav .container-fluid .row .navb-items .row .item .navb-catalogue .row div {
-    padding: 5px 0px;
+nav .container-fluid .row .navb-items .row .item .navb-profile div a i, nav .container-fluid .row .navb-items .row .item .navb-catalogue div a i, nav .container-fluid .row .navb-items .row .item i {
+    font-size: 20px;
+    padding-right: 10px;
 }
 
-nav .container-fluid .row .navb-items .row .item .navb-profile .row div input, nav .container-fluid .row .navb-items .row .item .navb-catalogue .row div input {
-    font-size: 14px;
+nav .container-fluid .row .navb-items .row .item .navb-profile div a span, nav .container-fluid .row .navb-items .row .item .navb-catalogue .row div input {
+    font-size: 15px;
     font-weight: 200;
     border: none;
     margin-left: 20px;
