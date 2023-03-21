@@ -48,7 +48,7 @@
                             if (sanitize_regex_alpha($first_char) == "Unidentified Character") {
                                 array_push($error_msg, "Please enter a Product Name that begins with an alphabet.");
                             }
-                            
+
                             // Check for unspecified characters
                             if ($sanitize_output == "Unidentified Character") {
                                 $output_msg = "$sanitize_output found in Product Name.";
@@ -132,7 +132,7 @@
                             if ($active < 0 || $active > 1) {
                                 array_push($error_msg, "Please select an indicator from the dropdown.1");
                             }
-                            
+
                             // Checks for unspecified characters
                             $sanitize_output = sanitize_regex_int($float_array[$i]);
 
@@ -157,7 +157,6 @@
                     $img_file_tmp = $_FILES['product_img_file']['tmp_name'];
                     $img_file_ext = strtolower(end(explode('.', $_FILES['product_img_file']['name'])));
 //                    echo $img_file_name_full . '<br>', $img_file_name . '<br>', $img_file_size . '<br>', $img_file_tmp . '<br>', $img_file_ext . '<br>';
-
                     // Accepted file extensions
                     $extensions = array("jpeg", "jpg", "png");
 
@@ -198,7 +197,7 @@
                         move_uploaded_file($img_file_tmp, "static/assets/img/products/" . $img_file_name_full);
                     }
                 }
-                
+
                 if (isset($_FILES['product_cat_img_file'])) {
                     // Indicates if error has occurred
                     $indicator = 0;
@@ -210,7 +209,6 @@
                     $img_cat_file_tmp = $_FILES['product_cat_img_file']['tmp_name'];
                     $img_cat_file_ext = strtolower(end(explode('.', $_FILES['product_cat_img_file']['name'])));
 //                    echo $img_file_name_full . '<br>', $img_file_name . '<br>', $img_file_size . '<br>', $img_file_tmp . '<br>', $img_file_ext . '<br>';
-
                     // Accepted file extensions
                     $extensions = array("jpeg", "jpg", "png");
 
@@ -372,11 +370,11 @@
                                     <label class="" for="product_category">Product Category: </label>
                                     <input class="" type="text" name="product_category" list="backend_catalouge_product_cat" placeholder="E.g. Eggs and Diary Products" aria-labelledby="product_category" required>
                                     <datalist id="backend_catalouge_product_cat">
-                                    <?php
-                                    for ($i = 0; $i < sizeof($category_array); $i++) {
-                                        echo "<option value=\"" . $category_array[$i] . "\">";
-                                    }
-                                    ?>
+                                        <?php
+                                        for ($i = 0; $i < sizeof($category_array); $i++) {
+                                            echo "<option value=\"" . $category_array[$i] . "\">";
+                                        }
+                                        ?>
                                     </datalist>
                                 </div>
 
@@ -424,6 +422,8 @@
 
             <?php
             // Code to display all products stored in the 'Products' table.
+            $html_output = "";
+
             // Create database connection.
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
@@ -445,233 +445,321 @@
             // Output Query Results into results_array.
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    array_push($results_array, array($row["product_id"], $row["product_name"], $row["product_desc"], $row["product_category"], $row["quantity"], number_format($price_string, 2, '.', ''), $row["is_active"], $row["created_at"]));
+                    array_push($results_array, array($row["product_id"], $row["product_name"], $row["product_desc"], $row["product_category"], $row["quantity"], number_format($row["price"], 2, '.', ''), $row["is_active"], $row["created_at"]));
                 }
             }
-            ?>
 
-            <div class="backend-catalogue-data row">              
-                <table class="table table-striped table-hover table-responsive-xl">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Active?</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $html_output = "";
 
-                        // Output Products into HTML Table
-                        for ($i = 0; $i < sizeof($results_array); $i++) {
-                            // Highlight rows with product quantity <= 30
-                            if ($results_array[$i][4] <= 30) {
-                                $html_output .= "<tr class=\"table-warning\">";
-                            } else {
-                                $html_output .= "<tr>";
-                            }
-                            $html_output .= "<td scope=\"row\">" . $results_array[$i][0] . "</td>"
-                                    . "<td>" . $results_array[$i][1] . "</td>"
-                                    . "<td>" . $results_array[$i][3] . "</td>"
-                                    . "<td>" . $results_array[$i][4] . "</td>";
-                            if ($results_array[$i][6] == 0) {
-                                $html_output .= "<td class=\"text-danger font-weight-bold\">Inctive</td>";
-                            } else {
-                                $html_output .= "<td class=\"text-success font-weight-bold\">Active</td>";
-                            }
-                            $html_output .= "<td>"
-                                    . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#backend_catalogue_item_" . $results_array[$i][0] . "\">Details</button>"
-                                    . "</td>"
-                                    . "</tr>";
-                        }
+            $html_output .= '
 
-                        echo $html_output;
-                        ?>
-                    </tbody>
-                </table>
-            </div>
+                                                <div class="backend-catalogue-data row">              
+                                                    <table class="table table-striped table-hover table-responsive-xl">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Name</th>
+                                                                <th scope="col">Category</th>
+                                                                <th scope="col">Quantity</th>
+                                                                <th scope="col">Active?</th>
+                                                                <th scope="col"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
 
-            <div aria-hidden="true" aria-labelledby="backend_catalogue_item_11" class="product-item modal fade" id="backend_catalogue_item_11" role="dialog"tabindex="-1">
-                <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="backend-product-item-btn row">
-                                    <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
-                                </div>
+                            ';
 
-                                <div class="backend-catalogue-details-header row">
-                                    <div class="col-md-12 col-xl-6">
-                                        <h1>Product ID: #1</h1>
-                                    </div>
-                                    <div class="col-md-12 col-xl-6">
-                                        <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-pen"></i>&nbsp; Edit </button>
-                                        <button class="btn btn-outline-secondary d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
-                                    </div>
-                                </div>
+            // Output Products into HTML Table
+            for ($i = 0; $i < sizeof($results_array); $i++) {
+                // Highlight rows with product quantity <= 30
+                if ($results_array[$i][4] <= 30) {
+                    $html_output .= "<tr class=\"table-warning\">";
+                } else {
+                    $html_output .= "<tr>";
+                }
+                $html_output .= "<td scope=\"row\">" . $results_array[$i][0] . "</td>"
+                        . "<td>" . $results_array[$i][1] . "</td>"
+                        . "<td>" . $results_array[$i][3] . "</td>"
+                        . "<td>" . $results_array[$i][4] . "</td>";
+                if ($results_array[$i][6] == 0) {
+                    $html_output .= "<td class=\"text-danger font-weight-bold\">Inctive</td>";
+                } else {
+                    $html_output .= "<td class=\"text-success font-weight-bold\">Active</td>";
+                }
+                $html_output .= "<td>"
+                        . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#backend_catalogue_item_" . $results_array[$i][0] . "\">Details</button>"
+                        . "</td>"
+                        . "</tr>";
+            }
 
-                                <div class="backend-product-details-display d-none"> 
-                                    <div class="backend-product-details-display-row row">
-                                        <div class="col-md-12 col-xl-6">
-                                            <h2>Ferrero Rocher</h2>
-                                        </div>
-                                        <div class="col-md-12 col-xl-6">
-                                            <h3>Sweets and Snacks</h3>
-                                        </div>
-                                    </div>
-
-                                    <div class="backend-product-details-display-row row">
-                                        <div class="backend-product-item-img-row col-md-12 col-xl-6">
-                                            <div class="col-md-12 col-xl-12">
-                                                <h4>Product Image:</h4>
-                                            </div>
-                                            <div class="backend-product-item-img col-md-12 col-xl-12">
-                                                <img alt="img_sweets" src="static/assets/img/products/sweets.png">
-                                            </div>
-                                        </div>
-                                        <div class="backend-product-item-img-row col-md-12 col-xl-6">
-                                            <div class="col-md-12 col-lg-12">
-                                                <h4>Product Category Image:</h4>
-                                            </div>
-                                            <div class="backend-product-item-img col-md-12 col-xl-12">
-                                                <img alt="img_cat_Sweets and Snacks" src="static/assets/img/home/Sweets and Snacks.png">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="backend-product-details-display-row row">
-                                        <div class="backend-product-item col-md-12 col-xl-4">
-                                            <div class="col-lg-12">
-                                                <h4>Product Description: </h4>
-                                                <p>sweets are sweet.</p>
-                                            </div>
-                                        </div>
-                                        <div class="backend-product-item col-md-12 col-xl-4">
-                                            <div class="col-lg-12">
-                                                <h4>Quantity: </h4>
-                                                <p>1000</p>
-                                            </div>
-                                        </div>
-                                        <div class="backend-product-item col-md-12 col-xl-4">
-                                            <div class="col-lg-12">
-                                                <h4>Price: </h4>
-                                                <p>SGD $1.00</p>
-                                            </div>
-                                        </div>
-                                        <div class="backend-product-item col-md-12 col-xl-4">
-                                            <div class="col-lg-12">
-                                                <h4>Active? </h4>
-                                                <p>Active</p>
-                                            </div>
-                                        </div>
-                                        <div class="backend-product-item col-md-12 col-xl-4">
-                                            <div class="col-lg-12">
-                                                <h4>Created At: </h4>
-                                                <p>2020-11-11 09:09:09</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="backend-product-details-edit">
-                                    <form action="/catalogue_backend.php" method="POST">
-                                        <div class="backend-product-details-display-row row">
-                                            <div class="col-md-12 col-xl-6">
-                                                <label class="" for="product_name_edit">Product Name: </label>
-                                                <input class="" type="text" name="product_name_edit" value="Ferrero Rocher" placeholder="Product Name: " aria-labelledby="product_name_edit" required>
-                                            </div>
-                                            <div class="col-md-12 col-xl-6">
-                                                <label class="" for="product_category_edit">Product Category: </label>
-                                                <input class="" type="text" name="product_category_edit" value="Sweets and Snacks" list="backend_catalouge_product_cat_edit" placeholder="Product Category: " aria-labelledby="product_category_edit" required>
-                                                <datalist id="backend_catalouge_product_cat_edit">
-                                                <?php
-                                                for ($i = 0; $i < sizeof($category_array); $i++) {
-                                                    echo "<option value=\"" . $category_array[$i] . "\">";
-                                                }
-                                                ?>
-                                                </datalist>
-                                            </div>
-                                        </div>
-
-                                        <div class="backend-product-details-edit-row row">
-                                            <div class="backend-product-item-img-row col-md-12 col-xl-6">
-                                                <div class="col-md-12 col-xl-12">
-                                                    <label class="" for="product_img_file_edit">Product Image: </label>
+            $html_output .= '
+                                                    </tbody>
+                                                    </table>
                                                 </div>
-                                                <div class="col-md-12 col-xl-12">
-                                                    <input class="" type="file" name="product_img_file_edit" aria-labelledby="product_img_file_edit">
-                                                </div>
-                                            </div>
-                                            <div class="backend-product-item-img-row col-md-12 col-xl-6">
-                                                <div class="col-md-12 col-lg-12">
-                                                    <label class="" for="product_cat_img_file_edit">Product Category Image: </label>
-                                                </div>
-                                                <div class="col-md-12 col-xl-12">
-                                                    <input class="" type="file" name="product_cat_img_file_edit" aria-labelledby="product_cat_img_file_edit">
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="backend-product-details-edit-row row">
-                                            <div class="backend-product-item-edit col-md-12 col-xl-4">
-                                                <div class="col-lg-12">
-                                                    <label class="" for="product_desc_edit">Product Description: </label>
-                                                    <input class="" type="text" name="product_desc_edit" value="sweets are sweet." placeholder="E.g. 2023 Calendar" aria-labelledby="product_desc_edit" required>
-                                                </div>
-                                            </div>
-                                            <div class="backend-product-item-edit col-md-12 col-xl-4">
-                                                <div class="col-lg-12">
-                                                    <label class="" for="quantity_edit">Quantity: </label>
-                                                    <input class="" type="number" name="quantity_edit" value="1000" placeholder="E.g. 150" aria-labelledby="quantity_edit" required>
-                                                </div>
-                                            </div>
-                                            <div class="backend-product-item-edit col-md-12 col-xl-4">
-                                                <div class="col-lg-12">
-                                                    <label class="" for="price_edit">Price: </label>
-                                                    <input class="" type="text" name="price_edit" value="1" placeholder="E.g. '3.20' for $3.20" aria-labelledby="price_edit" required>
-                                                </div>
-                                            </div>
-                                            <div class="backend-product-item-edit col-md-12 col-xl-4">
-                                                <div class="col-lg-12">
-                                                    <label class="" for="is_active_edit">Active? </label>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <select class="form-select" name="is_active_edit" aria-label="active_product_indicator_edit" aria-labelledby="active_product_indicator_edit">
-                                                        <option value="1">Active</option>
-                                                        <option value="0">Inactive</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="backend-product-item-edit col-md-12 col-xl-4">
-                                                <div class="col-lg-12">
-                                                    <label class="">Created At: </label>
-                                                    <p>2020-11-11 09:09:09</p>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="backend-catalogue-edit-form-save col-md-12 col-lg-12">
-                                                <button class="btn btn-outline-success" tabindex="0" name="edit_product" role="button" aria-pressed="false"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Update </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                            ';
+            // Output Products Detaisl into its respective HTML Modals
+            for ($i = 0; $i < sizeof($results_array); $i++) {
+                $html_output .= "<div aria-hidden=\"true\" aria-labelledby=\"backend_catalogue_item_" . $results_array[$i][0] . "\" class=\"product-item modal fade\" id=\"backend_catalogue_item_" . $results_array[$i][0] . "\" role=\"dialog\" tabindex=\"-1\">";
+                
+                $html_output .= '
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="backend-product-item-btn row">
+                        <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
 
+                    <div class="backend-catalogue-details-header row">
+                        <div class="col-md-12 col-xl-6">
+                            ';
+
+                $html_output .= "<h1>Product ID: #" . $results_array[$i][0] . "</h1>";
+
+                $html_output .= '
+                        </div>
+                        <div class="col-md-12 col-xl-6">
+                            <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-pen"></i>&nbsp; Edit </button>
+                            <button class="btn btn-outline-secondary d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
+                        </div>
+                    </div>
+
+                    <div class="backend-product-details-display d-none"> 
+                        <div class="backend-product-details-display-row row">
+                            <div class="col-md-12 col-xl-6">
+                            ';
+
+                $html_output .= "<h2>" . $results_array[$i][1] . "</h2>";
+
+                $html_output .= '
+                        </div>
+                        <div class="col-md-12 col-xl-6">
+                            ';
+
+                $html_output .= "<h3>" . $results_array[$i][3] . "</h3>";
+
+                $html_output .= '
+                        </div>
+                    </div>
+
+                    <div class="backend-product-details-display-row row">
+                        <div class="backend-product-item-img-row col-md-12 col-xl-6">
+                            <div class="col-md-12 col-xl-12">
+                                <h4>Product Image:</h4>
+                            </div>
+                            <div class="backend-product-item-img col-md-12 col-xl-12">
+                            ';
+
+                $html_output .= "<img alt=\"img_" . $results_array[$i][1] . "\" src=\"" . identify_image_type($results_array[$i][1], "static/assets/img/products/") . "\">";
+
+                $html_output .= '
+                            </div>
+                        </div>
+                        <div class="backend-product-item-img-row col-md-12 col-xl-6">
+                            <div class="col-md-12 col-lg-12">
+                                <h4>Product Category Image:</h4>
+                            </div>
+                            <div class="backend-product-item-img col-md-12 col-xl-12">
+                            ';
+
+                $html_output .= "<img alt=\"img_cat" . $results_array[$i][3] . "\" src=\"" . identify_image_type($results_array[$i][3], "static/assets/img/home/") . "\">";
+
+                $html_output .= '
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="backend-product-details-display-row row">
+                        <div class="backend-product-item col-md-12 col-xl-4">
+                            <div class="col-lg-12">
+                                <h4>Product Description: </h4>
+                            ';
+
+                $html_output .= "<p>" . $results_array[$i][2] . "</p>";
+
+                $html_output .= '
+                            </div>
+                        </div>
+                        <div class="backend-product-item col-md-12 col-xl-4">
+                            <div class="col-lg-12">
+                                <h4>Quantity: </h4>
+                            ';
+
+                $html_output .= "<p>" . $results_array[$i][4] . "</p>";
+
+                $html_output .= '
+                            </div>
+                        </div>
+                        <div class="backend-product-item col-md-12 col-xl-4">
+                            <div class="col-lg-12">
+                                <h4>Price: </h4>
+                            ';
+
+                $html_output .= "<p> SGD $" . $results_array[$i][5] . "</p>";
+
+                $html_output .= '
+                            </div>
+                        </div>
+                        <div class="backend-product-item col-md-12 col-xl-4">
+                            <div class="col-lg-12">
+                                <h4>Active? </h4>
+                            ';
+
+                if ($results_array[$i][6] == 0) {
+                    $html_output .= "<p>Inactive</p>";
+                } else {
+                    $html_output .= "<p>Active</p>";
+                }
+
+                $html_output .= '
+                            </div>
+                        </div>
+                        <div class="backend-product-item col-md-12 col-xl-4">
+                            <div class="col-lg-12">
+                                <h4>Created At: </h4>
+                            ';
+
+                $html_output .= "<p>" . $results_array[$i][7] . "</p>";
+
+                $html_output .= '
                             </div>
                         </div>
                     </div>
                 </div>
+                            ';
+                
+                $html_output .= '
+                <div class="backend-product-details-edit">
+                        <form action="/catalogue_backend.php" method="POST" enctype="multipart/form-data">
+                            <div class="backend-product-details-display-row row">
+                                <div class="col-md-12 col-xl-6">
+                                    <label class="" for="product_name_edit">Product Name: </label>
+                            ';
+                
+                $html_output .= "<input class=\"\" type=\"text\" name=\"product_name_edit\" value=\"". $results_array[$i][1] ."\" placeholder=\"E.g. Calendar \" aria-labelledby=\"product_name_edit\" required>";
+                
+                $html_output .= '
+                                </div>
+                                <div class="col-md-12 col-xl-6">
+                                    <label class="" for="product_category_edit">Product Category: </label>
+                            ';
+                
+                $html_output .= "<input class=\"\" type=\"text\" name=\"product_category_edit\" value=\"". $results_array[$i][3] ."\" list=\"backend_catalouge_product_cat_edit\" placeholder=\"E.g. Eggs and Diary Products \" aria-labelledby=\"product_category_edit\" required>";
+                $html_output .= "<datalist id=\"backend_catalouge_product_cat_edit\">";
+                for ($k = 0; $k < sizeof($category_array); $k++) {
+                    $html_output .= "<option value=\"" . $category_array[$k] . "\">";
+                }
+                
+                $html_output .= '
+                                    </datalist>
+                                </div>
+                            </div>
+
+                            <div class="backend-product-details-edit-row row">
+                                <div class="backend-product-item-img-row col-md-12 col-xl-6">
+                                    <div class="col-md-12 col-xl-12">
+                                        <label class="" for="product_img_file_edit">Product Image: </label>
+                                    </div>
+                                    <div class="col-md-12 col-xl-12">
+                                        <input class="" type="file" name="product_img_file_edit" aria-labelledby="product_img_file_edit">
+                                    </div>
+                                </div>
+                                <div class="backend-product-item-img-row col-md-12 col-xl-6">
+                                    <div class="col-md-12 col-lg-12">
+                                        <label class="" for="product_cat_img_file_edit">Product Category Image: </label>
+                                    </div>
+                                    <div class="col-md-12 col-xl-12">
+                                        <input class="" type="file" name="product_cat_img_file_edit" aria-labelledby="product_cat_img_file_edit">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="backend-product-details-edit-row row">
+                                <div class="backend-product-item-edit col-md-12 col-xl-4">
+                                    <div class="col-lg-12">
+                                        <label class="" for="product_desc_edit">Product Description: </label>
+                            ';
+                
+                $html_output .= "<input class=\"\" type=\"text\" name=\"product_desc_edit\" value=\"". $results_array[$i][2] ."\" placeholder=\"E.g. 2023 Calendar\" aria-labelledby=\"product_desc_edit\" required>";
+                
+                $html_output .= '
+                                    </div>
+                                </div>
+                                <div class="backend-product-item-edit col-md-12 col-xl-4">
+                                    <div class="col-lg-12">
+                                        <label class="" for="quantity_edit">Quantity: </label>
+                            ';
+                
+                $html_output .= "<input class=\"\" type=\"number\" name=\"quantity_edit\" value=\"". $results_array[$i][4] ."\" placeholder=\"E.g. 150\" aria-labelledby=\"quantity_edit\" required>";
+                
+                $html_output .= '
+                                    </div>
+                                </div>
+                                <div class="backend-product-item-edit col-md-12 col-xl-4">
+                                    <div class="col-lg-12">
+                                        <label class="" for="price_edit">Price: </label>
+                            ';
+                
+                $html_output .= "<input class=\"\" type=\"number\" name=\"price_edit\" value=\"". $results_array[$i][5] ."\" placeholder=\"E.g. '3.20' for $3.20\" aria-labelledby=\"price_edit\" required>";
+                
+                $html_output .= '
+                                    </div>
+                                </div>
+                                <div class="backend-product-item-edit col-md-12 col-xl-4">
+                                    <div class="col-lg-12">
+                                        <label class="" for="is_active_edit">Active? </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <select class="form-select" name="is_active_edit" aria-label="active_product_indicator_edit" aria-labelledby="active_product_indicator_edit">
+                                            <option value="1">Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="backend-product-item-edit col-md-12 col-xl-4">
+                                    <div class="col-lg-12">
+                                        <label class="">Created At: </label>
+                            ';
+                
+                $html_output .= "<input class=\"\" type=\"number\" name=\"quantity_edit\" value=\"". $results_array[$i][7] ."\" placeholder=\"E.g. 150\" aria-labelledby=\"quantity_edit\" required>";
+                
+                $html_output .= '
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="backend-catalogue-edit-form-save col-md-12 col-lg-12">
+                            ';
+                
+                $html_output .= "<button class=\"btn btn-outline-success\" tabindex=\"0\" name=\"edit_product_". $results_array[$i][0] ."\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-floppy-disk\"></i>&nbsp; Update </button>";
+                
+                $html_output .= '
+                                 </div>
+                            </div>
+                        </form>
+                    </div>
+                            ';
+                
+                // Modal Closing Tags
+                $html_output .= '
+                </div>
             </div>
+        </div>
+    </div>
+</div>
+                            ';
+            }
+
+            echo $html_output;
+            ?>
+
 
         </div>
 
-            <?php
-            include "footer.inc.php";
-            ?>
+        <?php
+        include "footer.inc.php";
+        ?>
     </body>
 </html>
