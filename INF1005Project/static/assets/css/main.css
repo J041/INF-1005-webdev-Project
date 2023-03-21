@@ -24,7 +24,7 @@ a:hover {
     color: currentColor;
 }
 
-/* Decreasing z-index of First Caoursel to allow Navbar to supersede it */
+/* Decreasing z-index of First Carousel to allow Navbar to supersede it */
 .indexPromoCarousel {
     z-index: 0
 }
@@ -885,3 +885,20 @@ div .catalogue-button {
     }
 }
 
+/*Admin Dashboard CSS Start*/
+.panel {
+    border-style: solid;
+    border-color: red;
+    border-width: 2px;
+}
+
+.panel-heading .header{
+    margin-bottom: 0px;
+}
+
+.panel-heading hr {
+    margin-top: 0px;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+}
+/*Admin Dashboard CSS End*/
