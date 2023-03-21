@@ -6,6 +6,7 @@
         ?>
         <?php
             $all_time_top10_items_array = [];
+            $store_revenue_by_month_array = [];
                     
             // Create database connection.
             $config = parse_ini_file('../private/db-config.ini');
@@ -35,55 +36,41 @@
             $all_time_top10_items_result = $all_time_top10_items_stmt->get_result();
             if ($all_time_top10_items_result->num_rows > 0) {
                 while ($row = $all_time_top10_items_result->fetch_assoc()) {
-//                    array_push($all_time_top10_items_array, array("x"=>$row["product_name"], "y"=>$row["quantity_sold"]));
+                    array_push($all_time_top10_items_array, array($row["product_name"], $row["quantity_sold"]));
                 }
             }
             
-            for ($i = 0; $i < count($all_time_top10_items_array); $i+=1) {
-                echo implode(",", $all_time_top10_items_array[$i]);
-            }
-//            
-//            for ($i = 0; $i < count($columnDataPoints); $i+=1) {
-//                echo $columnDataPoints[$i];
-//                "<br>";
-//            }
-//            $columnDataPoints = 
-//            [array("x"=> 10, "y"=> 41),
-//            array("x"=> 20, "y"=> 35, "indexLabel"=> "Lowest"),
-//            array("x"=> 30, "y"=> 50),
-//            array("x"=> 40, "y"=> 45),
-//            array("x"=> 50, "y"=> 52),
-//            array("x"=> 60, "y"=> 68),
-//            array("x"=> 70, "y"=> 38),
-//            array("x"=> 80, "y"=> 71, "indexLabel"=> "Highest"),
-//            array("x"=> 90, "y"=> 52),
-//            array("x"=> 100, "y"=> 60),
-//            array("x"=> 110, "y"=> 36),
-//            array("x"=> 120, "y"=> 49),
-//            array("x"=> 130, "y"=> 41)];
+            $store_revenue_by_month_stmt = $conn->prepare("SELECT SUM(mydb.Cart_Item.price) AS monthly_revenue, YEAR(mydb.Order_History.order_at) AS \"YEAR\", MONTH(mydb.Order_History.order_at) AS \"MONTH\"
+                                                           FROM mydb.Cart_Item 
+                                                           INNER JOIN mydb.Order_History 
+                                                           ON mydb.Cart_Item.Order_History_order_id=mydb.Order_History.order_id
+                                                           WHERE mydb.Order_History.purchased=? AND mydb.Order_History.order_at > now() - INTERVAL 12 MONTH
+                                                           GROUP BY YEAR(mydb.Order_History.order_at), MONTH(mydb.Order_History.order_at);");
             
-            $lineDataPoints = array(
-            array("x" => 946665000000, "y" => 3289000),
-            array("x" => 978287400000, "y" => 3830000),
-            array("x" => 1009823400000, "y" => 2009000),
-            array("x" => 1041359400000, "y" => 2840000),
-            array("x" => 1072895400000, "y" => 2396000),
-            array("x" => 1104517800000, "y" => 1613000),
-            array("x" => 1136053800000, "y" => 1821000),
-            array("x" => 1167589800000, "y" => 2000000),
-            array("x" => 1199125800000, "y" => 1397000),
-            array("x" => 1230748200000, "y" => 2506000),
-            array("x" => 1262284200000, "y" => 6704000),
-            array("x" => 1293820200000, "y" => 5704000),
-            array("x" => 1325356200000, "y" => 4009000),
-            array("x" => 1356978600000, "y" => 3026000),
-            array("x" => 1388514600000, "y" => 2394000),
-            array("x" => 1420050600000, "y" => 1872000),
-            array("x" => 1451586600000, "y" => 2140000));
-             
+            $store_revenue_by_month_stmt->bind_param("i", $purchased);
+            $store_revenue_by_month_stmt->execute();
+            
+            $store_revenue_by_month_result = $store_revenue_by_month_stmt->get_result();
+            if ($store_revenue_by_month_result->num_rows > 0) {
+                while ($row = $store_revenue_by_month_result->fetch_assoc()) {
+                    array_push($store_revenue_by_month_array, array($row["monthly_revenue"], $row["YEAR"], $row["MONTH"]));
+                }
+            }
+            
+            $conn->close(); 
         ?>
         <script>
         window.onload = function () {
+            var columnChartData = [];
+            var lineChartData = [];
+            
+            const columnChartPHPData = <?php echo json_encode($all_time_top10_items_array, JSON_NUMERIC_CHECK); ?>
+            
+            for (let index = 0; index < columnChartPHPData.length; index++) {
+                console.log(columnChartPHPData[index]);
+                var productName = columnChartPHPData[index][0].charAt(0).toUpperCase() + columnChartPHPData[index][0].slice(1);
+                columnChartData.push({label: productName, y: columnChartPHPData[index][1]});
+            }
 
             var columnChart = new CanvasJS.Chart("columnChartContainer", {
                 animationEnabled: true,
@@ -95,20 +82,30 @@
                 },
                 data: [{
                     type: "column", //change type to bar, line, area, pie, etc
-                    //indexLabel: "{y}", //Shows y value on all Data Points
+                    indexLabel: "{y}", //Shows y value on all Data Points
                     indexLabelFontColor: "#5A5757",
                     indexLabelPlacement: "outside",
-                    dataPoints: <?php echo json_encode($all_time_top10_items_array, JSON_NUMERIC_CHECK); ?>
+                    dataPoints: columnChartData
                 }]
             });
+//-----------------------------------------------------------------------------------------------------------------------
+            const lineChartPHPData = <?php echo json_encode($store_revenue_by_month_array, JSON_NUMERIC_CHECK); ?>
             
+            for (let index = 0; index < lineChartPHPData.length; index++) {
+                console.log(lineChartPHPData[index]);
+                var month = lineChartPHPData[index][2];
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                var yearMonth = lineChartPHPData[index][1] + "-" + month;
+                lineChartData.push({label: yearMonth, y: lineChartPHPData[index][0]});
+            }
+           
             var lineChart = new CanvasJS.Chart("lineChartContainer", {
                 animationEnabled: true,
                 backgroundColor: "transparent",
                 axisY: {
-                        title: "Revenue in USD",
-                        valueFormatString: "#0,,.",
-                        suffix: "mn",
+                        title: "Revenue in SGD",
                         prefix: "$"
                 },
                 data: [{
@@ -117,12 +114,11 @@
                         xValueFormatString: "YYYY",
                         yValueFormatString: "$#,##0.##",
                         xValueType: "dateTime",
-                        dataPoints: <?php echo json_encode($lineDataPoints, JSON_NUMERIC_CHECK); ?>
+                        dataPoints: lineChartData
                 }]
             });
             columnChart.render();
             lineChart.render();
- 
         };
     </script>
     </head>
