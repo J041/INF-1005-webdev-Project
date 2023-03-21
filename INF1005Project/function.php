@@ -237,9 +237,9 @@ function logout() {
 }
 
 function UpdateUser($new_username, $old_password, $new_password) {
-    mysqli_error(MYSQLI_ERROR_OFF);
-    ini_set("display_errors", 1);
-    error_reporting(E_ALL);
+    // mysqli_error(MYSQLI_ERROR_OFF);
+    // ini_set("display_errors", 1);
+    // error_reporting(E_ALL);
 
     session_start();
     // Create database connection.
