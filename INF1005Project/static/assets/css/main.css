@@ -608,9 +608,15 @@ div .catalogue-button {
     position:absolute;
     background: rgba(0, 0, 0, 0.3);
 }
-.checkout button{
+.checkout #deletecart, .checkout #reducecart{
     position:relative;
     z-index: 1;
+}
+.checkout .quantityupdate{
+    font-size:15px;
+    height:auto;
+    width:15px;
+    padding:0px;
 }
 
 /*Start Home Page CSS - Keefe*/
