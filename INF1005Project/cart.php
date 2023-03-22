@@ -8,6 +8,7 @@
     <body>
         <?php
         include "nav.inc.php";
+        include "function.php";
         ?>
         
         <main class="container checkout">
@@ -18,10 +19,10 @@
                 <h4></h4>
             </div>
             <hr>
-
+            
             <?php
                 $prodid = $orderid = "";
-                if ($_SERVER["REQUEST_METHOD"] == "POST")
+                if (isset($_POST["remove"]))//($_SERVER["REQUEST_METHOD"] == "POST")
                 {
                     $prodid = $_POST['cartprodid'];
                     $orderid = $_POST['cartorderid'];
@@ -42,8 +43,19 @@
                     }
                     $conn->close();
                 }
+                
+                if (isset($_POST["add"]))
+                {
+                    $prodid = $_POST['cartprodid'];
+                    addtocart($prodid,1);
+                }
+                if (isset($_POST["removecart"]))
+                {
+                    $prodid = $_POST['cartprodid'];
+                    remoevfromcart($prodid,1);
+                }
             ?>
-                                   
+                
             <?php         
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'],
@@ -91,11 +103,15 @@
                             <img src='static/assets/img/products/".$row["product_name"].".jpg'"
                                 . " alt='".$row["product_name"].".jpg'>
                             <p>".$row["product_name"]."</p></div>";
-                        echo "<h4>".$row["quantity"]."</h4>";
+                        echo "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">" 
+                        ."<h4><button class='quantityupdate' name='removecart' id='reducecart'>-</button>";
+                        echo $row["quantity"];
+                        echo "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">"
+                         ."<button class='quantityupdate addcart' name='add'>+</button></h4>";
                         echo "<h4>$".$row["price"]."</h4>"
                                 . "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">"
                                 . "<input type='hidden' name='cartorderid' value=".$row["Order_History_order_id"].">"
-                                . "<h4><button type='submit'>X</button></h4></div></form>";                        
+                                . "<h4><button type='submit' name='remove' id='deletecart'>X</button></h4></div></form>";                        
                     }
                     echo "</div>";
                     $conn->close();
