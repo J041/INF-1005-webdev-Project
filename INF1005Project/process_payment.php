@@ -150,7 +150,7 @@
                             $stmt2->bind_param("s",$email);
                             if (!$stmt2->execute()){
                                 $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-                                echo "<h3>Payment Unsuccessul</h3>";
+                                echo "<h3>Payment Unsuccessful</h3>";
                                 echo "<h4>Please return to our payment page<a href='payment.php'> here </a>to resolve the following issues:</h4>";
                                 echo $errorMsg;
                             } else {
