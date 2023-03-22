@@ -65,7 +65,7 @@
                                                         <input class="search-bar" id="search_bar" type="text" name="search_bar" placeholder="Search for Products..." aria-labelledby="search_bar" data-toggle="tooltip" data-placement="bottom" title="Only alphanumeric and whitespaces allowed.">
                                                     </div>
                                                     <div class="col-xs-1">
-                                                        <button type="search" class="search-bar-icon btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                                        <button class="search-bar-icon btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
