@@ -9,7 +9,16 @@
         <?php
         include "nav.inc.php";
         ?>
-        
+        <?php 
+        if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
+            ;
+        } else {
+            echo    '<div class="alert alert-danger" role="alert">'.
+                        '<p>You must be logged in to access this page</p>' . 
+                    '</div>';
+            exit();
+        } 
+        ?>
         <main class="container paymentform">
             <h2>Payment</h2>
             <form action="process_payment.php" method="post">

@@ -10,6 +10,17 @@
         include "nav.inc.php";
         include "function.php";
         ?>
+        <?php 
+        if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
+            ;
+        } else {
+            echo    '<div class="alert alert-danger" role="alert">'.
+                        '<p>You must be logged in to access this page</p>' . 
+                    '</div>';
+            exit();
+        } 
+        ?>
+        
         
         <main class="container checkout">
             <div class="flexcontainer">
