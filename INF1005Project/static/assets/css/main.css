@@ -629,7 +629,6 @@ div .catalogue-button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -90%);
-    font-size: 4vw;
     width: 100%;
 }
 
@@ -1029,14 +1028,3 @@ div .catalogue-button {
     }
 
 }
-
-.panel-heading hr {
-    margin-top: 0px;
-    border: 2px solid lightgray;
-    border-radius: 5px;
-}
-
-
-
-
-/*Admin Dashboard CSS End*/
