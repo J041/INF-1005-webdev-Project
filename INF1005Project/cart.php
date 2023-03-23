@@ -55,7 +55,7 @@
                     remoevfromcart($prodid,1);
                 }
             ?>
-                
+                                  
             <?php         
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'],
@@ -98,17 +98,17 @@
                         {
                             $total += $row["price"] * $row["quantity"];
                         }
-                        echo "<div class='flexcontainer'>";
-                        echo "<div class='checkoutproduct'>
-                            <img src='static/assets/img/products/".$row["product_name"].".jpg'"
+                        echo "<div class='flexcontainer'>"
+                        . "<div class='checkoutproduct'>
+                                <img src='static/assets/img/products/".$row["product_name"].".jpg'"
                                 . " alt='".$row["product_name"].".jpg'>
-                            <p>".$row["product_name"]."</p></div>";
-                        echo "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">" 
-                        ."<h4><button class='quantityupdate' name='removecart' id='reducecart'>-</button>";
-                        echo $row["quantity"];
-                        echo "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">"
-                         ."<button class='quantityupdate addcart' name='add'>+</button></h4>";
-                        echo "<h4>$".$row["price"]."</h4>"
+                        <p>".$row["product_name"]."</p></div>"
+                        . "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">" 
+                        ."<h4><button class='quantityupdate' name='removecart' id='reducecart'>-</button> "
+                        . $row["quantity"]
+                        . "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">"
+                         ." <button class='quantityupdate addcart' name='add'>+</button></h4>"
+                        . "<h4>$".$row["price"]."</h4>"
                                 . "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">"
                                 . "<input type='hidden' name='cartorderid' value=".$row["Order_History_order_id"].">"
                                 . "<h4><button type='submit' name='remove' id='deletecart'>X</button></h4></div></form>";                        
