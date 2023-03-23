@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
@@ -26,10 +26,10 @@
 
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="static\assets\img\home\tortilla_new_arrival.jpg" class="d-block w-100" alt="Wild Landscape" style="width:auto; max-height:50%;"/>
+                            <img src="static/assets/img/home/tortilla_new_arrival.jpg" class="d-block w-100" alt="New Tortilla Product " style="width:auto; max-height:50%;">
                         </div>
                         <div class="carousel-item">
-                            <img src="static\assets\img\home\pepsi_promo.jpg" class="d-block w-100" alt="Camera"/>
+                            <img src="static/assets/img/home/pepsi_promo.jpg" class="d-block w-100" alt="Pepsi Promo">
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
@@ -280,8 +280,8 @@
                     "<p class=\"card-description\">Price: \$$product_price</p>" .
                     "<div class=\"flex-box cartbutton\">" .
                     "<form action = \"catalogue.php\">" .
-                    "<input type=\"hidden\" name=\"search_bar\" value=".$trending_items_array[$i]." \>". 
-                    "<button class = \"view-catalogue-button\" type=\"submit\" role = \"button\">View Catalogue</button>" .
+                    "<input type=\"hidden\" name=\"search_bar\" value=".$trending_items_array[$i].">". 
+                    "<button class = \"view-catalogue-button\" type=\"submit\">View Catalogue</button>" .
                     "</form>" .
                     "</div>" .
                     "</div>" .
@@ -296,7 +296,6 @@
             }
         }
         $trending_items_output .= "</div>" .
-                "</div>" .
                 "</div>";
         echo $trending_items_output;
         $conn->close();
