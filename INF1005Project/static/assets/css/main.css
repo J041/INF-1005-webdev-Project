@@ -235,6 +235,7 @@ div .catalogue-items{
 }
 
 .catalogue-box .catalogue-items img {
+    max-height: 25vw;
     width: 100%;
 }
 
