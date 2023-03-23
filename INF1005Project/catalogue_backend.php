@@ -453,20 +453,24 @@
 
 
             for ($i = 0; $i < sizeof($error_msg); $i++) {
-                $html_output .= "<div class=\"row\">"
+                $html_output .= "<div class=\"container\">"
+                        . "<div class=\"row\">"
                         . "<div class=\"output-msg card\">"
                         . "<div class=\"card-body\">"
                         . "<p class=\"text-danger\">" . $error_msg[$i] . "</p>"
+                        . "</div>"
                         . "</div>"
                         . "</div>"
                         . "</div>";
             }
 
             for ($i = 0; $i < sizeof($success_msg); $i++) {
-                $html_output .= "<div class=\"row\">"
+                $html_output .= "<div class=\"container\">"
+                        . "<div class=\"row\">"
                         . "<div class=\"output-msg card\">"
                         . "<div class=\"card-body\">"
                         . "<p class=\"text-success\">" . $success_msg[$i] . "</p>"
+                        . "</div>"
                         . "</div>"
                         . "</div>"
                         . "</div>";

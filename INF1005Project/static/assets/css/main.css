@@ -361,13 +361,14 @@ div .catalogue-button {
 
 .output-msg {
     margin: 10px 0px 5px;
+    width: 100%;
 }
 
-.backend-catalogue .output-msg .card-body {
+.output-msg .card-body {
     padding: 20px 30px 5px;
 }
 
-.backend-catalogue .output-msg .card-body p{
+.output-msg .card-body p{
     font-size: 15px;
     font-style: italic;
     letter-spacing: 0.5px;

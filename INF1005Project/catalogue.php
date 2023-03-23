@@ -204,80 +204,81 @@
         ?>
 
         <div class="container">
+
             <?php
             // Establishing Global Variables
-            global $search_query, $logic;
-            $search_query = $_GET['search_bar'];
-            // Create database connection.
-            $config = parse_ini_file('../private/db-config.ini');
-            $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+            global $search_query;
+            $search_query = sanitize_input($_GET['search_bar']);
 
-            // Check connection
-            if ($conn->connect_error) {
-                $errorMsg = "Connection failed: " . $conn->connect_error;
-                $success = false;
-                echo $errorMsg;
-            }
+            // Search Bar Validation
+            $validation = sanitize_regex_input($search_query);
 
-            // Prepare, Bind & Execute SELECT statement to retrieve all active products
-            $is_active = 1;
-
-            // SQL Query Logic
-            if (count($category_array) == 0) {
-                // No active product categories found --> Logic = 0
-                $logic = 0;
-            } elseif (in_array($search_query, $category_array)) {
-                // Users clicks on product category in the dropdown --> Logic = 1
-                $logic = 1;
-                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_category=?");
-                $stmt->bind_param("is", $is_active, $search_query);
-            } elseif ($search_query == "All Products") {
-                // clicks on Show all on catalogue.php in dropdown --> Logic = 2
-                $logic = 2;
-                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
-                $stmt->bind_param("i", $is_active);
-            } elseif ($search_query == "") {
-                // Manually enters catalogue.php in URL --> Logic = 2
-                $logic = 2;
-                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
-                $stmt->bind_param("i", $is_active);
-            } else {
-                // Search for specific items --> Logic = 3
-                $logic = 3;
-                $param = "%{$search_query}%";
-                $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_name LIKE ?");
-                $stmt->bind_param("is", $is_active, $param);
-            }
-            $stmt->execute();
-
-            // Output Header of Catalogue Page
-            $html_output = "<div class=\"row\">" .
-                    "<div class=\"container catalogue-display\">";
-
-            if ($logic == 0) {
-                $html_output .= "<h1>Please try a different search term/product category.</h1>" .
-                        "<h2>No results found! </h2>";
-            } elseif ($logic == 1) {
-                $html_output .= "<h1>Home/Products/" . $search_query . "</h1>" .
-                        "<h2>" . $search_query . "</h2>";
-            } elseif ($logic == 2) {
-                $html_output .= "<h1>Returning results for </h1>" .
-                        "<h2>All Products</h2>";
-            } else {
-                $html_output .= "<h1>Search result for </h1>" .
-                        "<h2>\"" . $search_query . "\"</h2>";
-            }
-            $html_output .= "</div></div>";
-
-            // Defining and Storing SQL output into an array
+            // Defining array to store SQL output & Output Messages.
             $results_array = [];
-            $result = $stmt->get_result();
+            $error_msg = [];
+            $success_msg = [];
 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    // Formatting of display price
-                    $price_string = floatval($row["price"]);
-                    array_push($results_array, array($row["product_id"], $row["product_name"], $row["product_desc"], $row["product_category"], $row["quantity"], number_format($price_string, 2, '.', '')));
+            // Verifies that no errors encounterd during input validation
+            if ($validation == "Unidentified Character") {
+                array_push($error_msg, "$validation detected. Please only enter alphabets, spaces and hyphen (\"-\").");
+            } else {
+                // Create database connection.
+                $config = parse_ini_file('../private/db-config.ini');
+                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+
+                // Check connection
+                if ($conn->connect_error) {
+                    $errorMsg = "Connection failed: " . $conn->connect_error;
+                    $success = false;
+                }
+
+                // Prepare, Bind & Execute SELECT statement to retrieve all active products
+                $is_active = 1;
+
+                // SQL Query Logic
+                if (sizeof($category_array) == 0) {
+                    // No active product categories found --> Logic = 0
+                    $logic = 0;
+                } elseif (in_array($search_query, $category_array)) {
+                    // Users clicks on product category in the dropdown --> Logic = 1
+                    $logic = 1;
+                    $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_category=?");
+                    $stmt->bind_param("is", $is_active, $search_query);
+                } elseif ($search_query == "All Products") {
+                    // clicks on Show all on catalogue.php in dropdown --> Logic = 2
+                    $logic = 2;
+                    $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
+                    $stmt->bind_param("i", $is_active);
+                } elseif ($search_query == "") {
+                    // Manually enters catalogue.php in URL --> Logic = 2
+                    $logic = 2;
+                    $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
+                    $stmt->bind_param("i", $is_active);
+                } else {
+                    // Search for specific items --> Logic = 3
+                    $logic = 3;
+                    $param = "{$search_query}%";
+                    $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_name LIKE ?");
+                    $stmt->bind_param("is", $is_active, $param);
+                }
+                $stmt->execute();
+
+                // Storing SQL output into an array
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        // Formatting of display price
+                        $price_string = floatval($row["price"]);
+                        array_push($results_array, array($row["product_id"], $row["product_name"], $row["product_desc"], $row["product_category"], $row["quantity"], number_format($price_string, 2, '.', '')));
+                    }
+                }
+
+                // Check connection
+                if (!$conn) {
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    $conn->close();
                 }
             }
 
@@ -290,9 +291,74 @@
                 if (isset($_POST[$add_cart_btn])) {
 
                     // Updates cart and redirects to 'cart.php'
-                    addtocart($results_array[$i][0],1);
+                    addtocart($results_array[$i][0], 1);
                     redirect_page('cart.php');
                 }
+            }
+            
+            // Output Header of Catalogue Page
+            $html_output = "";
+            
+            if ($logic == null) {
+                // List of Error Messages
+                for ($i = 0; $i < sizeof($error_msg); $i++) {
+                    $html_output .= "<div class=\"row\">"
+                            . "<div class=\"output-msg card\">"
+                            . "<div class=\"card-body\">"
+                            . "<p class=\"text-danger\">" . $error_msg[$i] . "</p>"
+                            . "</div>"
+                            . "</div>"
+                            . "</div>";
+                }
+                
+                // List of Success  Messages
+                for ($i = 0; $i < sizeof($success_msg); $i++) {
+                    $html_output .= "<div class=\"container\">"
+                            . "<div class=\"row\">"
+                            . "<div class=\"output-msg card\">"
+                            . "<div class=\"card-body\">"
+                            . "<p class=\"text-success\">" . $success_msg[$i] . "</p>"
+                            . "</div>"
+                            . "</div>"
+                            . "</div>"
+                            . "</div>";
+                }
+                
+                $html_output .= "<div class=\"row\">"
+                        . "<div class=\"container catalogue-display\">"
+                        . "<h1>Search result for </h1>"
+                        . "<h2>\"" . $search_query . "\"</h2>"
+                        . "</div>"
+                        . "</div>";
+                
+            } elseif ($logic == 0) {
+                $html_output .= "<div class=\"row\">"
+                        . "<div class=\"container catalogue-display\">"
+                        . "<h1>Please try a different search term/product category.</h1>"
+                        . "<h2>No results found!</h2>"
+                        . "</div>"
+                        . "</div>";
+            } elseif ($logic == 1) {
+                $html_output .= "<div class=\"row\">"
+                        . "<div class=\"container catalogue-display\">"
+                        .  "<h1>Home/Products/" . $search_query . "</h1>"
+                        . "<h2>" . $search_query . "</h2>"
+                        . "</div>"
+                        . "</div>";
+            } elseif ($logic == 2) {
+                $html_output .= "<div class=\"row\">"
+                        . "<div class=\"container catalogue-display\">"
+                        . "<h1>Returning results for </h1>"
+                        . "<h2>All Products</h2>"
+                        . "</div>"
+                        . "</div>";
+            } else {
+                $html_output .= "<div class=\"row\">"
+                        . "<div class=\"container catalogue-display\">"
+                        . "<h1>Search result for </h1>"
+                        . "<h2>\"" . $search_query . "\"</h2>"
+                        . "</div>"
+                        . "</div>";
             }
 
             // Output Query Results into HTML
@@ -398,13 +464,6 @@
                         . "</div>"
                         . "</div>"
                         . "</div>";
-            }
-
-            // Check connection
-            if (!$conn) {
-                die("Connection failed: " . mysqli_connect_error());
-            } else {
-                $conn->close();
             }
             ?>
 
