@@ -162,7 +162,7 @@
             <form method="post" action="register.php">
                 <div class="form-group">
                     <label for="fname">Username:</label>
-                    <input class="form-control"type="text" id="username"
+                    <input class="form-control" type="text" id="username"
                            required name="username" maxlength="45" placeholder="Enter username">
                 </div>
                 <div class="form-group">

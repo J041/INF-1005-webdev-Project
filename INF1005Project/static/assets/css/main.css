@@ -609,9 +609,15 @@ div .catalogue-button {
     position:absolute;
     background: rgba(0, 0, 0, 0.3);
 }
-.checkout button{
+.checkout #deletecart, .checkout #reducecart{
     position:relative;
     z-index: 1;
+}
+.checkout .quantityupdate{
+    font-size:15px;
+    height:auto;
+    width:15px;
+    padding:0px;
 }
 
 /*Start Home Page CSS - Keefe*/
@@ -816,6 +822,10 @@ div .catalogue-button {
 .admin_dashboard #lineChartContainer {
     height: 370px;
     width: 100%;
+}
+
+.admin_dashboard .container-fluid {
+    margin-top: 50px;
 }
 
 /*Admin Dashboard CSS End*/
@@ -1025,18 +1035,7 @@ div .catalogue-button {
     border-radius: 5px;
 }
 
-.admin_dashboard #columnChartContainer {
-    height: 370px; 
-    width: 100%;
-}
 
-.admin_dashboard #lineChartContainer {
-    height: 370px; 
-    width: 100%;
-}
 
-.admin_dashboard .container-fluid {
-    margin-top: 50px;
-}
 
 /*Admin Dashboard CSS End*/

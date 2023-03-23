@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
         ?>
         <?php
+            session_start();
             // Arrays to store data fetched from database
             $all_time_top10_items_array = [];
             $store_revenue_by_month_array = [];
@@ -182,6 +183,7 @@
                                           "</div>" .
                                           "<div class=\"col-6 panel-body\">" .
                                           "<h5>NUMBER OF PRODUCTS SOLD: ". $overall_statistics_array[1] ."</h5>" .
+                                          "</div>" .
                                           "</div>" .
                                           "</div>" .
                                           "</div>" .
