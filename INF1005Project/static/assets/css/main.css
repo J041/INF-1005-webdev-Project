@@ -823,6 +823,10 @@ div .catalogue-button {
     width: 100%;
 }
 
+.admin_dashboard .container-fluid {
+    margin-top: 50px;
+}
+
 /*Admin Dashboard CSS End*/
 
 
@@ -1030,18 +1034,7 @@ div .catalogue-button {
     border-radius: 5px;
 }
 
-.admin_dashboard #columnChartContainer {
-    height: 370px; 
-    width: 100%;
-}
 
-.admin_dashboard #lineChartContainer {
-    height: 370px; 
-    width: 100%;
-}
 
-.admin_dashboard .container-fluid {
-    margin-top: 50px;
-}
 
 /*Admin Dashboard CSS End*/
