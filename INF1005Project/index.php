@@ -10,12 +10,7 @@
         include "nav.inc.php";
         include "function.php";
         ?>
-        <main class="home">
-<!--            <div class="container header">
-                <img src="static\assets\img\home\banner.png" alt="PROMOTIONS" class="col-sm-12"/>
-                <h1 class="display-4">PROMOTIONS</h1>
-            </div>-->
-            
+        <main class="home">      
             <div class="indexPromoCarousel">
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
@@ -40,6 +35,7 @@
                     </a>
                 </div>
             </div>
+            
 <!--        <div class="container header">
             <img src="static\assets\img\home\banner.png" alt="PROMOTIONS" class="col-sm-12"/>
             <h1 class="display-4">PROMOTIONS</h1>
@@ -50,7 +46,7 @@
         <br>
 
         <div class="container header" >
-            <!--<img src="static\assets\img\home\banner.png" alt="CATEGORIES" class="col-sm-12"/>-->
+<!--            <img src="static\assets\img\home\banner.png" alt="CATEGORIES" class="col-sm-12"/>-->
             <h1 class="display-4">CATEGORIES</h1>
             <br>
             <br>
@@ -72,7 +68,6 @@
                 </div>   -->
 
         <?php
-        /* $category_array = array("Accessories", "Candy", "Drinks", "Household", "Snacks", "Toys", "Periodical"); */
         $columnCounter = 0;
         $category_output = "";
         $category_output .= "<div class=\"container main-categories\">";
