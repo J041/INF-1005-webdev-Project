@@ -98,13 +98,11 @@
                 <form action="login.php" method="post">
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <input class="form-control" type="text" id="username"
-                        required name= "username" maxlength="45" placeholder="Enter username">
+                        <input class="form-control" type="text" id="username" required name="username" maxlength="45" placeholder="Enter username">
                     </div>
                     <div class="form-group">
                         <label for="pwd">Password:</label>
-                        <input  class="form-control" type="password" id="pwd"
-                                required name="pwd"  placeholder="Enter password">
+                        <input class="form-control" type="password" id="pwd" required name="pwd"  placeholder="Enter password">
                     </div>
 
                     <div class="form-group">
