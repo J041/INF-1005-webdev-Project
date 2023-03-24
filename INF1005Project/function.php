@@ -154,7 +154,7 @@ function addtocart($product_id, $quantity) {
             $check_if_in_cart_stmt->close();
 
             // Prepare the statement:
-            $getitemquantitystmt = $conn->prepare("select quantity from Products where product_id=?");
+            $getitemquantitystmt = $conn->prepare("SELECT quantity from Products where product_id=?");
             // Bind & execute the query statement:
             $getitemquantitystmt->bind_param("i", $product_id);
             if (!$getitemquantitystmt->execute()) {
@@ -197,7 +197,8 @@ function addtocart($product_id, $quantity) {
                     $putincartstmt = $conn->prepare("INSERT INTO mydb.Cart_Item (Products_product_id,Order_History_order_id,quantity,price) VALUES (?,?,?,?)");
                     // Bind & execute the query statement:
                     // $quantity = 2;
-                    $putincartstmt->bind_param("iiii", $product_id, $order_id, $quantity, $product_price);
+                    // echo $product_price;
+                    $putincartstmt->bind_param("iiid", $product_id, $order_id, $quantity, $product_price);
                     if (!$putincartstmt->execute()) {
                         $errorMsg = "Execute failed: (" . $putincartstmt->errno . ") " . $putincartstmt->error;
                         $success = false;
@@ -284,6 +285,7 @@ function remoevfromcart($product_id, $quantity) {
                     $prev_quantity = $row["quantity"];
                     $incart = true;
                 }
+                // echo "prev_quantity is:" . $prev_quantity . '<br>';
             }
             $check_if_in_cart_stmt->close();
 
@@ -298,10 +300,12 @@ function remoevfromcart($product_id, $quantity) {
                 $result = $getitemquantitystmt->get_result();
                 $row = $result->fetch_assoc();
                 $backend_quantity = $row["quantity"];
+                // echo "backend_quantity is:" . $backend_quantity . '<br>';
                 $success = true;
             }
             $getitemquantitystmt->close();
 
+            echo $incart;
             if ($incart) {
                 $quantity = $prev_quantity - $quantity;
                 if ($quantity<1){
@@ -328,13 +332,14 @@ function remoevfromcart($product_id, $quantity) {
 
                 if ($quantity > $backend_quantity) {
                     $errorMsg = "Insufficient quantity";
+                    echo $errorMsg;
                     $success = false;
                 } else {
                     // Prepare the statement:
                     $putincartstmt = $conn->prepare("INSERT INTO mydb.Cart_Item (Products_product_id,Order_History_order_id,quantity,price) VALUES (?,?,?,?)");
                     // Bind & execute the query statement:
                     // $quantity = 2;
-                    $putincartstmt->bind_param("iiii", $product_id, $order_id, $quantity, $product_price);
+                    $putincartstmt->bind_param("iiid", $product_id, $order_id, $quantity, $product_price);
                     if (!$putincartstmt->execute()) {
                         $errorMsg = "Execute failed: (" . $putincartstmt->errno . ") " . $putincartstmt->error;
                         $success = false;
