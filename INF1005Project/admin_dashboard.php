@@ -288,14 +288,14 @@
                                                        FROM mydb.Cart_Item 
                                                        INNER JOIN mydb.Order_History 
                                                        ON mydb.Cart_Item.Order_History_order_id=mydb.Order_History.order_id
-                                                       WHERE mydb.Order_History.purchased=1 AND MONTH(mydb.Order_History.order_at)=? AND YEAR(mydb.Order_History.order_at)=?;");
+                                                       WHERE mydb.Order_History.purchased=? AND MONTH(mydb.Order_History.order_at)=? AND YEAR(mydb.Order_History.order_at)=?;");
 
             //GET THIS MONTH
             date_default_timezone_set("Singapore");
             $current_month_word = strtoupper(date("F"));
             $current_month = date('m');
             $current_year = date('Y');
-            $monthly_statistics_stmt->bind_param("ss", $current_month, $current_year);
+            $monthly_statistics_stmt->bind_param("iss", $purchased, $current_month, $current_year);
             $monthly_statistics_stmt->execute();
 
             $monthly_statistics_result = $monthly_statistics_stmt->get_result();
