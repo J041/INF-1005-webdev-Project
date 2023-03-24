@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
@@ -9,6 +9,7 @@
         <?php
         include "nav.inc.php";
         ?>
+        <main>
         <div class="container">
             <div class="container-fluid" role="alert">
                 <div class="row">
@@ -24,6 +25,7 @@
                 </div>
             </div>
         </div>
+        </main>
         <?php
         include "footer.inc.php";
         ?>

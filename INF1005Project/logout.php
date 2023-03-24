@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
         ?>
     </head>
+    <body>
     <?php
         include "nav.inc.php";
     ?>
@@ -13,7 +14,7 @@
         require 'function.php';
         logout();
     ?>
-    <body>
+    
         <main class="container">
             <h1>You have successfully Logged out</h1>
             <p>

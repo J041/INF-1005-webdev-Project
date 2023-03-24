@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <?php
             include "header.inc.php";
@@ -28,12 +29,12 @@
                     // Bind & execute the query statement:
                     $stmt->bind_param("ss", $_POST["username"], $_POST["username"]);
                     // var_dump($_POST);
-                    echo $_POST["username"];
+                    // echo $_POST["username"];
 
                     $stmt->execute();
                     // echo "test case2";
                     $result = $stmt->get_result();
-                    var_dump($result);
+                    // var_dump($result);
 
                     if ($result->num_rows > 0) {
                 
@@ -97,14 +98,11 @@
                 <form action="login.php" method="post">
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <input class="form-control"type="text" id="username"
-                            <input class="form-control"type="text" id="username"
-                            required name= "username" maxlength="45" placeholder="Enter username">
+                        <input class="form-control" type="text" id="username" required name="username" maxlength="45" placeholder="Enter username">
                     </div>
                     <div class="form-group">
                         <label for="pwd">Password:</label>
-                        <input  class="form-control" type="password" id="pwd"
-                                required name="pwd"  placeholder="Enter password">
+                        <input class="form-control" type="password" id="pwd" required name="pwd"  placeholder="Enter password">
                     </div>
 
                     <div class="form-group">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
@@ -490,8 +490,8 @@
                     <p>You may create, update or remove product(s) from the Product Catalogue Database table. </p>
                 </div>
                 <div class="col-md-12 col-xl-6">
-                    <button class="btn btn-outline-primary" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-plus"></i>&nbsp; Add </button>
-                    <button class="btn btn-outline-secondary d-none" tabindex="0" role="button" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
+                    <button class="btn btn-outline-primary" tabindex="0" aria-pressed="false"><i class="fa-solid fa-plus"></i>&nbsp; Add </button>
+                    <button class="btn btn-outline-secondary d-none" tabindex="0" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
                 </div>
             </div>
 
@@ -561,7 +561,7 @@
                         </div>
                         <div class="row">
                             <div class="backend-catalogue-add-form-save col-md-12 col-lg-12">
-                                <button class="btn btn-outline-success" tabindex="0" name="add_product" role="button" aria-pressed="false"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Save </button>
+                                <button class="btn btn-outline-success" tabindex="0" name="add_product" aria-pressed="false"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Save </button>
                             </div>
                         </div>
                     </div>
@@ -577,12 +577,12 @@
                     <table class="table table-striped table-hover table-responsive-xl">
                         <thead class="thead-light">
                             <tr>
-                                <td scope="col">#</td>
-                                <td scope="col">Name</td>
-                                <td scope="col">Category</td>
-                                <td scope="col">Quantity</td>
-                                <td scope="col">Active?</td>
-                                <td scope="col"></td>
+                                <td>#</td>
+                                <td>Name</td>
+                                <td>Category</td>
+                                <td>Quantity</td>
+                                <td>Active?</td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tbody>

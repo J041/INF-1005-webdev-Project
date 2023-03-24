@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
@@ -14,9 +14,15 @@
         if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
             ;
         } else {
-            echo    '<div class="alert alert-danger" role="alert">'.
-                        '<p>You must be logged in to access this page</p>' . 
-                    '</div>';
+            echo "<div class=\"container-fluid\" role=\"alert\">"
+                . "<div class=\"row\">"
+                . "<div class=\"output-msg card\">"
+                . "<div class=\"card-body\">"
+                . "<p class=\"text-danger\">You must be logged in to access this page</p>"
+                . "</div>"
+                . "</div>"
+                . "</div>"
+                . "</div>";
             exit();
         } 
         ?>
@@ -27,7 +33,7 @@
                 <h4 class="checkoutproduct">Product</h4>
                 <h4>Quantity</h4>
                 <h4>Price</h4>
-                <h4></h4>
+                <h4>-</h4>
             </div>
             <hr>
             
@@ -115,14 +121,14 @@
                                 . " alt='".$row["product_name"].".jpg'>
                         <p>".$row["product_name"]."</p></div>"
                         . "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">" 
-                        ."<h4><button class='quantityupdate' name='removecart' id='reducecart'>-</button> "
+                        ."<h4><button class='quantityupdate removecart' name='removecart'>-</button> "
                         . $row["quantity"]
                         . "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">"
                          ." <button class='quantityupdate addcart' name='add'>+</button></h4>"
                         . "<h4>$".$row["price"]."</h4>"
                                 . "<input type='hidden' name='cartprodid' value=".$row["Products_product_id"].">"
                                 . "<input type='hidden' name='cartorderid' value=".$row["Order_History_order_id"].">"
-                                . "<h4><button type='submit' name='remove' id='deletecart'>X</button></h4></div></form>";                        
+                                . "<h4><button type='submit' name='remove' class='deletecart'>X</button></h4></div></form>";                        
                     }
                     echo "</div>";
                     $conn->close();
@@ -131,12 +137,12 @@
             ?>
             <hr>
             <div class="flexcontainer">
-                <h4 class="checkoutproduct"></h4>
+                <h4 class="checkoutproduct">-</h4>
                 <h4>Total:</h4>
                 <?php
                 echo "<h4>$".$total."</h4>";
                 ?>
-                <h4></h4>
+                <h4>-</h4>
                 <!--Calculate total value-->
             </div>
             <br>

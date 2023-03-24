@@ -39,7 +39,7 @@
                                             <div class="search-container">
                                                 <div class="row">
                                                     <div class="col-xs-11">
-                                                        <input class="search-bar" id="search_bar" type="text" name="search_bar" placeholder="Search for Products..." aria-labelledby="search_bar" data-toggle="tooltip" data-placement="bottom" title="Only alphanumeric, whitespaces and hyphen ("-") are allowed." maxlength = "100">
+                                                        <input class="search-bar" id="search_bar" type="text" name="search_bar" placeholder="Search for Products..." aria-labelledby="search_bar" data-toggle="tooltip" data-placement="bottom" title="Only alphanumeric, whitespaces and hyphen (&quot;-&quot;) are allowed." maxlength = "100">
                                                     </div>
                                                     <div class="col-xs-1">
                                                         <button class="search-bar-icon btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -97,7 +97,7 @@
                     $html_output .= '
                     
                                     <div class="item nav-item dropdown">
-                                        <a class="" href="/catalogue.php" role="dropdownCatalogue" id="dropdownCatalogue">
+                                        <a class="" href="/catalogue.php" id="dropdownCatalogue">
                                             <i class="fa-solid fa-book"></i>
                                             <span class="responsive_text">Catalogue</span>
                                         </a>
@@ -107,7 +107,7 @@
                     $html_output .= '
                     
                                     <div class="item nav-item dropdown">
-                                        <a class="dropdown-toggle" href="#" role="dropdownCatalogue" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <a class="dropdown-toggle" href="#" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <i class="fa-solid fa-book"></i>
                                             <span class="responsive_text">Catalogue</span>
                                         </a>

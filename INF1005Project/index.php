@@ -28,10 +28,10 @@
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
+                        <span class="carousel-control-prev-icon">.</span>
                     </a>
                     <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon"></span>
+                        <span class="carousel-control-next-icon">.</span>
                     </a>
                 </div>
             </div>
@@ -83,7 +83,7 @@
             $category_output .= "<div class=\"col-sm-4 categories\" >" .
                     "<div class=\"thumbnail d-flex align-items-center justify-content-center categories\">" .
                     "<a href=\"catalogue.php?search_bar=".$category_array[$i]."\">" .
-                    "<img src=\"" .$categoryImgSrc. "\" alt=\"" . $category_array[$i] . "\" class=\"category-icon\">" .
+                    "<img src=\"" .$categoryImgSrc. "\" alt=\"" . $category_array[$i] . " products\" class=\"category-icon\">" .
                     "<p class=\"text-center\">" .ucfirst($category_array[$i]). "</p>" .
                     "</a>" .
                     "</div>" .
@@ -277,7 +277,7 @@
                     "<p class=\"card-description\">Price: \$$product_price</p>" .
                     "<div class=\"flex-box cartbutton\">" .
                     "<form action = \"catalogue.php\">" .
-                    "<input type=\"hidden\" name=\"search_bar\" value=".$trending_items_array[$i].">". 
+                    "<input type=\"hidden\" name=\"search_bar\" value=\"".$trending_items_array[$i]."\">". 
                     "<button class = \"view-catalogue-button\" type=\"submit\">View Catalogue</button>" .
                     "</form>" .
                     "</div>" .
@@ -291,6 +291,9 @@
                         "<br>";
                 $trending_items_columnCounter = 0;
             }
+        }
+        if ($trending_items_columnCounter != 3){
+            $trending_items_output .= "</div>";
         }
         $trending_items_output .= "</div>" .
                 "</div>";

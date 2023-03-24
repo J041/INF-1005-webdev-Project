@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
@@ -9,7 +9,7 @@
         <?php
             include "nav.inc.php";
         ?>
-
+        <main>
         <?php 
             require 'function.php';
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -35,8 +35,8 @@
             if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
                 echo '<form action="updateprofile.php" method="post">
                     <div class="form-group">
-                        <label for="email">Username:</label>
-                        <input class="form-control" type="username" id="username"
+                        <label for="username">Username:</label>
+                        <input class="form-control" type="text" id="username"
                         name="username" placeholder="Enter username">
                     </div>
                     <div class="form-group">
@@ -154,6 +154,7 @@
             }
             ?> 
         </div>
+        </main>
         <?php
         include "footer.inc.php";
         ?>

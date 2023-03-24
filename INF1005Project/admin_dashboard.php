@@ -137,6 +137,7 @@
         <?php
         include "nav.inc.php";
         ?>
+        <main>
             <?php
             $overall_statistics_array = [];
             $yesterday_statistics_array = [];
@@ -354,6 +355,7 @@
                      '</div>';
             }
             ?>
+        </main>
     </body>
 </html>
 

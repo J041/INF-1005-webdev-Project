@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
@@ -9,7 +9,7 @@
         <?php
         include "nav.inc.php";
         ?>
-
+        <main>
         <?php
         /*
 
@@ -130,9 +130,9 @@
                         <table class="table table-striped table-hover table-responsive-xl">
                             <thead class="thead-light">
                                 <tr>
-                                    <td scope="col">Order</td>
-                                    <td scope="col">Total Price</td>
-                                    <td scope="col"></td>
+                                    <td>Order</td>
+                                    <td>Total Price</td>
+                                    <td></td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -144,13 +144,13 @@
                         foreach ($order_ids as $order_id => $value) {
                             $total_price = 0;
                             $html_output .= "<tr>";
-                            $html_output .= "<td scope=\"row\">" . sprintf("%08d", $order_id) . "</td>";
+                            $html_output .= "<td>" . sprintf("%08d", $order_id) . "</td>";
     
                             foreach ($value as $sub_key => $sub_val) {
                                 $total_price += $sub_val["total"];
                             }
                             array_push($total_prices, number_format($total_price, 2, '.', ''));
-                            $html_output .= "<td scope=\"row\">SGD $" . number_format($total_price, 2, '.', '') . "</td>";
+                            $html_output .= "<td>SGD $" . number_format($total_price, 2, '.', '') . "</td>";
                             $html_output .= "<td>"
                                     . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#order_details_item_" . $order_id . "\">Details</button>"
                                     . "</td>"
@@ -168,10 +168,10 @@
                         <table class="table table-striped table-hover table-responsive-xl">
                             <thead class="thead-light">
                                 <tr>
-                                    <td scope="col">Email</td>
-                                    <td scope="col">Order</td>
-                                    <td scope="col">Total Price</td>
-                                    <td scope="col"></td>
+                                    <td>Email</td>
+                                    <td>Order</td>
+                                    <td>Total Price</td>
+                                    <td></td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -185,17 +185,17 @@
                             $html_output .= "<tr>";
                             for ($i = 0; $i < sizeof($paid_order_history); $i++) {
                                 if ($paid_order_history[$i][0] == $order_id) {
-                                    $html_output .= "<td scope=\"row\">" . $paid_order_history[$i][1] . "</td>";
+                                    $html_output .= "<td>" . $paid_order_history[$i][1] . "</td>";
                                     break;
                                 }
                             }
-                            $html_output .= "<td scope=\"row\">" . sprintf("%08d", $order_id) . "</td>";
+                            $html_output .= "<td>" . sprintf("%08d", $order_id) . "</td>";
     
                             foreach ($value as $sub_key => $sub_val) {
                                 $total_price += $sub_val["total"];
                             }
                             array_push($total_prices, number_format($total_price, 2, '.', ''));
-                            $html_output .= "<td scope=\"row\">SGD $" . number_format($total_price, 2, '.', '') . "</td>";
+                            $html_output .= "<td>SGD $" . number_format($total_price, 2, '.', '') . "</td>";
                             $html_output .= "<td>"
                                     . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#order_details_item_" . $order_id . "\">Details</button>"
                                     . "</td>"
@@ -244,10 +244,10 @@
     
                         $html_output .= '
                                             <tr>
-                                                <td scope="col">Product Name</td>
-                                                <td scope="col">Quantity</td>
-                                                <td scope="col">Price</td>
-                                                <td scope="col">Total</td>
+                                                <td>Product Name</td>
+                                                <td>Quantity</td>
+                                                <td>Price</td>
+                                                <td>Total</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -257,10 +257,10 @@
                             for ($i = 0; $i < sizeof($paid_order_history); $i++) {
                                 if ($paid_order_history[$i][0] == $order_id) {
                                     $html_output .= "<tr>";
-                                    $html_output .= "<td scope=\"row\">" . $sub_val["product_name"] . "</td>";
-                                    $html_output .= "<td scope=\"row\">" . $sub_val["quantity"] . "</td>";
-                                    $html_output .= "<td scope=\"row\">SGD $" . number_format($sub_val["price"], 2, '.', '') . "</td>";
-                                    $html_output .= "<td scope=\"row\">SGD $" . number_format($sub_val["total"], 2, '.', '') . "</td>";
+                                    $html_output .= "<td>" . $sub_val["product_name"] . "</td>";
+                                    $html_output .= "<td>" . $sub_val["quantity"] . "</td>";
+                                    $html_output .= "<td>SGD $" . number_format($sub_val["price"], 2, '.', '') . "</td>";
+                                    $html_output .= "<td>SGD $" . number_format($sub_val["total"], 2, '.', '') . "</td>";
                                     $html_output .= "</tr>";
                                 }
                             }
@@ -297,7 +297,7 @@
             ?>
         </div>
 
-
+    </main>
         <?php
         include "footer.inc.php";
         ?>
