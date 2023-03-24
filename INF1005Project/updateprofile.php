@@ -9,7 +9,7 @@
         <?php
             include "nav.inc.php";
         ?>
-
+        <main>
         <?php 
             require 'function.php';
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -154,6 +154,7 @@
             }
             ?> 
         </div>
+        </main>
         <?php
         include "footer.inc.php";
         ?>

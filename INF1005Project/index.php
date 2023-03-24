@@ -28,10 +28,10 @@
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
+                        <span class="carousel-control-prev-icon">.</span>
                     </a>
                     <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon"></span>
+                        <span class="carousel-control-next-icon">.</span>
                     </a>
                 </div>
             </div>
@@ -83,7 +83,7 @@
             $category_output .= "<div class=\"col-sm-4 categories\" >" .
                     "<div class=\"thumbnail d-flex align-items-center justify-content-center categories\">" .
                     "<a href=\"catalogue.php?search_bar=".$category_array[$i]."\">" .
-                    "<img src=\"" .$categoryImgSrc. "\" alt=\"" . $category_array[$i] . "\" class=\"category-icon\">" .
+                    "<img src=\"" .$categoryImgSrc. "\" alt=\"" . $category_array[$i] . " products\" class=\"category-icon\">" .
                     "<p class=\"text-center\">" .ucfirst($category_array[$i]). "</p>" .
                     "</a>" .
                     "</div>" .

@@ -9,6 +9,7 @@
         <?php
         include "nav.inc.php";
         ?>
+        <main>
         <div class="container">
             <div class="row">
                 <div class="col-md-6 mx-auto my-5">
@@ -31,6 +32,7 @@
                 </div>
             </div>
         </div>
+        </main>
         <?php
         include "footer.inc.php";
         ?>

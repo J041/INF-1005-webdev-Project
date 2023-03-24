@@ -10,7 +10,7 @@
         include "nav.inc.php";
         include "function.php";
         ?>
-
+        <main>
         <?php
 
         function check_if_bought_before($product_id) {
@@ -710,7 +710,7 @@
             // check_if_bought_before(17);
             ?>
             <?php echo $html_output ?>
-
+        </main>
             <?php
             include "footer.inc.php";
             ?>

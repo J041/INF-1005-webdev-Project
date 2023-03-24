@@ -690,7 +690,7 @@ div .catalogue-button {
     position:absolute;
     background: rgba(0, 0, 0, 0.3);
 }
-.checkout #deletecart, .checkout #reducecart{
+.checkout .deletecart, .checkout .reducecart{
     position:relative;
     z-index: 1;
 }
