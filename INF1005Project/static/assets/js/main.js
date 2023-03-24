@@ -3,8 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
+// Intitializing JS Functions
+$(document).ready(function () {
+    catalogueToggles();
+});
+
 $(document).ready(function () {
     backendCatalogueToggles();
+});
+
+$(document).ready(function () {
     CreditCardFormat();
 });
 
@@ -28,97 +36,115 @@ function backendCatalogueToggles() {
     // Defining variables for the buttons under the Update Product section
     const edit_btns = document.getElementsByClassName("backend-catalogue-details-edit");
     const close_edit_btns = document.getElementsByClassName("backend-catalogue-details-close");
-    
+
     // Event Listeners for "Add" and "Close" buttons under the Add Product section
     add_btn.addEventListener("click", () => {
-        displayHideToggleAdd(add_btn, close_btn, add_form);
+        displayHideToggle(add_btn, add_btn, close_btn, "", add_form);
     });
     close_btn.addEventListener("click", () => {
-        displayHideToggleAdd(add_btn, close_btn, add_form);
+        displayHideToggle(close_btn, close_btn, add_btn, add_form, "");
     });
     save_btn.addEventListener("click", () => {
         reloadPage(add_btn, close_btn, save_btn, add_form);
     });
 
     // Event Listeners for "Edit" buttons under the Edit Product section
-    Array.prototype.forEach.call(edit_btns, function (element) {
+    Array.prototype.forEach.call(edit_btns, function (element, main_btn, secondary_btn, main_display, secondary_display) {
         element.addEventListener('click', () => {
-            displayHideToggleEdit(element);
+            main_btn = element;
+            secondary_btn = element.parentNode.children[1];
+            main_display = element.parentNode.parentNode.parentNode.children[2];
+            secondary_display = element.parentNode.parentNode.parentNode.children[3];
+
+            displayHideToggle(element, main_btn, secondary_btn, main_display, secondary_display);
         });
     });
-
-    // Event Listeners for "Close" buttons under the Edit Product section
-    Array.prototype.forEach.call(close_edit_btns, function (element) {
-        element.addEventListener('click', () => {
-            displayHideToggleEdit(element);
-        });
-    });
-
-}
-
-function displayHideToggleAdd(add_btn, close_btn, add_form) {
-
-    // Checks if "Add" button is displayed
-    if (add_btn.classList.contains("d-none")) {
-        // "Add" button NOT displayed
-        // Clears all populated fields that weren't submitted
-        const inputDIVs = add_form.children[0].children[0].children[0].children[0].children;
-        
-        for (let i = 1; i < inputDIVs.length - 1; i++) {
-            let input = inputDIVs[i].children[1];
-            input.value = "";
-        }
-
-        // Hides "Close" button & Form and displays "Add" button
-        close_btn.classList.add("d-none");
-        add_form.classList.add("d-none");
-        add_btn.classList.remove("d-none");
-
-    } else {
-        // "Add" button displayed
-        // Hides "Add" button and displays "Close" button & Form
-        close_btn.classList.remove("d-none");
-        add_form.classList.remove("d-none");
-        add_btn.classList.add("d-none");
-    }
-
-}
-
-function displayHideToggleEdit(element) {
-    let edit_btn = "";
-    let close_edit_btn = "";
-    let display_edit_form = "";
-    let edit_form = "";
     
-    // Identifies if either the "Edit" or "Close" button was clicked.
-    if (element === element.parentNode.children[0]) {
-        edit_btn = element;
-        close_edit_btn = element.parentNode.children[1];
-        display_edit_form = element.parentNode.parentNode.parentNode.children[2];
-        edit_form = element.parentNode.parentNode.parentNode.children[3];
+    // Event Listeners for "Close" buttons under the Edit Product section
+    Array.prototype.forEach.call(close_edit_btns, function (element, main_btn, secondary_btn, main_display, secondary_display) {
+        element.addEventListener('click', () => {
+            main_btn = element;
+            secondary_btn = element.parentNode.children[0];
+            main_display = element.parentNode.parentNode.parentNode.children[3];
+            secondary_display = element.parentNode.parentNode.parentNode.children[2];
 
-        // "Edit" button NOT displayed
-        // Hides "Edit" button & 'Display Update' Form. Displays "Close" button & 'Edit' Form.
-        edit_btn.classList.add("d-none");
-        display_edit_form.classList.add("d-none");
-        close_edit_btn.classList.remove("d-none");
-        edit_form.classList.remove("d-none");
+            displayHideToggle(element, main_btn, secondary_btn, main_display, secondary_display);
+        });
+    });
 
+}
 
+function catalogueToggles() {
+    // Defining variables for the buttons under the Catalogue - "Add" Review section
+    const new_review_add_btns = document.getElementsByClassName("new-review-add");
+    const new_review_add_close_btns = document.getElementsByClassName("new-review-add-close");
+
+    // Event Listeners for "Add" buttons under the Add Review section
+    Array.prototype.forEach.call(new_review_add_btns, function (element, main_btn, secondary_btn, main_display, secondary_display) {
+        element.addEventListener('click', () => {
+            // Variables to various buttons/containers
+            main_btn = element;
+            secondary_btn = element.parentNode.children[1];
+            main_display = "";
+            secondary_display = element.parentNode.parentNode.parentNode.children[8];
+
+            displayHideToggle(element, main_btn, secondary_btn, main_display, secondary_display);
+        });
+    });
+
+    // Event Listeners for "Close" buttons under the Add Review section
+    Array.prototype.forEach.call(new_review_add_close_btns, function (element, main_btn, secondary_btn, main_display, secondary_display) {
+        element.addEventListener('click', () => {
+            // Variables to various buttons/containers
+            main_btn = element;
+            secondary_btn = element.parentNode.children[0];
+            main_display = element.parentNode.parentNode.parentNode.children[8];
+            secondary_display = "";
+
+            displayHideToggle(element, main_btn, secondary_btn, main_display, secondary_display);
+        });
+    });
+
+}
+
+function displayHideToggle(element, main_btn, secondary_btn, main_display, secondary_display) {
+    console.log("inside function");
+    if (element.classList.contains("disabled")) {
+        console.log("Button is disabled.");
     } else {
-        edit_btn = element.parentNode.children[0];
-        close_edit_btn = element;
-        display_edit_form = element.parentNode.parentNode.parentNode.children[2];
-        edit_form = element.parentNode.parentNode.parentNode.children[3];
+        if (element === main_btn) {
+            if (main_btn.classList.contains("d-none")) {
+                // Hides Secondary Button & Display, reveals Main Button & Display
 
-        // "Edit" button displayed
-        // Hides "Close" button & 'Edit' Form. Displays "Edit" button & 'Display Update' Form. 
-        edit_btn.classList.remove("d-none");
-        display_edit_form.classList.remove("d-none");
-        close_edit_btn.classList.add("d-none");
-        edit_form.classList.add("d-none");
+                main_btn.classList.remove("d-none");
+                // Checks is Main Display Exists
+                if (main_display) {
+                    main_display.classList.remove("d-none");
+                }
 
+                secondary_btn.classList.add("d-none");
+                if (secondary_display) {
+                    secondary_display.classList.add("d-none");
+                }
+            } else {
+                // Reveals Secondary Button & Display, hides Main Button & Display
+
+                main_btn.classList.add("d-none");
+                // Checks is Main Display Exists
+                if (main_display) {
+                    main_display.classList.add("d-none");
+                }
+
+                secondary_btn.classList.remove("d-none");
+                if (secondary_display) {
+                    secondary_display.classList.remove("d-none");
+                }
+            }
+        } else {
+            console.log('Unknown');
+        }
     }
+
 }
 
 // Work in Progress 
