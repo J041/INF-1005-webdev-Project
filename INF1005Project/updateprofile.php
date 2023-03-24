@@ -35,8 +35,8 @@
             if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
                 echo '<form action="updateprofile.php" method="post">
                     <div class="form-group">
-                        <label for="email">Username:</label>
-                        <input class="form-control" type="username" id="username"
+                        <label for="username">Username:</label>
+                        <input class="form-control" type="text" id="username"
                         name="username" placeholder="Enter username">
                     </div>
                     <div class="form-group">
