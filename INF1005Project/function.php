@@ -305,7 +305,6 @@ function remoevfromcart($product_id, $quantity) {
             }
             $getitemquantitystmt->close();
 
-            echo $incart;
             if ($incart) {
                 $quantity = $prev_quantity - $quantity;
                 if ($quantity<1){
@@ -332,7 +331,7 @@ function remoevfromcart($product_id, $quantity) {
 
                 if ($quantity > $backend_quantity) {
                     $errorMsg = "Insufficient quantity";
-                    echo $errorMsg;
+                    // echo $errorMsg;
                     $success = false;
                 } else {
                     // Prepare the statement:
