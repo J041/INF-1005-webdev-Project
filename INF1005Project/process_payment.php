@@ -116,7 +116,7 @@
                     }
                     else
                     {
-
+                        date_default_timezone_set('Asia/Singapore');
                         $dt = date('Y-m-d H:i:s');
                         $email = $_SESSION['email'];
                         
