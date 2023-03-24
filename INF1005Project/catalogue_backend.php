@@ -14,7 +14,9 @@
         <div class="backend-catalogue container-fluid">
 
             <?php
-            if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
+            if (isset($_SESSION['username']) && !empty($_SESSION['username']) && $_SESSION['priority'] == 1 || $_SESSION['priority'] == 2) {
+
+
 
                 // Query All Products found in the 'Products' Table
                 function query_all_products() {
@@ -877,7 +879,7 @@
                         . "<div class=\"row\">"
                         . "<div class=\"output-msg card\">"
                         . "<div class=\"card-body\">"
-                        . "<p class=\"text-danger\">You must be logged in to access this page</p>"
+                        . "<p class=\"text-danger\">You do not have sufficient authorization to perform this task. Please contact your administrator for further assistance.</p>"
                         . "</div>"
                         . "</div>"
                         . "</div>"
