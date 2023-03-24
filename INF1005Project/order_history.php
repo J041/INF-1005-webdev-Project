@@ -39,7 +39,7 @@
         } else {
             if (isset($_SESSION['priority']) && !empty($_SESSION['priority'])) {
                 $order_ids = array();
-                if (($_SESSION['priority']) == 3) {
+                if ((($_SESSION['priority']) == 3)) {
                     $getorderidsstmt = $conn->prepare("SELECT order_id, Users_email, order_at FROM Order_History where Users_email=? and purchased = 1 ORDER BY order_id DESC");
                     $getorderidsstmt->bind_param("s", $_SESSION['email']);
                 } else {
@@ -112,7 +112,7 @@
            <?php
 
             if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
-                if (isset($_SESSION['priority']) && !empty($_SESSION['priority']) && $_SESSION['priority'] != 2) {
+                if (isset($_SESSION['priority']) && !empty($_SESSION['priority'])) {
                     $html_output = '
                     <div class="order-history container-fluid">
                     <div class="order-history-header row">
