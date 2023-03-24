@@ -14,7 +14,9 @@
         <div class="backend-catalogue container-fluid">
 
             <?php
-            if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
+            if (isset($_SESSION['username']) && !empty($_SESSION['username']) && $_SESSION['priority'] == 1 || $_SESSION['priority'] == 2) {
+
+
 
                 // Query All Products found in the 'Products' Table
                 function query_all_products() {
@@ -510,7 +512,7 @@
                                 </div>
 
                                 <div class="col-lg-12 col-xl-6">
-                                    <label class="" for="product_img_file">Product Image: </label>
+                                    <label class="" for="product_img_file">** Product Image: </label>
                                     <input class="" type="file" name="product_img_file" aria-labelledby="product_img_file">
                                 </div>
 
@@ -527,7 +529,7 @@
                                 </div>
 
                                 <div class="col-lg-12 col-xl-6">
-                                    <label class="" for="product_cat_img_file">Product Category Image: </label>
+                                    <label class="" for="product_cat_img_file">** Product Category Image: </label>
                                     <input class="" type="file" name="product_cat_img_file" aria-labelledby="product_cat_img_file">
                                 </div>
 
@@ -877,7 +879,7 @@
                         . "<div class=\"row\">"
                         . "<div class=\"output-msg card\">"
                         . "<div class=\"card-body\">"
-                        . "<p class=\"text-danger\">You must be logged in to access this page</p>"
+                        . "<p class=\"text-danger\">You do not have sufficient authorization to perform this task. Please contact your administrator for further assistance.</p>"
                         . "</div>"
                         . "</div>"
                         . "</div>"
