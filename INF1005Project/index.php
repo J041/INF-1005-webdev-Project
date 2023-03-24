@@ -236,13 +236,15 @@
                                             ON mydb.Cart_Item.Order_History_order_id=mydb.Order_History.order_id
                                             INNER JOIN mydb.Products
                                             ON mydb.Cart_Item.Products_product_id=mydb.Products.product_id
-                                            WHERE mydb.Order_History.purchased=?
+                                            WHERE mydb.Order_History.purchased=? AND MONTH(mydb.Order_History.order_at)=? AND YEAR(mydb.Order_History.order_at)=?
                                             GROUP BY mydb.Cart_Item.Products_product_id
                                             ORDER BY quantity_sold DESC
                                             LIMIT 6;
                                             ");
         $purchased = 1;
-        $trending_items_stmt->bind_param("i", $purchased);
+        $current_month = date('m');
+        $current_year = date('Y');
+        $trending_items_stmt->bind_param("iss", $purchased, $current_month, $current_year);
         $trending_items_stmt->execute();
 
         // Storing Product Categories into a list
