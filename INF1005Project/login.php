@@ -29,12 +29,12 @@
                     // Bind & execute the query statement:
                     $stmt->bind_param("ss", $_POST["username"], $_POST["username"]);
                     // var_dump($_POST);
-                    echo $_POST["username"];
+                    // echo $_POST["username"];
 
                     $stmt->execute();
                     // echo "test case2";
                     $result = $stmt->get_result();
-                    var_dump($result);
+                    // var_dump($result);
 
                     if ($result->num_rows > 0) {
                 
