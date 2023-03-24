@@ -83,8 +83,8 @@
             $category_output .= "<div class=\"col-sm-4 categories\" >" .
                     "<div class=\"thumbnail d-flex align-items-center justify-content-center categories\">" .
                     "<a href=\"catalogue.php?search_bar=".$category_array[$i]."\">" .
-                    "<img src=\"" .$categoryImgSrc. "\" alt=\"" . $category_array[$i] . " products\" class=\"category-icon\">" .
-                    "<p class=\"text-center\">" .ucfirst($category_array[$i]). "</p>" .
+                    "<img src=\"" .$categoryImgSrc. "\" alt=\"" . $category_array[$i] . "\" class=\"category-icon\">" .
+                    "<p class=\"text-center\"><strong>" .ucfirst($category_array[$i]). "<strong></p>" .
                     "</a>" .
                     "</div>" .
                     "</div>";

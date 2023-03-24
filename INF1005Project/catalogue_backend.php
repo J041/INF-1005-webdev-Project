@@ -512,7 +512,7 @@
                                 </div>
 
                                 <div class="col-lg-12 col-xl-6">
-                                    <label class="" for="product_img_file">Product Image: </label>
+                                    <label class="" for="product_img_file">** Product Image: </label>
                                     <input class="" type="file" name="product_img_file" aria-labelledby="product_img_file">
                                 </div>
 
@@ -529,7 +529,7 @@
                                 </div>
 
                                 <div class="col-lg-12 col-xl-6">
-                                    <label class="" for="product_cat_img_file">Product Category Image: </label>
+                                    <label class="" for="product_cat_img_file">** Product Category Image: </label>
                                     <input class="" type="file" name="product_cat_img_file" aria-labelledby="product_cat_img_file">
                                 </div>
 
