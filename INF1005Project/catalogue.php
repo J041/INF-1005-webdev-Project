@@ -28,7 +28,7 @@
                 $orderidstmt = $conn->prepare("SELECT order_id FROM Order_History where Users_email = ? and purchased = ?");
                 // Bind & execute the query statement:
                 $Users_email = $_SESSION['email'];
-                $purchased = 0;
+                $purchased = 1;
                 $orderidstmt->bind_param("si", $Users_email, $purchased);
                 if (!$orderidstmt->execute()) {
                     $errorMsg = "Execute failed: (" . $orderidstmt->errno . ") " . $orderidstmt->error;
@@ -69,15 +69,15 @@
 
                 if (in_array($product_id, $bought_productid)) {
                     // echo "true";
-                    return True;
+                    return true;
                 } else {
                     // echo "false";
-                    return FALSE;
+                    return false;
                 }
             }
         }
 
-        function addreview($product_id, $comment) {
+        function addreview($product_id, $comment, $ratings) {
             if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
                 // Create database connection.
                 $config = parse_ini_file('../private/db-config.ini');
@@ -89,13 +89,14 @@
                     $success = false;
                 } else {
                     // Prepare the statement:
-                    $addreviewstmt = $conn->prepare("INSERT INTO Feedback (Products_product_id, Users_email, comments) VALUES (?,?,?)");
+                    $addreviewstmt = $conn->prepare("INSERT INTO Feedback (Products_product_id, Users_email, comments, ratings) VALUES (?,?,?,?)");
                     // Bind & execute the query statement:
                     $user_email = $_SESSION['email'];
                     echo $product_id;
                     echo $user_email;
                     echo $comment;
-                    $addreviewstmt->bind_param("iss", $product_id, $user_email, $comment);
+                    echo $ratings;
+                    $addreviewstmt->bind_param("issi", $product_id, $user_email, $comment, $ratings);
                     if (!$addreviewstmt->execute()) {
                         echo "failed to add comment";
                         $errorMsg = "Execute failed: (" . $addreviewstmt->errno . ") " . $addreviewstmt->error;
@@ -186,20 +187,48 @@
                     $success = true;
                     $result = $getreviewstmt->get_result();
                     if ($result->num_rows > 0) {
-                        $review = array();
-                        $row = $result->fetch_assoc();
-                        $user_email = $row["Users_email"];
-                        $user_comment = $row["comments"];
-                        $username = getusername($user_email);
-                        array_push($review, $username, $user_comment);
-                        array_push($reviews_full, $review);
+                        while ($row = $result->fetch_assoc()) {
+                            $user_email = $row["Users_email"];
+                            $ratings = $row["ratings"];
+                            $user_comment = $row["comments"];
+                            $username = getusername($user_email);
+                            array_push($reviews_full, array($username, $ratings, $user_comment));
+                        }
                     }
-                    echo var_dump($reviews_full);
                     return $reviews_full;
                 }
                 $getreviewstmt->close();
             }
             $conn->close();
+        }
+
+        function stars_generator($decimal_rating, $int_average_rating) {
+            $html_output = "";
+
+            if ($decimal_rating == 0) {
+                // Filled Stars 
+                for ($k = 0; $k < ($int_average_rating); $k++) {
+                    $html_output .= "<i class=\"fa-solid fa-star\"></i>";
+                }
+
+                // Unfilled Stars 
+                for ($k = 0; $k < (5 - $int_average_rating); $k++) {
+                    $html_output .= "<i class=\"fa-regular fa-star\"></i>";
+                }
+            } else {
+                // Filled Stars 
+                for ($k = 0; $k < ($int_average_rating); $k++) {
+                    $html_output .= "<i class=\"fa-solid fa-star\"></i>";
+                }
+                // Half-Filled Stars
+                $html_output .= "<i class=\"fa-solid fa-star-half-stroke\"></i>";
+
+                // Unfilled Stars 
+                for ($k = 0; $k < (5 - 1 - $int_average_rating); $k++) {
+                    $html_output .= "<i class=\"fa-regular fa-star\"></i>";
+                }
+            }
+            return $html_output;
         }
         ?>
 
@@ -284,21 +313,33 @@
 
             // Checks if "Add to Cart" button has been clicked
             for ($i = 0; $i < sizeof($results_array); $i++) {
-                // Storing Name of "Add to Cart" button
+                // Storing Name of "Add to Cart" & "Save" review buttons
                 $add_cart_btn = "add_cart_item_" . $results_array[$i][0];
-
-                // Identifies which update form is called
+                $add_review_btn = "add_review_" . $results_array[$i][0];
+                                
+                // Identifies which "Add to Cart" button is called
                 if (isset($_POST[$add_cart_btn])) {
 
                     // Updates cart and redirects to 'cart.php'
                     addtocart($results_array[$i][0], 1);
                     redirect_page('cart.php');
                 }
+                
+                // Identifies which "Save" review button is called
+                if (isset($_POST[$add_review_btn])) {
+                    
+                    $user_review_rating = $_POST["rating"];
+                    $user_review_text = $_POST["review_text"];
+                    
+                    echo "reviews".$results_array[$i][0]."<br>";
+                    echo $_POST["rating"];
+                    echo $_POST["review_text"];
+                }
             }
-            
+
             // Output Header of Catalogue Page
             $html_output = "";
-            
+
             if ($logic == null) {
                 // List of Error Messages
                 for ($i = 0; $i < sizeof($error_msg); $i++) {
@@ -310,7 +351,7 @@
                             . "</div>"
                             . "</div>";
                 }
-                
+
                 // List of Success  Messages
                 for ($i = 0; $i < sizeof($success_msg); $i++) {
                     $html_output .= "<div class=\"container\">"
@@ -323,14 +364,13 @@
                             . "</div>"
                             . "</div>";
                 }
-                
+
                 $html_output .= "<div class=\"row\">"
                         . "<div class=\"container catalogue-display\">"
                         . "<h1>Search result for </h1>"
                         . "<h2>\"" . $search_query . "\"</h2>"
                         . "</div>"
                         . "</div>";
-                
             } elseif ($logic == 0) {
                 $html_output .= "<div class=\"row\">"
                         . "<div class=\"container catalogue-display\">"
@@ -341,7 +381,7 @@
             } elseif ($logic == 1) {
                 $html_output .= "<div class=\"row\">"
                         . "<div class=\"container catalogue-display\">"
-                        .  "<h1>Home/Products/" . $search_query . "</h1>"
+                        . "<h1>Home/Products/" . $search_query . "</h1>"
                         . "<h2>" . $search_query . "</h2>"
                         . "</div>"
                         . "</div>";
@@ -444,20 +484,118 @@
                         . "</button>"
                         . "</form>"
                         . "</div>"
-                        . "</div>"
+                        . "</div>";
 
-                        // Output & Styling User Review of each product
-                        . "<div class=\"product-item-row row\">"
-                        . "<div class=\"product-item-line col-lg-12\">"
-                        . "<h5>Reviews: </h5>"
-                        . "</div>"
-                        . "</div>"
-                        . "<div class=\"product-item-row row\">"
-                        . "<div class=\"product-item-line col-lg-12\">"
-                        . "<p>To be updated</p>"
-                        . "</div>"
-                        . "</div>"
-                        . "</div>"
+                // Adding Reviews for Each Product
+                $html_output .= "<div class=\"review-item-row row\">"
+                        . "<div class=\"review-header-button-row col-md-12 col-xl-12\">";
+
+                $html_output .= "<button class=\"btn btn-outline-primary\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\" title=\"Leave a review\"><i class=\"fa-solid fa-plus\"></i>&nbsp; Add </button>"
+                        . "<button class=\"btn btn-outline-secondary d-none\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-xmark\"></i>&nbsp; Close </button>";
+
+//              $html_output .= "<button class=\"btn btn-outline-secondary disabled\" tabindex=\"0\" role=\"button\" aria-disabled=\"true\"><i class=\"fa-solid fa-plus\"></i>&nbsp; Add </button>";
+
+                $html_output .= "</div>"
+                        . "</div>";
+
+                $html_output .= '
+                    <div class="review-item-row row">
+                        <form action="catalogue.php" method="POST" enctype="multipart/form-data">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="review-row-form col-lg-12 col-xl-12">
+                                            <h6>Please let us know how you found the product.</h6>
+                                        </div>
+                                        <div class="review-row-form col-lg-12 col-xl-12">
+                                            <label class="" for="rating">1 <i class="fa-solid fa-star"></i></label>
+                                            <input class="" type="radio" name="rating" aria-labelledby="rating" value="1" required>
+                                            <label class="" for="rating">2 <i class="fa-solid fa-star"></i></label>
+                                            <input class="" type="radio" name="rating" aria-labelledby="rating" value="2" required>
+                                            <label class="" for="rating">3 <i class="fa-solid fa-star"></i></label>
+                                            <input class="" type="radio" name="rating" aria-labelledby="rating" value="3" required>
+                                            <label class="" for="rating">4 <i class="fa-solid fa-star"></i></label>
+                                            <input class="" type="radio" name="rating" aria-labelledby="rating" value="4" required>
+                                            <label class="" for="rating">5 <i class="fa-solid fa-star"></i></label>
+                                            <input class="" type="radio" name="rating" aria-labelledby="rating" value="5" required>
+                                        </div>
+                                        <div class="review-row-form col-lg-12 col-xl-12">
+                                            <label class="" for="review_text">Review: </label>
+                                            <textarea name="review_text" placeholder="Please let us know how you found the product." aria-labelledby="review_text" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="review-header-button-row review-row-form col-md-12 col-lg-12">
+                                        ';
+                $html_output .= "<button class=\"btn btn-outline-success\" tabindex=\"0\" name=\"add_review_". $results_array[$i][0] ."\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-floppy-disk\"></i>&nbsp; Save </button>";
+                $html_output .= '                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                            ';
+
+                // Displaying Reviews for Each Product
+                $html_output .= "<div class=\"review-item-row row\">";
+
+                // Ratings Calculation
+                $reviews = getreviews($results_array[$i][0]);
+                $total_rating = 0;
+                for ($k = 0; $k < sizeof($reviews); $k++) {
+                    $total_rating += $reviews[$k][1];
+                }
+                $review_count = sizeof($reviews);
+
+                if ($review_count == 0) {
+                    $html_output .= "<div class=\"product-item-line review-stars col-lg-12\">"
+                            . "<h5>Reviews: </h5>"
+                            . "</div>"
+                            . "</div>"
+                            . "<div class=\"product-item-row row\">"
+                            . "<div class=\"product-item-line col-lg-12\">"
+                            . "<p>No Reviews. Be the first to leave some feedback regarding the product!</p>"
+                            . "</div>"
+                            . "</div>";
+                } else {
+                    $int_average_rating = ($total_rating / $review_count) % 5;
+                    $decimal_rating = $total_rating - ($int_average_rating * $review_count);
+
+                    $html_output .= "<div class=\"product-item-line review-stars col-sm-8 col-md-8 col-lg-8\">"
+                            . "<h5>" . number_format($total_rating / $review_count, 1, '.', '') . "</h5>"
+                            . stars_generator($decimal_rating, $int_average_rating)
+                            . "</div>"
+                            . "<div class=\"product-item-line col-sm-4 col-md-4 col-lg-4\">"
+                            . "<h6>" . $review_count . " Reviews </h6>"
+                            . "</div>"
+                            . "</div>";
+
+                    // Output Reviews into HTML
+                    for ($k = 0; $k < sizeof($reviews); $k++) {
+                        $html_output .= "<div class=\"review-item-row row\">"
+                                . "<div class=\"card\">"
+                                . "<div class=\"card-body\">"
+                                . "<div class=\"review-item-line row\">"
+                                . "<div class=\"col-sm-8 col-md-8 col-lg-8\">"
+                                . "<p>" . $reviews[$k][0] . "</p>"
+                                . "</div>"
+                                . "<div class=\"col-sm-4 col-md-4 col-lg-4\">"
+                                . stars_generator(0, $reviews[$k][1])
+                                . "</div>"
+                                . "</div>"
+                                . "<div class=\"review-item-line row\">"
+                                . "<div class=\"col-lg-12\">"
+                                . "<p>\"" . $reviews[$k][2] . "\"</p>"
+                                . "</div>"
+                                . "</div>"
+                                . "</div>"
+                                . "</div>"
+                                . "</div>";
+                    }
+                }
+
+                $html_output .= "</div>"
                         . "</div>"
                         . "</div>"
                         . "</div>"
@@ -468,10 +606,13 @@
             ?>
 
             <?php
-            // check_if_bought_before(1);
-            // addreview(3, 'new test comment');
-            // editreviews(3,'editted');
-            // getreviews(3);
+//             echo "bought before?".check_if_bought_before(2)."<br>";
+//             editreviews(3,'editted');
+//            
+            addreview(3, 'new test comment', 5)."<br>";
+//            for ($i = 0; $i < sizeof(getreviews(3)); $i++) {
+//                echo print_r(getreviews(3)[$i])."<br>";
+//            }
             ?>
             <?php echo $html_output ?>
 

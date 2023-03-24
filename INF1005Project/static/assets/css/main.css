@@ -24,6 +24,10 @@ a:hover {
     color: currentColor;
 }
 
+.card, form {
+    width: 100%;
+}
+
 /* Decreasing z-index of First Carousel to allow Navbar to supersede it */
 .indexPromoCarousel {
     z-index: 0
@@ -235,7 +239,6 @@ div .catalogue-items{
 }
 
 .catalogue-box .catalogue-items img {
-    max-height: 25vw;
     width: 100%;
 }
 
@@ -294,26 +297,26 @@ div .catalogue-button {
     margin-bottom: 13px;
 }
 
-.product-item-row h1{
+.product-item-row h1 {
     font-size: 14px;
     text-transform: uppercase;
 }
 
-.product-item-row h2{
+.product-item-row h2 {
     font-size: 33px;
     font-weight: bold;
 }
 
-.product-item-row h3{
+.product-item-row h3 {
     font-size: 16px;
 }
 
-.product-item-row h4{
+.product-item-row h4 {
     font-size: 12px;
     font-style: italic;
 }
 
-.product-item-row h5{
+.product-item-row h5, .review-item-row h5{
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
@@ -338,7 +341,7 @@ div .catalogue-button {
     padding: 10px 0px 30px;
 }
 
-.product-item-row:nth-child(7) .product-item-line form {
+.product-item-line form {
     width: 100%;
 }
 
@@ -347,6 +350,83 @@ div .catalogue-button {
     padding: 7px 5px;
     margin: 0px 15px;
     border-radius: 20px;
+}
+
+/* Catalogue - Reviews */
+.review-stars {
+    display: flex;
+    padding-top: 15px;
+}
+
+.review-stars h5 {
+    margin-right: 10px;
+}
+
+.review-item-row {
+    letter-spacing: 1px;
+    margin: 15px 0px;
+}
+
+.review-item-row .card-body {
+    padding: 10px;
+}
+
+.review-header-button-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.review-header-button-row button {
+    font-size: 12px;
+}
+
+.review-item-row h6 {
+    color: grey;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px 0px;
+}
+
+.review-row-form {
+    padding: 0px 35px;
+    margin-top: 10px;
+}
+
+.review-row-form input {
+    margin-right: 15px;
+}
+
+.review-row-form h6 {
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: none;
+    padding: 15px 0px;
+}
+
+.review-row-form textarea {
+    font-size: 14px;
+    letter-spacing: 1px;
+    width: 100%;
+    padding: 10px 15px;
+}
+
+.review-item-line {
+    margin: 10px 0px;
+}
+
+.review-item-line:nth-child(1) {
+    margin-bottom: 15px;
+}
+
+.review-item-line:nth-child(1) p {
+    font-weight: bold;
+}
+
+.review-item-line:nth-child(2) p {
+    font-size: 14px;
+    font-style: italic;
 }
 
 /* Backend Catalogue */
