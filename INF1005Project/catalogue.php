@@ -36,8 +36,13 @@
                 } else {
                     $result = $orderidstmt->get_result();
                     if ($result->num_rows > 0) {
-                        $row = $result->fetch_assoc();
-                        array_push($order_ids, $row["order_id"]);
+
+                        while ($row = $result->fetch_assoc()) {
+                            array_push($order_ids, $row["order_id"]);
+                        }
+
+                        // $row = $result->fetch_assoc();
+                        // array_push($order_ids, $row["order_id"]);
                         // echo "order_id is:" . $order_id . '<br>';
                     } else {
                         $errorMsg = "less than 1 result";
@@ -57,8 +62,14 @@
                     } else {
                         $result = $productidstmt->get_result();
                         if ($result->num_rows > 0) {
-                            $row = $result->fetch_assoc();
-                            array_push($bought_productid, $row["Products_product_id"]);
+
+                            
+                            while ($row = $result->fetch_assoc()) {
+                                array_push($bought_productid, $row["Products_product_id"]);
+                            }
+
+                            // $row = $result->fetch_assoc();
+                            // array_push($bought_productid, $row["Products_product_id"]);
                         } else {
                             $errorMsg = "less than 1 result";
                             $success = false;
@@ -68,10 +79,10 @@
                 }
 
                 if (in_array($product_id, $bought_productid)) {
-                    // echo "true";
+                    // echo "<br> check_if_bought_before: true <br> ";
                     return true;
                 } else {
-                    // echo "false";
+                    // echo "<br> check_if_bought_before: false<br> ";
                     return false;
                 }
             }
@@ -88,6 +99,9 @@
                     $errorMsg = "Connection failed: " . $conn->connect_error;
                     $success = false;
                 } else {
+                    mysqli_error(MYSQLI_ERROR_OFF);
+                    ini_set("display_errors", 1);
+                    error_reporting(E_ALL);
                     // Prepare the statement:
                     $addreviewstmt = $conn->prepare("INSERT INTO Feedback (Products_product_id, Users_email, comments, ratings) VALUES (?,?,?,?)");
                     // Bind & execute the query statement:
@@ -613,6 +627,7 @@
 //            for ($i = 0; $i < sizeof(getreviews(3)); $i++) {
 //                echo print_r(getreviews(3)[$i])."<br>";
 //            }
+            // check_if_bought_before(17);
             ?>
             <?php echo $html_output ?>
 
