@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
@@ -14,9 +13,18 @@ function sanitize_input($data) {
 
 function sanitize_regex_input($data) {
 
-    // Regular Expression that only allow accepts alphanumeric and whitespace characters
+    // Regular Expression that only allow accepts alphanumeric, hyphen (-) & whitespace characters
     if (preg_match('/[^A-Za-z0-9- ]/', $data)) {
+        return "Unidentified Character";
+    } else {
+        return "No Issues!";
+    }
+}
 
+function sanitize_regex_desc($data) {
+    
+    // Regular Expression that only allow accepts alphanumeric & whitespace characters, hyphen (-), commas (-), full-stop (.) & exclamation mark (!).
+    if (preg_match('/[^A-Za-z0-9-.,! ]/', $data)) {
         return "Unidentified Character";
     } else {
         return "No Issues!";
@@ -37,22 +45,18 @@ function sanitize_regex_float($data) {
 
     // Regular Expression that only allow accepts numeric characters and dots (.)
     if (preg_match('/[^0-9. ]/', $data)) {
-        // echo preg_match('/[^A-Za-z0-9 ]/', $data);
         return "Unidentified Character";
     } else {
-        // echo preg_match('/[^A-Za-z0-9 ]/', $data);
         return "No Issues!";
     }
 }
 
 function sanitize_regex_int($data) {
 
-    // Regular Expression that only allow accepts numeric characters and dots (.)
+    // Regular Expression that only allow accepts numeric characters
     if (preg_match('/[^0-9 ]/', $data)) {
-        // echo preg_match('/[^A-Za-z0-9 ]/', $data);
         return "Unidentified Character";
     } else {
-        // echo preg_match('/[^A-Za-z0-9 ]/', $data);
         return "No Issues!";
     }
 }
