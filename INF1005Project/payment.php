@@ -40,8 +40,10 @@
 
                     <div class="form-group">
                         <label for="cardexpiration">Expiration Date</label><br>
-                        <input class="form-control" type="date" id="cardexpiration" name="cardexpiration"
-                               required min="2023-03-01" max="2028-12-01">
+                        <?php
+                        echo "<input class='form-control' type='date' id='cardexpiration' name='cardexpiration' min='"
+                        .date('Y-m-d')."' max='2028-12-01'>";
+                        ?>
                     </div>
                     <div class="form-group">
                         <label for="securitycode">Security Code</label><br>

@@ -23,11 +23,11 @@
                     <p>Thank you for choosing our Mama Shop for your online shopping needs. We are grateful for your support and look forward to providing you with an excellent shopping experience!</p>
                 </div>
             </div>
-            <div class="row" style="background-color: #fff9e6;">
+            <div class="row" style="background-color: #fff9e6; border-radius: 3em;">
                 <div class="col-md-6 my-5">
                     <h2>Contact Us</h2>
-                    <p>Office: +65 1234 5678</p>
-                    <p>Email: admin@gmail.com</p>
+                    <p><b>Office:</b> +65 1234 5678</p>
+                    <p><b>Email:</b> admin@gmail.com</p>
                 </div>
             </div>
         </div>
