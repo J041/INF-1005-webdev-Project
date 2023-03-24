@@ -281,11 +281,13 @@
                 }
 
             } else {
-                $html_output = "<div class=\"container-fluid\" role=\"alert\">"
+                $html_output = "<div class=\"container\">"
+                        . "<div class=\"container-fluid\" role=\"alert\">"
                         . "<div class=\"row\">"
                         . "<div class=\"output-msg card\">"
                         . "<div class=\"card-body\">"
                         . "<p class=\"text-danger\">You must be logged in to access this page</p>"
+                        . "</div>"
                         . "</div>"
                         . "</div>"
                         . "</div>"
