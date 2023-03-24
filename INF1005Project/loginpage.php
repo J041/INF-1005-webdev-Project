@@ -3,7 +3,7 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edit this template
 -->
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
@@ -25,12 +25,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input class="form-control" type="email" id="email"
-                           required name="email" name="email" placeholder="Enter email">
+                           required name="email" placeholder="Enter email">
                 </div>
                 <div class="form-group">
                     <label for="pwd">Password:</label>
                     <input class="form-control" type="password" id="pwd"
-                           required name="pwd" name="pwd" placeholder="Enter password">
+                           required name="pwd" placeholder="Enter password">
                 </div>
 
                 <div class="form-group">

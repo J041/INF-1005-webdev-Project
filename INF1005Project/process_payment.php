@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <?php
+        include "header.inc.php";
+        ?>
+    </head>
+    <body>
 <?php
     $cardtype = $cardnumber = $cardexpiration = $securitycode = 
             $fname = $lname = $error = "";
@@ -74,7 +82,6 @@
     }
     else
     {
-        include "header.inc.php";
         include "nav.inc.php";
         echo "<main class='container'><h2>Error:</h2>";
         echo "<h4>Enter payment details <a href='payment.php'>here</a> for it to be processed</h4></main>";
@@ -92,14 +99,6 @@
     }
 
     ?>
-
-<html>
-    <head>
-        <?php
-        include "header.inc.php";
-        ?>
-    </head>
-    <body>
         <?php
         include "nav.inc.php";
         ?>

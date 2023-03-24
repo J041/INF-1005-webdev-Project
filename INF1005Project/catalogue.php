@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
@@ -572,11 +572,12 @@
                 $html_output .= "<div class=\"review-item-row row\">"
                         . "<div class=\"review-header-button-row col-md-12 col-xl-12\">";
 
+
                 if (check_if_bought_before($results_array[$i][0])) {
-                    $html_output .= "<button class=\"btn btn-outline-primary new-review-add\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\" title=\"Leave a review\"><i class=\"fa-solid fa-plus\"></i>&nbsp; Add </button>"
-                            . "<button class=\"btn btn-outline-secondary new-review-add-close d-none\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-xmark\"></i>&nbsp; Close </button>";
+                    $html_output .= "<button class=\"btn btn-outline-primary new-review-add\" tabindex=\"0\" aria-pressed=\"false\" title=\"Leave a review\"><i class=\"fa-solid fa-plus\"></i>&nbsp; Add </button>"
+                            . "<button class=\"btn btn-outline-secondary new-review-add-close d-none\" tabindex=\"0\" aria-pressed=\"false\"><i class=\"fa-solid fa-xmark\"></i>&nbsp; Close </button>";
                 } else {
-                    $html_output .= "<button class=\"btn btn-outline-secondary new-review-add disabled\" tabindex=\"0\" role=\"button\" aria-disabled=\"true\"><i class=\"fa-solid fa-plus\"></i>&nbsp; Add </button>";
+                    $html_output .= "<button class=\"btn btn-outline-secondary new-review-add disabled\" tabindex=\"0\" aria-disabled=\"true\"><i class=\"fa-solid fa-plus\"></i>&nbsp; Add </button>";
                 }
 
                 $html_output .= "</div>"
@@ -592,26 +593,28 @@
                                             <h6>Please let us know how you found the product.</h6>
                                         </div>
                                         <div class="review-row-form col-lg-12 col-xl-12">
-                                            <label class="" for="rating">1 <i class="fa-solid fa-star"></i></label>
+                                            <label class="">1 <i class="fa-solid fa-star"></i></label>
                                             <input class="" type="radio" name="rating" value="1" required>
-                                            <label class="" for="rating">2 <i class="fa-solid fa-star"></i></label>
+                                            <label class="">2 <i class="fa-solid fa-star"></i></label>
                                             <input class="" type="radio" name="rating" value="2" required>
-                                            <label class="" for="rating">3 <i class="fa-solid fa-star"></i></label>
+                                            <label class="">3 <i class="fa-solid fa-star"></i></label>
                                             <input class="" type="radio" name="rating" value="3" required>
-                                            <label class="" for="rating">4 <i class="fa-solid fa-star"></i></label>
+                                            <label class="">4 <i class="fa-solid fa-star"></i></label>
                                             <input class="" type="radio" name="rating" value="4" required>
-                                            <label class="" for="rating">5 <i class="fa-solid fa-star"></i></label>
+                                            <label class="">5 <i class="fa-solid fa-star"></i></label>
                                             <input class="" type="radio" name="rating" value="5" required>
                                         </div>
                                         <div class="review-row-form col-lg-12 col-xl-12">
-                                            <label class="" for="review_text">Review: </label>
-                                            <textarea name="review_text" placeholder="Please let us know how you found the product." aria-labelledby="review_text" maxlength="150" required ></textarea>
+                                            <label class="">Review: </label>
+                                            <textarea name="review_text" placeholder="Please let us know how you found the product." maxlength="150" required ></textarea>
+
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="review-header-button-row review-row-form col-md-12 col-lg-12">
                                         ';
-                $html_output .= "<button class=\"btn btn-outline-success\" tabindex=\"0\" name=\"add_review_" . $results_array[$i][0] . "\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-floppy-disk\"></i>&nbsp; Save </button>";
+                $html_output .= "<button class=\"btn btn-outline-success\" tabindex=\"0\" name=\"add_review_" . $results_array[$i][0] . "\" aria-pressed=\"false\"><i class=\"fa-solid fa-floppy-disk\"></i>&nbsp; Save </button>";
+
                 $html_output .= '                        
                                         </div>
                                     </div>

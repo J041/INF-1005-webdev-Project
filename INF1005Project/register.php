@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <?php
         include "header.inc.php";
         ?>
     </head>
+    <body>
     <?php
     include "nav.inc.php";
     ?>
-    <body>
+    
         <?php
         global $email, $username, $pwd_hashed, $usernameErr, $emailErr, $passwordErr, $pwd_confirmErr;
 
@@ -161,7 +162,7 @@
             </p>
             <form method="post" action="register.php">
                 <div class="form-group">
-                    <label for="fname">Username:</label>
+                    <label for="username">Username:</label>
                     <input class="form-control" type="text" id="username"
                            required name="username" maxlength="45" placeholder="Enter username">
                 </div>

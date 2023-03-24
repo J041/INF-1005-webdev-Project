@@ -277,7 +277,7 @@
                     "<p class=\"card-description\">Price: \$$product_price</p>" .
                     "<div class=\"flex-box cartbutton\">" .
                     "<form action = \"catalogue.php\">" .
-                    "<input type=\"hidden\" name=\"search_bar\" value=".$trending_items_array[$i].">". 
+                    "<input type=\"hidden\" name=\"search_bar\" value=\"".$trending_items_array[$i]."\">". 
                     "<button class = \"view-catalogue-button\" type=\"submit\">View Catalogue</button>" .
                     "</form>" .
                     "</div>" .
@@ -291,6 +291,9 @@
                         "<br>";
                 $trending_items_columnCounter = 0;
             }
+        }
+        if ($trending_items_columnCounter != 3){
+            $trending_items_output .= "</div>";
         }
         $trending_items_output .= "</div>" .
                 "</div>";
