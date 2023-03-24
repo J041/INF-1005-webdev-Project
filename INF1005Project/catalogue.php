@@ -107,8 +107,6 @@
                     if (!$addreviewstmt->execute()) {
                         $errorMsg = "Execute failed: (" . $addreviewstmt->errno . ") " . $addreviewstmt->error;
                         $success = false;
-                    } else {
-                        echo "comment added";
                     }
                     $addreviewstmt->close();
                 }
@@ -147,7 +145,7 @@
             }
         }
 
-        function editreviews($product_id, $comment) {
+        function editreviews($product_id, $comment, $ratings) {
             // Create database connection.
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
@@ -157,9 +155,9 @@
                 $errorMsg = "Connection failed: " . $conn->connect_error;
                 $success = false;
             } else {
-                $updatereviewstmt = $conn->prepare("UPDATE Feedback SET comments = ? WHERE Products_product_id = ? AND Users_email = ?");
+                $updatereviewstmt = $conn->prepare("UPDATE Feedback SET comments = ?, ratings = ? WHERE Products_product_id = ? AND Users_email = ?");
                 // Bind & execute the query statement:
-                $updatereviewstmt->bind_param("sis", $comment, $product_id, $_SESSION['email']);
+                $updatereviewstmt->bind_param("siis", $comment, $ratings, $product_id, $_SESSION['email']);
                 if (!$updatereviewstmt->execute()) {
                     $errorMsg = "Execute failed: (" . $updatereviewstmt->errno . ") " . $updatereviewstmt->error;
                     $success = false;
@@ -296,6 +294,26 @@
             }
             $conn->close();
         }
+
+        function review_input_validation($comments, $ratings, $error_msg) {
+            $accepted_ratings = array(1, 2, 3, 4, 5);
+
+            // Fields Input Validation
+            if (!in_array($ratings, $accepted_ratings)) {
+                $msg = "Please selected a rating provided in the Reviews section.";
+                array_push($error_msg, $msg);
+            }
+
+            if ($comments == "") {
+                $msg = "Please enter a review in the Reviews section.";
+                array_push($error_msg, $msg);
+            } else if (sanitize_regex_desc($comments) == "Unidentified Character") {
+                $msg = "Only Alphanumeric characters, whitespaces, commas (,), full-stops (.), exclaimation marks (!) and hyphens (-) are accepted in Reviews.";
+                array_push($error_msg, $msg);
+            }
+            
+            return $error_msg;
+        }
         ?>
 
         <div class="container">
@@ -382,6 +400,7 @@
                 // Storing Name of "Add to Cart" & "Save" review buttons
                 $add_cart_btn = "add_cart_item_" . $results_array[$i][0];
                 $add_review_btn = "add_review_" . $results_array[$i][0];
+                $edit_review_btn = "edit_review_" . $results_array[$i][0];
 
                 // Identifies which "Add to Cart" button is called
                 if (isset($_POST[$add_cart_btn])) {
@@ -399,27 +418,16 @@
 
                     $accepted_ratings = array(1, 2, 3, 4, 5);
 
-                    // Fields Input Validation
-                    if (!in_array($user_review_rating, $accepted_ratings)) {
-                        $msg = "Please selected a rating provided in the Reviews section.";
-                        array_push($error_msg, $msg);
-                    }
-
-                    if ($user_review_text == "") {
-                        $msg = "Please enter a review in the Reviews section.";
-                        array_push($error_msg, $msg);
-                    } else if (sanitize_regex_desc($user_review_text) == "Unidentified Character") {
-                        $msg = "Only Alphanumeric characters, whitespaces, commas (,), full-stops (.), exclaimation marks (!) and hyphens (-) are accepted in Reviews.";
-                        array_push($error_msg, $msg);
-                    }
+                    // Input Validation - Add Reviews
+                    $error_msg = review_input_validation($user_review_text, $user_review_rating, $error_msg);
 
                     // Validates if customer has purchase the product
                     if (!check_if_bought_before($results_array[$i][0])) {
                         $msg = "Please purchase the product before leaving a review.";
                         array_push($error_msg, $msg);
                     }
-                    
-                    // Ensure that user does not have an existing review of the product
+
+                    // Ensure that user does NOT have an existing review of the product
                     if (in_array($results_array[$i][0], check_if_review_exist($_SESSION['email']))) {
                         $msg = "You have an existing review of the product. Please consider editing your review.";
                         array_push($error_msg, $msg);
@@ -431,7 +439,42 @@
                     } else {
                         addreview($results_array[$i][0], $user_review_text, $user_review_rating);
 
-                        $msg = "You have sucessfully added a review for " . $results_array[$i][1] . ".";
+                        $msg = "You have successfully added a review for " . $results_array[$i][1] . ".";
+                        array_push($success_msg, $msg);
+
+                        // Display Error/Success Messages
+                        output_messages($success_msg, $error_msg);
+                    }
+                }
+
+                // Identifies which "Edit" review button is called
+                if (isset($_POST[$edit_review_btn])) {
+                    // Defining Form Variables for "Save" review form
+                    $user_review_rating = sanitize_input($_POST["rating_edit"]);
+                    $user_review_text = sanitize_input($_POST["review_text_edit"]);
+                    
+                    // Input Validation - Edit Reviews
+                    $error_msg = review_input_validation($user_review_text, $user_review_rating, $error_msg);
+                    
+                    // Validates if customer has purchase the product
+                    if (!check_if_bought_before($results_array[$i][0])) {
+                        $msg = "Reviews can only be edited after purchasing a product.";
+                        array_push($error_msg, $msg);
+                    }
+
+                    // Ensure that user does have an existing review of the product
+                    if (!in_array($results_array[$i][0], check_if_review_exist($_SESSION['email']))) {
+                        $msg = "You do not have an existing review of the product. Please consider adding a new review.";
+                        array_push($error_msg, $msg);
+                    }
+
+                    if (!empty($error_msg)) {
+                        // Display Error/Success Messages
+                        output_messages($success_msg, $error_msg);
+                    } else {
+                        editreviews($results_array[$i][0], $user_review_text, $user_review_rating);
+
+                        $msg = "You have successfully updated your review for " . $results_array[$i][1] . ".";
                         array_push($success_msg, $msg);
 
                         // Display Error/Success Messages
@@ -572,7 +615,8 @@
                 $html_output .= "<div class=\"review-item-row row\">"
                         . "<div class=\"review-header-button-row col-md-12 col-xl-12\">";
 
-                if (check_if_bought_before($results_array[$i][0])) {
+                // Checks if Current User has purchased the product and have NOT left a review
+                if (check_if_bought_before($results_array[$i][0]) && !in_array($results_array[$i][0], check_if_review_exist($_SESSION['email'])) && !($reviews[$k][0] == getusername($_SESSION['email']))) {
                     $html_output .= "<button class=\"btn btn-outline-primary new-review-add\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\" title=\"Leave a review\"><i class=\"fa-solid fa-plus\"></i>&nbsp; Add </button>"
                             . "<button class=\"btn btn-outline-secondary new-review-add-close d-none\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-xmark\"></i>&nbsp; Close </button>";
                 } else {
@@ -584,14 +628,14 @@
 
                 $html_output .= '
                     <div class="review-item-row row d-none">
-                        <form action="catalogue.php" method="POST" enctype="multipart/form-data">
+                        <form action="catalogue.php" method="POST">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="review-row-form col-lg-12 col-xl-12">
+                                        <div class="review-row-form col-sm-12 col-md-12 col-lg-12">
                                             <h6>Please let us know how you found the product.</h6>
                                         </div>
-                                        <div class="review-row-form col-lg-12 col-xl-12">
+                                        <div class="review-row-form col-sm-12 col-md-12 col-lg-12">
                                             <label class="" for="rating">1 <i class="fa-solid fa-star"></i></label>
                                             <input class="" type="radio" name="rating" value="1" required>
                                             <label class="" for="rating">2 <i class="fa-solid fa-star"></i></label>
@@ -603,13 +647,13 @@
                                             <label class="" for="rating">5 <i class="fa-solid fa-star"></i></label>
                                             <input class="" type="radio" name="rating" value="5" required>
                                         </div>
-                                        <div class="review-row-form col-lg-12 col-xl-12">
+                                        <div class="review-row-form col-sm-12 col-md-12 col-lg-12">
                                             <label class="" for="review_text">Review: </label>
                                             <textarea name="review_text" placeholder="Please let us know how you found the product." aria-labelledby="review_text" maxlength="150" required ></textarea>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="review-header-button-row review-row-form col-md-12 col-lg-12">
+                                        <div class="review-header-button-row review-row-form col-sm-12 col-md-12 col-lg-12">
                                         ';
                 $html_output .= "<button class=\"btn btn-outline-success\" tabindex=\"0\" name=\"add_review_" . $results_array[$i][0] . "\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-floppy-disk\"></i>&nbsp; Save </button>";
                 $html_output .= '                        
@@ -665,22 +709,84 @@
                         $html_output .= "<div class=\"review-item-row row\">"
                                 . "<div class=\"card\">"
                                 . "<div class=\"card-body\">"
-                                . "<div class=\"review-item-line row\">"
-                                . "<div class=\"col-sm-8 col-md-8 col-lg-8\">"
-                                . "<p>" . $reviews[$k][0] . "</p>"
-                                . "</div>"
-                                . "<div class=\"col-sm-4 col-md-4 col-lg-4\">"
-                                . stars_generator(0, $reviews[$k][1])
-                                . "</div>"
-                                . "</div>"
-                                . "<div class=\"review-item-line row\">"
-                                . "<div class=\"col-lg-12\">"
-                                . "<p>\"" . $reviews[$k][2] . "\"</p>"
-                                . "</div>"
-                                . "</div>"
-                                . "</div>"
-                                . "</div>"
-                                . "</div>";
+                                . "<div class=\"review-display-row\">"
+                                . "<div class=\"review-header-button-row col-lg-12\">";
+
+                        // Only displays "Edit" button if Current User has purchased the product and have left a review
+                        if (check_if_bought_before($results_array[$i][0]) && in_array($results_array[$i][0], check_if_review_exist($_SESSION['email'])) && $reviews[$k][0] == getusername($_SESSION['email'])) {
+                            $html_output .= "<button class=\"btn btn-outline-primary edit-review-edit\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\" title=\"Leave a review\"><i class=\"fa-solid fa-pen\"></i>&nbsp; Edit </button>"
+                                    . "<button class=\"btn btn-outline-secondary edit-review-edit-close d-none\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-xmark\"></i>&nbsp; Close </button>";
+                        }
+
+                        // Displays Reviews relating to the product
+                        $html_output .= '
+                                </div>
+                            </div>
+                            <div class="review-display-row">
+                                <div class="review-item-line row">
+                                    <div class="col-sm-8 col-md-8 col-lg-8">
+                                    ';
+                        $html_output .= "<p>" . $reviews[$k][0] . "</p>";
+                        $html_output .= '
+                                    </div>
+                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                ';
+                        $html_output .= stars_generator(0, $reviews[$k][1]);
+                        $html_output .= '
+                                </div>
+                            </div>
+                                <div class="review-item-line row">
+                                    <div class="col-lg-12">
+                                    ';
+                        $html_output .= "<p>\"" . $reviews[$k][2] . "\"</p>";
+                        $html_output .= '
+                                    </div>
+                                </div>
+                            </div>
+                            ';
+
+                        // Edit Reviews
+                        if (check_if_bought_before($results_array[$i][0]) && in_array($results_array[$i][0], check_if_review_exist($_SESSION['email'])) && $reviews[$k][0] == getusername($_SESSION['email'])) {
+                            $html_output .= '
+                            <div class="review-display-row d-none">
+                                <form action="catalogue.php" method="POST">
+                                    <div class="review-item-line row">
+                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                            <h6>Please let us know how you found the product.</h6>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                    ';
+
+                            for ($j = 1; $j < 6; $j++) {
+                                if ($reviews[$k][1] == $j) {
+                                    $html_output .= "<label class=\"\" for=\"rating_edit\">" . $j . " <i class=\"fa-solid fa-star\"></i></label>"
+                                            . "<input class=\"\" type=\"radio\" name=\"rating_edit\" value=\"" . $reviews[$k][1] . "\" required checked>";
+                                } else {
+                                    $html_output .= "<label class=\"\" for=\"rating_edit\">" . $j . " <i class=\"fa-solid fa-star\"></i></label>"
+                                            . "<input class=\"\" type=\"radio\" name=\"rating_edit\" value=\"" . $j . "\" required>";
+                                }
+                            }
+                            $html_output .= "</div>"
+                                    . "<div class=\"review-display-row col-sm-12 col-md-12 col-lg-12\">"
+                                    . "<label class=\"\" for=\"review_text_edit\">Review: </label>";
+                            $html_output .= "<textarea name=\"review_text_edit\" placeholder=\"Please let us know how you found the product.\" aria-labelledby=\"review_text_edit\" maxlength=\"150\" required >" . $reviews[$k][2] . "</textarea>"
+                                    . "</div>"
+                                    . "<div class=\"review-header-button-row review-row-form col-sm-12 col-md-12 col-lg-12\">";
+
+                            $html_output .= "<button class=\"btn btn-outline-success\" tabindex=\"0\" name=\"edit_review_" . $results_array[$i][0] . "\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-floppy-disk\"></i>&nbsp; Save </button>";
+
+                            $html_output .= '
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                                ';
+                        }
+                        $html_output .= '
+                        </div>
+                    </div>
+                </div>
+                                ';
                     }
                 }
 
@@ -692,21 +798,10 @@
                         . "</div>"
                         . "</div>";
             }
+            
+            
+            echo $html_output
             ?>
-
-            <?php
-//            echo "bought before?" . check_if_bought_before(2) . "<br>";
-//            echo "bought before?" . check_if_bought_before(2) . "<br>";
-//            echo "bought before?" . check_if_bought_before(3) . "<br>";
-//             editreviews(2,'test editted');
-//            
-//            addreview(1, 'new test comment', 5)."<br>";
-//            for ($i = 0; $i < sizeof(getreviews(3)); $i++) {
-//                echo print_r(getreviews(3)[$i])."<br>";
-//            }
-            // check_if_bought_before(17);
-            ?>
-            <?php echo $html_output ?>
 
             <?php
             include "footer.inc.php";

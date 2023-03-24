@@ -393,11 +393,11 @@ div .catalogue-button {
     margin-top: 10px;
 }
 
-.review-row-form input {
+.review-row-form input, .review-display-row input {
     margin-right: 15px;
 }
 
-.review-row-form h6 {
+.review-row-form h6, .review-display-row h6 {
     color: black;
     font-size: 14px;
     font-weight: bold;
@@ -405,7 +405,7 @@ div .catalogue-button {
     padding: 15px 0px;
 }
 
-.review-row-form textarea {
+.review-row-form textarea, .review-display-row textarea {
     font-size: 14px;
     letter-spacing: 1px;
     width: 100%;
@@ -427,6 +427,10 @@ div .catalogue-button {
 .review-item-line:nth-child(2) p {
     font-size: 14px;
     font-style: italic;
+}
+
+.review-display-row {
+    margin: 10px 0px;
 }
 
 /* Backend Catalogue */
