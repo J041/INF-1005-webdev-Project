@@ -108,7 +108,6 @@ function catalogueToggles() {
 }
 
 function displayHideToggle(element, main_btn, secondary_btn, main_display, secondary_display) {
-    console.log("inside function");
     if (element.classList.contains("disabled")) {
         console.log("Button is disabled.");
     } else {
