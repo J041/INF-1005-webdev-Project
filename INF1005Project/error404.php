@@ -9,7 +9,7 @@
         <?php
         include "nav.inc.php";
         ?>
-        <div>
+        <div class="container">
             <div class="container-fluid" role="alert">
                 <div class="row">
                     <div class="output-msg card">
