@@ -16,7 +16,6 @@
                         <div class="card-body">
                             <p class="text-danger">Oops! Page Not Found.</p>
                             <p class="text-danger">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
-                            <a href="/">Go to Homepage</a>
                             <form action="index.php" method="get">
                                 <button class="btn btn-primary" type="submit">Go to Homepage</button>
                             </form>
