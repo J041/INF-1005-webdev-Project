@@ -215,7 +215,7 @@ function addtocart($product_id, $quantity) {
     }
 }
 
-function remoevfromcart($product_id, $quantity) {
+function removefromcart($product_id, $quantity) {
     if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
         // Create database connection.
         $config = parse_ini_file('../private/db-config.ini');
