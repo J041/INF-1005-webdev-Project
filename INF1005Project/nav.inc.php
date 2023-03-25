@@ -35,14 +35,14 @@
                 // Generating Search Bar in HTML
                 $html_output .= '
                                     <div class="navb-search col-lg-12 col-xl-8">
-                                        <form action="/catalogue.php" method="GET">
+                                        <form action="/catalogue.php" method="GET" title="Only alphanumeric, whitespaces and hyphen (&quot;-&quot;) are allowed.">
                                             <div class="search-container">
                                                 <div class="row">
                                                     <div class="col-xs-11">
-                                                        <input class="search-bar" id="search_bar" type="text" name="search_bar" placeholder="Search for Products..." aria-labelledby="search_bar" data-toggle="tooltip" data-placement="bottom" title="Only alphanumeric, whitespaces and hyphen (&quot;-&quot;) are allowed." maxlength = "100">
+                                                        <input class="search-bar" id="search_bar" type="text" name="search_bar" placeholder="Search for Products..." data-toggle="tooltip" data-placement="bottom" aria-labelledby="Only alphanumeric, whitespaces and hyphen (&quot;-&quot;) are allowed." maxlength = "100">
                                                     </div>
                                                     <div class="col-xs-1">
-                                                        <button class="search-bar-icon btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                                        <button class="search-bar-icon btn btn-outline-primary" aria-labelledby="search_btn" title="Click here to search for product."><i class="fa-solid fa-magnifying-glass"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -97,7 +97,7 @@
                     $html_output .= '
                     
                                     <div class="item nav-item dropdown">
-                                        <a class="" href="/catalogue.php" id="dropdownCatalogue">
+                                        <a class="" href="/catalogue.php" id="dropdownCatalogue" aria-labelledby="catalogue" title="Click here to view our Product Catalogue.">
                                             <i class="fa-solid fa-book"></i>
                                             <span class="responsive_text">Catalogue</span>
                                         </a>
@@ -107,7 +107,7 @@
                     $html_output .= '
                     
                                     <div class="item nav-item dropdown">
-                                        <a class="dropdown-toggle" href="#" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <a class="dropdown-toggle" href="#" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" aria-labelledby="catalogue" title="Click here to view our Product Catalogue.">
                                             <i class="fa-solid fa-book"></i>
                                             <span class="responsive_text">Catalogue</span>
                                         </a>
@@ -120,7 +120,7 @@
                         $html_output .= '
                                         <div class="item row">
                                             <div class="col-xs-12">' . 
-                                                "<input type=\"submit\" name=\"search_bar\" value=\"" . $category_array[$i] . "\">" .
+                                                "<input type=\"submit\" name=\"search_bar\" value=\"" . $category_array[$i] . "\" aria-labelledby=\"catalogue_listing_". $category_array[$i] ."\">" .
                                             '</div>
                                         </div>
                                         ';
@@ -131,7 +131,7 @@
 
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <input type="submit" name="search_bar" value="All Products">
+                                                <input type="submit" name="search_bar" value="All Products" aria-labelledby=\"catalogue_list_all_products\">
                                             </div>
                                         </div>
                                         ';
@@ -160,7 +160,7 @@
                 // Generating Backend Catalogue in HTML
                 $html_output .= '
                                 <div class="item nav-item">
-                                    <a href="/catalogue_backend.php">
+                                    <a href="/catalogue_backend.php" aria-labelledby="catalogue_backend" title="Click here to view our Backend Catalogue.">
                                         <i class="fa-solid fa-book-open-reader"></i>
                                         <span class="responsive_text">Edit Catalogue</span>
                                     </a>
@@ -175,7 +175,7 @@
                 // Generating Admin Dashboard in HTML
                 $html_output .= '
                                 <div class="item nav-item">
-                                    <a href="/admin_dashboard.php">
+                                    <a href="/admin_dashboard.php" aria-labelledby="admin_dashboard" title="Click here to view our Admin Dashboard.">
                                         <i class="fa-solid fa-chart-line"></i>
                                         <span class="responsive_text">Dashboard</span>
                                     </a>
@@ -190,7 +190,7 @@
                 // Generating Cart in HTML
                 $html_output .= '
                                 <div class="item nav-item">
-                                    <a href="/cart.php">
+                                    <a href="/cart.php" aria-labelledby="shopping_cart" title="Click here to view your shopping cart.">
                                         <i class="fa-solid fa-cart-shopping"></i>
                                         <span class="responsive_text">Cart</span>
                                     </a>
@@ -205,7 +205,7 @@
                 // Generating About Us in HTML
                 $html_output .= '
                                 <div class="item nav-item">
-                                    <a href="/about_us.php">
+                                    <a href="/about_us.php" aria-labelledby="about_us" title="Learn more about us.">
                                         <i class="fa-solid fa-circle-info"></i>
                                         <span class="responsive_text">About Us</span>
                                     </a>
@@ -220,7 +220,7 @@
                 // Generating Login in HTML
                 $html_output .= '
                                 <div class="item nav-item">
-                                    <a href="/login.php">
+                                    <a href="/login.php" aria-labelledby="login" title="Log into your account.">
                                         <i class="fa-solid fa-right-to-bracket"></i>
                                         <span class="responsive_text">Login</span>
                                     </a>
@@ -233,11 +233,11 @@
             function generate_user_details($html_output, $username) {
                 $html_output .= '
                             <div class="item nav-item dropdown">
-                                <a class="dropdown-toggle" href="#" role="dropdownProfile" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" aria-labelledby="dropdownProfile">
                                     <span>' . $username . '</span>
                                     <i class="fa-solid fa-user"></i>
                                 </a>
-                                <div class="navb-profile dropdown-menu dropdown-menu-right" aria-labelledby="dropdownProfile">
+                                <div class="navb-profile dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUpdateProfile">
                                     <div class="item nav-item">
                                         <a href="/updateprofile.php">
                                             <i class="fa-solid fa-user-pen"></i>
@@ -245,13 +245,13 @@
                                         </a>
                                     </div>
                                     <div class="item nav-item">
-                                        <a href="/order_history.php">
+                                        <a href="/order_history.php" aria-labelledby="order_history">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                             <span>Order History</span>
                                         </a>
                                     </div>
                                     <div class="item nav-item">
-                                        <a href="/logout.php">
+                                        <a href="/logout.php" aria-labelledby="logout">
                                             <i class="fa-solid fa-right-from-bracket"></i>
                                             <span>Logout</span>
                                         </a>

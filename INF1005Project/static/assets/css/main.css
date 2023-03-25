@@ -345,6 +345,16 @@ div .catalogue-button {
     width: 100%;
 }
 
+.catalogue-button button:nth-child(1) {
+    color: #0059B3;
+    background-color: #fff;
+}
+
+.catalogue-button button:nth-child(2), .product-item-row form button {
+    color: #418500;
+    background-color: #fff;
+}
+
 .product-item-row:nth-child(7) .product-item-line button {
     width: 100%;
     padding: 7px 5px;
@@ -381,7 +391,7 @@ div .catalogue-button {
 }
 
 .review-item-row h6 {
-    color: grey;
+    color: #6B6B6B;
     font-size: 14px;
     font-weight: bold;
     text-transform: uppercase;
