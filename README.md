@@ -35,14 +35,14 @@
 - Staff: Maintain catalogs
 - Customers
 
-## [Joel] DB Schemas (CRUD for all)
+## [Joel] DB Schemas
 - Products (Has a promo column) 
-	[product_id (INT 4), product_img (BLOB), product_name (VARCHAR 255), product_desc (TEXT), quantity (INT 6), price (FLOAT), is_active (INT 1), created_at (DATETIME), promo (FLOAT)]
+	[product_id (INT), product_name (VARCHAR 255), product_desc (LONGTEXT), product_category (VARCHAR 255), quantity (INT), price (FLOAT), is_active (INT), created_at (DATETIME), promo (FLOAT)]
 - Users
-	[user_id (INT 4), email (VARCHAR 255), password (VARCHAR 255), profile_img (BLOB)]
-- Shopping_Cart <Linked to userID and email>
-	[user_id (INT 4), email (VARCHAR 255), product_id (INT 4), quantity (INT 6)]
+	[email (VARCHAR 255), username (VARCHAR 255), password (VARCHAR 255), priority (INT)]
+- Cart_Item 
+	[Products_product_id (INT), Order_History_order_id (INT), price (FLOAT), quantity (INT)]
 - Order_History
-	[order_id (INT 9), user_id (INT 4), email(VARCHAR 255), product_id (INT 4), quantity (INT 6), price (FLOAT), order_at (DATETIME), payment_mtd (VARCHAR 15), card_num (INT 19)]
+	[order_id (INT), Users_email (VARCHAR 255), order_at (DATETIME), payment_mtd (VARCHAR 15), card_num (VARCHAR 16), purchased (INT)]
 - Feedback
-	[user_id (INT 4), email (VARCHAR 255), comments (LONGTEXT)]
+	[Products_product_id (INT), Users_email (VARCHAR 255), comments (LONGTEXT), ratings (INT)]
