@@ -6,18 +6,40 @@
         ?>
     </head>
     <body>
-    <?php
-    include "nav.inc.php";
-    ?>
-    
+        <?php
+        include "nav.inc.php";
+        ?>
+        <?php
+        $html_output = "";
+        if (isset($_SESSION['username']) && !empty($_SESSION['username']) && $_SESSION['priority'] == 1) {
+            echo $html_output;
+            $html_output = '<div class="container">"
+                        . "<div class="container-fluid" role="alert">"
+                        . "<div class="row">"
+                        . "<div class="output-msg card">"
+                        . "<div class="card-body">"
+                        . "<p class="text-danger">You must be logged in to access this page</p>"
+                        . "</div>"
+                        . "</div>"
+                        . "</div>"
+                        . "</div>"
+                        . "</div>"';
+        } else {
+
+            echo $html_output;
+        }
+        ?>
+
         <?php
         global $email, $username, $pwd_hashed, $usernameErr, $emailErr, $passwordErr, $pwd_confirmErr;
 
         // define variables and set to empty values
-        $usernameErr = $emailErr = $passwordErr = $pwd_confirmErr = null;
+        $usernameErr = $emailErr = $passwordErr = $pwd_confirmErr = $DupErr = null;
         $username = $email = $pwd = $pwd_confirm = "";
-
+        $config = parse_ini_file('../private/db-config.ini');
+        $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
             if (empty($_POST["username"])) {
                 $usernameErr = "Name is required";
             } else {
@@ -25,6 +47,26 @@
                 // check if name only contains letters and whitespace
                 if (!preg_match("/^[a-zA-Z0-9]*$/", $name)) {
                     $usernameErr = "Only letters, numbers and white space allowed";
+                } else {
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . mysqli_connect_error());
+                    } else {
+
+// Prepare an SQL query to check if an email address is in the database
+                        $stmt = $conn->prepare("SELECT * FROM Users WHERE username = ? or email = ?");
+                        $stmt->bind_param("ss", $_POST["username"], $_POST["email"]);
+                        $stmt->execute();
+// Execute the query and check if any rows were returned
+                        $result = $stmt->get_result();
+                        if ($result->num_rows > 0) {
+                            echo "The email address exists in the database.";
+                            $usernameErr = "Duplicate username or Email";
+                            $success = false;
+                        } else {
+                            echo "The email address  does not exist in the database.";
+                        }
+                    }
+                    $stmt->close();
                 }
             }
 
@@ -35,23 +77,11 @@
                 // check if email address is well-formed
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $emailErr = "Invalid email format";
-                } else {
-//                    $config = parse_ini_file('../private/db-config.ini');
-//                    $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
-//                    echo "test1";
-//
-//                    // Check connection
-//                    if ($conn->connect_error) {
-//                        $errorMsg = "Connection failed: " . $conn->connect_error;
-//                        $success = false;
-//                    } else {
-//                        $stmt = $conn->prepare("SELECT * FROM Users WHERE email = ?");
-//                        $stmt->bind_param("s", $_POST["email"]);
-//                        if ($result->num_rows > 0) {
-//                            $emailErr = "Duplicate Email";
-//                        }
-//                    }
                 }
+
+
+
+                // Check connection
             }
 
 
@@ -191,20 +221,20 @@
             if ($usernameErr !== null) {
                 //echo '<div class="alert alert-danger" role="alert"><p>Invalid Credentials. Please try again</p></div>';
                 echo '<div class="alert alert-warning" role="alert"><p>' . $usernameErr . '</p></div>';
+            } elseif ($DupErr !== null) {
+                echo'<div class="alert alert-warning" role="alert"><p>' . $DupErr . '</p></div>';
             } elseif ($emailErr !== null) {
                 echo '<div class="alert alert-warning" role="alert"><p>' . $emailErr . '</p></div>';
             } elseif ($passwordErr !== null) {
                 echo '<div class="alert alert-warning" role="alert"><p>' . $passwordErr . '</p></div>';
             } elseif ($pwd_confirmErr !== null) {
                 echo '<div class="alert alert-warning" role="alert"><p>' . $pwd_confirmErr . '</p></div>';
-            } else {
-                
             }
         }
         ?>
-        </main>
+    </main>
         <?php
         include "footer.inc.php";
         ?>
-    </body>
+</body>
 </html>

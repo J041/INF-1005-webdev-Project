@@ -2,76 +2,93 @@
 <html lang="en">
     <head>
         <?php
-            include "header.inc.php";
+        include "header.inc.php";
         ?>
     </head>
     <body>
         <?php
-            include "nav.inc.php";
+        include "nav.inc.php";
         ?>
         <?php
-        
-            function authenticateUser2() {
-                global $usernameErr , $passwordErr;
-                $usernameErr = $passwordErr = "";
-                $config = parse_ini_file('../private/db-config.ini');
-                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+        if (isset($_SESSION['username']) && !empty($_SESSION['username']) && $_SESSION['priority'] == 1) {
+            echo $html_output;
+            $html_output = '"<div class="container">"
+            . "<div class="container-fluid" role="alert">"
+            . "<div class="row">"
+            . "<div class="output-msg card">"
+            . "<div class="card-body">"
+            . "<p class="text-danger">You must be logged in to access this page</p>"
+                    . "</div>"
+                    . "</div>"
+                    . "</div>"
+                    . "</div>"
+                    . "</div>"';
+        } else {
 
-                // Check connection
-                if ($conn->connect_error) {
-        
-                    $errorMsg = "Connection failed: " . $conn->connect_error;
-                    $success = false;
-                } else {
-                    // Prepare the statement:
-                    $stmt = $conn->prepare("SELECT * FROM Users WHERE username=? or email = ?");
-                    
-                    // Bind & execute the query statement:
-                    $stmt->bind_param("ss", $_POST["username"], $_POST["username"]);
-                    // var_dump($_POST);
-                    // echo $_POST["username"];
+            echo $html_output;
+        }
+        ?>
+        <?php
 
-                    $stmt->execute();
-                    // echo "test case2";
-                    $result = $stmt->get_result();
-                    // var_dump($result);
+        function authenticateUser2() {
+            global $usernameErr, $passwordErr;
+            $usernameErr = $passwordErr = "";
+            $config = parse_ini_file('../private/db-config.ini');
+            $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
 
-                    if ($result->num_rows > 0) {
-                
-                        $row = $result->fetch_assoc();
+            // Check connection
+            if ($conn->connect_error) {
 
-                    
-                        $email = $row["email"];
-                        $username = $row["username"];
-                        $pwd_hashed = $row["password"];
-                        $priority = $row["priority"];
+                $errorMsg = "Connection failed: " . $conn->connect_error;
+                $success = false;
+            } else {
+                // Prepare the statement:
+                $stmt = $conn->prepare("SELECT * FROM Users WHERE username=? or email = ?");
 
-                        if (password_verify($_POST["pwd"], $pwd_hashed)) {
-                            $_SESSION['email'] = $email;
-                            $_SESSION['username'] = $username;
-                            $_SESSION['priority'] = $priority;
-                            echo "<script>window.location.href = \"index.php\";</script>";
-                            // header("Location: index.php");
-                        } else {
-                            // $errorMsg = "Wrong password, try again";
+                // Bind & execute the query statement:
+                $stmt->bind_param("ss", $_POST["username"], $_POST["username"]);
+                // var_dump($_POST);
+                // echo $_POST["username"];
 
-                            $passwordErr = "1";
+                $stmt->execute();
+                // echo "test case2";
+                $result = $stmt->get_result();
+                //var_dump($result);
 
-                            $success = false;
-                        }
+                if ($result->num_rows > 0) {
+
+                    $row = $result->fetch_assoc();
+
+                    $email = $row["email"];
+                    $username = $row["username"];
+                    $pwd_hashed = $row["password"];
+                    $priority = $row["priority"];
+
+                    if (password_verify($_POST["pwd"], $pwd_hashed)) {
+                        $_SESSION['email'] = $email;
+                        $_SESSION['username'] = $username;
+                        $_SESSION['priority'] = $priority;
+                        echo "<script>window.location.href = \"index.php\";</script>";
+                        // header("Location: index.php");
                     } else {
-                        //$errorMsg = "Email or Username is not in registered.";
-                        $usernameErr = 1;
-                        //echo "invalid username or email";
+                        // $errorMsg = "Wrong password, try again";
+
+                        $passwordErr = "1";
 
                         $success = false;
                     }
-                    $stmt->close();
+                } else {
+                    //$errorMsg = "Email or Username is not in registered.";
+                    $usernameErr = 1;
+                    //echo "invalid username or email";
 
-                    $conn->close();
+                    $success = false;
                 }
-            }
+                $stmt->close();
 
+                $conn->close();
+            }
+        }
         ?>
         <main class="container">
             <?php
@@ -84,6 +101,7 @@
                 $message = $_GET['message'];
                 echo $message;
             }
+
             // display form data on submission if no errors
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 authenticateUser2();
@@ -111,18 +129,16 @@
                     </div>
                 </form>
                 ';
+
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if ($usernameErr || $passwordErr) {
                     echo '<div class="alert alert-danger" role="alert"><p>Invalid Credentials. Please try again</p></div>';
                 }
-
             }
-
-
             ?>
         </main>
         <?php
-            include "footer.inc.php";
+        include "footer.inc.php";
         ?>
     </body>
 </html>
