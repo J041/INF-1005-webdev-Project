@@ -14,11 +14,13 @@
         if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
             ;
         } else {
-            echo "<div class=\"container-fluid\" role=\"alert\">"
+            echo  "<div class=\"container\">"
+                . "<div class=\"container-fluid\" role=\"alert\">"
                 . "<div class=\"row\">"
                 . "<div class=\"output-msg card\">"
                 . "<div class=\"card-body\">"
                 . "<p class=\"text-danger\">You must be logged in to access this page</p>"
+                . "</div>"
                 . "</div>"
                 . "</div>"
                 . "</div>"
