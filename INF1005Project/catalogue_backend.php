@@ -244,10 +244,11 @@
                     $indicator = 1;
                 }
 
-                $error = check_product_img_add($product_img, $name, $error, $success, $indicator)[0];
-                $success = check_product_img_add($product_img, $name, $error, $success, $indicator)[1];
-                return array($error, $success);
-            }
+                    $output = check_product_img_add($product_img, $name, $error, $success, $indicator);
+                    $error = $output[0];
+                    $success = $output[1];
+                    return array($error, $success);
+                }
 
             // Adds Product Category Image into Server after passing its validation
             function check_product_cat_img_add($product_cat_img, $name, $error, $success, $indicator)
@@ -303,34 +304,45 @@
                     $indicator = 1;
                 }
 
-                $error = check_product_cat_img_add($product_cat_img, $category, $error, $success, $indicator)[0];
-                $success = check_product_cat_img_add($product_cat_img, $category, $error, $success, $indicator)[1];
-                return array($error, $success);
-            }
+                    $output = check_product_cat_img_add($product_cat_img, $category, $error, $success, $indicator);
+                    $error = $output[0];
+                    $success = $output[1];
+                    return array($error, $success);
+                }
 
-            // Main form validation function
-            function form_validation($text_array, $float_array, $img_array, $products_server, $error, $success)
-            {
-                // Checks string fields
-                $error = check_product_name($text_array[0], $error);
-                $error = check_product_category($text_array[1], $error);
-                $error = check_product_desc($text_array[2], $error);
+                // Main form validation function
+                function form_validation($text_array, $float_array, $img_array, $products_server, $error, $success) {
+                    // Checks string fields
+                    echo $img_array;
+                    echo var_dump($img_array);
+                    $error = check_product_name($text_array[0], $error);
+                    $error = check_product_category($text_array[1], $error);
+                    $error = check_product_desc($text_array[2], $error);
 
                 // Checks Float/Integer fields
                 $error = check_quantity($float_array[0], $error);
                 $error = check_price($float_array[1], $error);
                 $error = check_product_indic($float_array[2], $error);
 
-                // Check Image Fields
-                if (isset($img_array[0])) {
-                    $error = check_product_img($img_array[0], $text_array[0], $products_server, $error, $success)[0];
-                    $success = check_product_img($img_array[0], $text_array[0], $products_server, $error, $success)[1];
-                }
+                    // Check Image Fields
+                    if (isset($img_array[0])) {
+                        // $error = check_product_img($img_array[0], $text_array[0], $products_server, $error, $success)[0];
+                        // $success = check_product_img($img_array[0], $text_array[0], $products_server, $error, $success)[1];
 
-                if (isset($img_array[1])) {
-                    $error = check_product_cat_img($img_array[1], $text_array[1], $text_array[0], $products_server, $error, $success)[0];
-                    $success = check_product_cat_img($img_array[1], $text_array[1], $text_array[0], $products_server, $error, $success)[1];
-                }
+                        $output = check_product_img($img_array[0], $text_array[0], $products_server, $error, $success);
+                        $error = $output[0];
+                        $success = $output[1];
+                    }
+
+                    if (isset($img_array[1])) {
+                        // $error = check_product_cat_img($img_array[1], $text_array[1], $text_array[0], $products_server, $error, $success)[0];
+                        // $success = check_product_cat_img($img_array[1], $text_array[1], $text_array[0], $products_server, $error, $success)[1];
+
+                        
+                        $output = check_product_cat_img($img_array[1], $text_array[1], $text_array[0], $products_server, $error, $success);
+                        $error = $output[0];
+                        $success = $output[1];
+                    }
 
                 return array($error, $success);
             }
@@ -363,9 +375,10 @@
                 $float_array = array($quantity, $price, $active);
                 $img_array = array($product_img, $category_img);
 
-                // Form Validation for all input fields
-                $error_msg = form_validation($text_array, $float_array, $img_array, $products_server, $error_msg, $success_msg)[0];
-                $success_msg = form_validation($text_array, $float_array, $img_array, $products_server, $error_msg, $success_msg)[1];
+                    // Form Validation for all input fields
+                    $output = form_validation($text_array, $float_array, $img_array, $products_server, $error_msg, $success_msg);
+                    $error_msg = $output[0];
+                    $success_msg = $output[1];
 
                 // Opens a SQL connection if no errors are discovered
                 if (empty($error_msg)) {
@@ -425,9 +438,10 @@
                     $float_array = array($quantity, $price, $active);
                     $img_array = array($product_img, $category_img);
 
-                    // Form Validation for all input fields
-                    $error_msg = form_validation($text_array, $float_array, $img_array, $products_server, $error_msg, $success_msg)[0];
-                    $success_msg = form_validation($text_array, $float_array, $img_array, $products_server, $error_msg, $success_msg)[1];
+                        // Form Validation for all input fields
+                        $output = form_validation($text_array, $float_array, $img_array, $products_server, $error_msg, $success_msg);
+                        $error_msg = $output[0];
+                        $success_msg = $output[1];
 
                     // Opens a SQL connection if no errors are discovered
                     if (empty($error_msg)) {
