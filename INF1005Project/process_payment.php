@@ -6,6 +6,9 @@
         ?>
     </head>
     <body>
+        <?php
+        include "function.php";
+        ?>
 <?php
     $cardtype = $cardnumber = $cardexpiration = $securitycode = 
             $fname = $lname = $error = "";
@@ -13,18 +16,15 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
+        $fname = sanitize_input($_POST["fname"]);
         if (!empty($_POST["lname"]))
         {
             $lname = sanitize_input($_POST["lname"]);
         }
-        if (empty($_POST["fname"]))
+        if (empty($fname))
         {
             $error .= "First name is required.<br>";
             $success = false;
-        }
-        else
-        {
-            $fname = sanitize_input($_POST["fname"]);
         }
 
         if (empty($_POST["cardtype"]))
@@ -35,6 +35,10 @@
         else
         {
             $cardtype = $_POST["cardtype"];
+            if ($cardtype != "visa" && $cardtype != "mastercard"){
+                $error .= "Invalid payment card type<br>";
+                $success = false;
+            }
         }
 
         if (empty($_POST["securitycode"]))
@@ -90,13 +94,7 @@
         exit();
     }
     
-    function sanitize_input($data)
-    {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
+   
 
     ?>
         <?php

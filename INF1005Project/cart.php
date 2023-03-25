@@ -71,7 +71,7 @@
                 if (isset($_POST["removecart"]))
                 {
                     $prodid = $_POST['cartprodid'];
-                    remoevfromcart($prodid,1);
+                    removefromcart($prodid,1);
                 }
             ?>
                                   
