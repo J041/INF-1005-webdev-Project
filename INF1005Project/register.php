@@ -124,9 +124,9 @@
         if (isset($_POST['submit'])) {
             if (empty($usernameErr) && empty($emailErr) && empty($passwordErr) && empty($pwd_confirmErr)) {
 
-                echo "pre test";
+                // echo "pre test";
                 saveUserToDB();
-                echo "successfully registered";
+                // echo "successfully registered";
                 $message = "succesfully registered";
             }
         }
@@ -141,7 +141,7 @@
             // Create database connection.
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
-            echo "test1";
+            // echo "test1";
 
             // Check connection
             if ($conn->connect_error) {
@@ -151,15 +151,15 @@
 //                    echo "test2";let
                 $stmt = $conn->prepare("INSERT INTO Users (email, username,password,priority) VALUES (?,?,?,?);");
                 $stmt->bind_param("ssss", $_POST["email"], $_POST["username"], $pwd_hashed, $priority);
-                echo "test3";
-                echo $priority . ($_POST["email"]);
+                // echo "test3";
+                // echo $priority . ($_POST["email"]);
                 $stmt->execute();
-                echo "test4";
+                // echo "test4";
                 if (!$stmt->execute()) {
                     $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
                     $success = false;
                 } else {
-                    echo "test5";
+                    // echo "test5";
                     $result = $stmt->get_result();
 
                     $success = true;
