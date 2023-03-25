@@ -131,7 +131,7 @@
 
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <input type="submit" name="search_bar" value="All Products" aria-labelledby=\"catalogue_list_all_products\">
+                                                <input type="submit" name="search_bar" value="All Products" aria-labelledby="catalogue_list_all_products">
                                             </div>
                                         </div>
                                         ';
