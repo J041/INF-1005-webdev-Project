@@ -11,7 +11,7 @@
         include "function.php";
         ?>
 
-        <div class="backend-catalogue container-fluid">
+        <div class="backend-catalogue container-fluid" role="main">
 
             <?php
             if (isset($_SESSION['username']) && !empty($_SESSION['username']) && $_SESSION['priority'] == 1 || $_SESSION['priority'] == 2) {
@@ -481,45 +481,45 @@
 
                 $html_output .= '
 
-                <div class="backend-catalogue-header row">
-                <div class="col-lg-12 col-xl-12">
+                <div class="backend-catalogue-header row" role="list" title="Backend Catalogue Headings">
+                <div class="col-lg-12 col-xl-12" role="listitem">
                     <h1>Product Catalogue Database</h1>
                 </div>
             </div>
 
-            <div class="backend-catalogue-add-header row">
-                <div class="col-md-12 col-xl-6">
+            <div class="backend-catalogue-add-header row" role="list" title="Backend Catalogue Description">
+                <div class="col-md-12 col-xl-6" role="listitem">
                     <p>You may create, update or remove product(s) from the Product Catalogue Database table. </p>
                 </div>
-                <div class="col-md-12 col-xl-6">
+                <div class="col-md-12 col-xl-6" role="listitem" title="\'Add Products\' Buttons.">
                     <button class="btn btn-outline-primary" tabindex="0" aria-pressed="false"><i class="fa-solid fa-plus"></i>&nbsp; Add </button>
                     <button class="btn btn-outline-secondary d-none" tabindex="0" aria-pressed="false"><i class="fa-solid fa-xmark"></i>&nbsp; Close </button>
                 </div>
             </div>
 
-            <div class="backend-catalogue-add-form row d-none">
-                <form action="catalogue_backend.php" method="POST" enctype="multipart/form-data">
+            <div class="backend-catalogue-add-form row d-none" role="form" title="\'Add Products\' Form.">
+                <form action="catalogue_backend.php" method="POST" enctype="multipart/form-data" title="Upload a squared-size image (800 x 800) for consistent image sizing in Product Catalogue.">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-lg-12 col-xl-12">
+                                <div class="col-lg-12 col-xl-12" role="form" title="\'Add Products\' Fine Print.">
                                     <p>** Supported file formats: .jpg, .jpeg, .png</p>
                                 </div>
 
-                                <div class="col-lg-12 col-xl-6">
+                                <div class="col-lg-12 col-xl-6" role="form" title="\'Add Products\' Product Name.">
                                     <label class="" for="product_name">Product Name: </label>
                                     <input class="" type="text" name="product_name" placeholder="E.g. Calendar" aria-labelledby="product_name" required>
                                 </div>
 
-                                <div class="col-lg-12 col-xl-6">
+                                <div class="col-lg-12 col-xl-6" role="form" title="\'Add Products\' Product Image.">
                                     <label class="" for="product_img_file">** Product Image: </label>
-                                    <input class="" type="file" name="product_img_file" aria-labelledby="product_img_file">
+                                    <input class="" type="file" name="product_img_file" aria-labelledby="product_img_file" placeholder="Upload a squared-size image (800 x 800) for consistent image sizing in Product Catalogue.">
                                 </div>
 
-                                <div class="col-lg-12 col-xl-6">
+                                <div class="col-lg-12 col-xl-6" role="form" title="\'Add Products\' Product Category.">
                                     <label class="" for="product_category">Product Category: </label>
-                                    <input class="" type="text" name="product_category" list="backend_catalouge_product_cat" placeholder="E.g. Eggs and Diary Products" aria-labelledby="product_category" required>
-                                    <datalist id="backend_catalouge_product_cat">
+                                    <input class="" type="text" name="product_category" list="backend_catalogue_product_cat" placeholder="E.g. Eggs and Diary Products" aria-labelledby="product_category" required>
+                                    <datalist id="backend_catalogue_product_cat">
                                         <?php
                                         for ($i = 0; $i < sizeof($category_array); $i++) {
                                             echo "<option value=\"" . $category_array[$i] . "\">";
@@ -528,27 +528,27 @@
                                     </datalist>
                                 </div>
 
-                                <div class="col-lg-12 col-xl-6">
+                                <div class="col-lg-12 col-xl-6" role="form" title="\'Add Products\' Product Category Image.">
                                     <label class="" for="product_cat_img_file">** Product Category Image: </label>
-                                    <input class="" type="file" name="product_cat_img_file" aria-labelledby="product_cat_img_file">
+                                    <input class="" type="file" name="product_cat_img_file" aria-labelledby="product_cat_img_file" placeholder="Upload a squared-size image (800 x 800) for consistent image sizing in Product Catalogue.">
                                 </div>
 
-                                <div class="col-lg-12 col-xl-6">
+                                <div class="col-lg-12 col-xl-6" role="form" title="\'Add Products\' Product Description.">
                                     <label class="" for="product_desc">Product Description: </label>
                                     <input class="" type="text" name="product_desc" placeholder="E.g. 2023 Calendar" aria-labelledby="product_desc" required>
                                 </div>
 
-                                <div class="col-lg-12 col-xl-6">
+                                <div class="col-lg-12 col-xl-6" role="form" title="\'Add Products\' Quantity.">
                                     <label class="" for="quantity">Quantity: </label>
                                     <input class="" type="number" name="quantity" placeholder="E.g. 150" aria-labelledby="quantity" required>
                                 </div>
 
-                                <div class="col-lg-12 col-xl-6">
+                                <div class="col-lg-12 col-xl-6" role="form" title="\'Add Products\' Price.">
                                     <label class="" for="price">Price: </label>
                                     <input class="" type="text" name="price" placeholder="E.g. \'3.20\' for $3.20" aria-labelledby="price" required>
                                 </div>
 
-                                <div class="col-lg-12 col-xl-6">
+                                <div class="col-lg-12 col-xl-6" role="form" title="\'Add Products\' Product Active Indicator.">
                                     <div class="backend-product-item-active-ind col-lg-12 col-xl-12">
                                         <label class="" for="product_name">Active?: </label>
                                     </div>
@@ -562,7 +562,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="backend-catalogue-add-form-save col-md-12 col-lg-12">
+                            <div class="backend-catalogue-add-form-save col-md-12 col-lg-12" role="form" title="\'Add Products\' Submit Button.">
                                 <button class="btn btn-outline-success" tabindex="0" name="add_product" aria-pressed="false"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Save </button>
                             </div>
                         </div>
@@ -576,7 +576,7 @@
                 $html_output .= '
 
                 <div class="backend-catalogue-data row">              
-                    <table class="table table-striped table-hover table-responsive-xl">
+                    <table class="table table-striped table-hover table-responsive-xl" role="table">
                         <thead class="thead-light">
                             <tr>
                                 <td>#</td>
@@ -599,7 +599,7 @@
                     } else {
                         $html_output .= "<tr>";
                     }
-                    $html_output .= "<td scope=\"row\">" . $results_array[$i][0] . "</td>"
+                    $html_output .= "<td>" . $results_array[$i][0] . "</td>"
                             . "<td>" . $results_array[$i][1] . "</td>"
                             . "<td>" . $results_array[$i][3] . "</td>"
                             . "<td>" . $results_array[$i][4] . "</td>";
@@ -623,7 +623,7 @@
                             ';
                 // Output Products Detaisl into its respective HTML Modals
                 for ($i = 0; $i < sizeof($results_array); $i++) {
-                    $html_output .= "<div aria-hidden=\"true\" aria-labelledby=\"backend_catalogue_item_" . $results_array[$i][0] . "\" class=\"backend-product-item modal fade\" id=\"backend_catalogue_item_" . $results_array[$i][0] . "\" role=\"dialog\" tabindex=\"-1\">";
+                    $html_output .= "<div aria-hidden=\"true\" aria-labelledby=\"backend_catalogue_item_" . $results_array[$i][0] . "\" class=\"backend-product-item modal fade\" id=\"backend_catalogue_item_" . $results_array[$i][0] . "\" role=\"dialog\" tabindex=\"-1\" title=\"Click here for more details about ". $results_array[$i][1] ."\">";
 
                     $html_output .= '
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
@@ -631,7 +631,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="backend-product-item-btn row">
-                        <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
+                        <button data-dismiss="modal" type="button" title=\"Item details for ". $results_array[$i][0] ."\"><i class="fa-solid fa-xmark"></i></button>
                     </div>
 
                     <div class="backend-catalogue-details-header row">
@@ -753,10 +753,10 @@
                             ';
 
                     $html_output .= '
-                <div class="backend-product-details-edit d-none">
-                        <form action="/catalogue_backend.php" method="POST" enctype="multipart/form-data">
+                <div class="backend-product-details-edit d-none" role="form" title="\'Edit Products\' Form.">
+                        <form action="/catalogue_backend.php" method="POST" enctype="multipart/form-data" title="Upload a squared-size image (800 x 800) for consistent image sizing in Product Catalogue.">
                             <div class="backend-product-details-display-row row">
-                                <div class="col-md-12 col-xl-6">
+                                <div class="col-md-12 col-xl-6" role="form" title="\'Edit Products\' Product Name.">
                                     <label class="" for="product_name_edit">Product Name: </label>
                             ';
 
@@ -764,12 +764,12 @@
 
                     $html_output .= '
                                 </div>
-                                <div class="col-md-12 col-xl-6">
+                                <div class="col-md-12 col-xl-6" role="form" title="\'Edit Products\' Product Category.">
                                     <label class="" for="product_category_edit">Product Category: </label>
                             ';
 
-                    $html_output .= "<input class=\"\" type=\"text\" name=\"product_category_edit\" value=\"" . $results_array[$i][3] . "\" list=\"backend_catalouge_product_cat_edit\" placeholder=\"E.g. Eggs and Diary Products \" aria-labelledby=\"product_category_edit\" required>";
-                    $html_output .= "<datalist id=\"backend_catalouge_product_cat_edit\">";
+                    $html_output .= "<input class=\"\" type=\"text\" name=\"product_category_edit\" value=\"" . $results_array[$i][3] . "\" list=\"backend_catalogue_product_cat_edit_". $results_array[$i][0] ."\" placeholder=\"E.g. Eggs and Diary Products \" aria-labelledby=\"product_category_edit\" required>";
+                    $html_output .= "<datalist id=\"backend_catalogue_product_cat_edit_". $results_array[$i][0] ."\">";
                     for ($k = 0; $k < sizeof($category_array); $k++) {
                         $html_output .= "<option value=\"" . $category_array[$k] . "\">";
                     }
@@ -784,23 +784,23 @@
                                     <div class="col-md-12 col-xl-12">
                                         <label class="" for="product_img_file_edit">Product Image: </label>
                                     </div>
-                                    <div class="col-md-12 col-xl-12">
-                                        <input class="" type="file" name="product_img_file_edit" aria-labelledby="product_img_file_edit">
+                                    <div class="col-md-12 col-xl-12" role="form" title="\'Edit Products\' Product Image.">
+                                        <input class="" type="file" name="product_img_file_edit" aria-labelledby="product_img_file_edit" placeholder="Upload a squared-size image (800 x 800) for consistent image sizing in Product Catalogue.">
                                     </div>
                                 </div>
                                 <div class="backend-product-item-img-row col-md-12 col-xl-6">
                                     <div class="col-md-12 col-lg-12">
                                         <label class="" for="product_cat_img_file_edit">Product Category Image: </label>
                                     </div>
-                                    <div class="col-md-12 col-xl-12">
-                                        <input class="" type="file" name="product_cat_img_file_edit" aria-labelledby="product_cat_img_file_edit">
+                                    <div class="col-md-12 col-xl-12" role="form" title="\'Edit Products\' Product Category Image.">
+                                        <input class="" type="file" name="product_cat_img_file_edit" aria-labelledby="product_cat_img_file_edit" placeholder="Upload a squared-size image (800 x 800) for consistent image sizing in Product Catalogue.">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="backend-product-details-edit-row row">
                                 <div class="backend-product-item-edit col-md-12 col-xl-4">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" role="form" title="\'Edit Products\' Product Description.">
                                         <label class="" for="product_desc_edit">Product Description: </label>
                             ';
 
@@ -810,7 +810,7 @@
                                     </div>
                                 </div>
                                 <div class="backend-product-item-edit col-md-12 col-xl-4">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" role="form" title="\'Edit Products\' Quantity.">
                                         <label class="" for="quantity_edit">Quantity: </label>
                             ';
 
@@ -820,7 +820,7 @@
                                     </div>
                                 </div>
                                 <div class="backend-product-item-edit col-md-12 col-xl-4">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" role="form" title="\'Edit Products\' Price.">
                                         <label class="" for="price_edit">Price: </label>
                             ';
 
@@ -830,7 +830,7 @@
                                     </div>
                                 </div>
                                 <div class="backend-product-item-edit col-md-12 col-xl-4">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" role="form" title="\'Edit Products\' Product Active Indicator.">
                                         <label class="" for="is_active_edit">Active? </label>
                                     </div>
                                     <div class="col-lg-12">
@@ -841,7 +841,7 @@
                                     </div>
                                 </div>
                                 <div class="backend-product-item-edit col-md-12 col-xl-4">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" role="form" title="\'Edit Products\' Created Timestamp.">
                                         <label class="">Created At: </label>
                             ';
 

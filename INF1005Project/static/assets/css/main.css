@@ -345,14 +345,14 @@ div .catalogue-button {
     width: 100%;
 }
 
-.catalogue-button button:nth-child(1) {
-    color: #0059B3;
-    background-color: #fff;
+.catalogue-button button:nth-child(1), .backend-catalogue-add-header div button:nth-child(1), .backend-catalogue-details-header div button:nth-child(1), .edit-review-edit {
+    color: #0059B3 !important;
+    background-color: #fff !important;
 }
 
-.catalogue-button button:nth-child(2), .product-item-row form button {
-    color: #418500;
-    background-color: #fff;
+.output-msg .text-success, .catalogue-button button:nth-child(2), .product-item-row form button, .backend-catalogue-add-form-save button, .backend-catalogue-edit-form-save button, .save-review {
+    color: #418500 !important;
+    background-color: #fff !important;
 }
 
 .product-item-row:nth-child(7) .product-item-line button {

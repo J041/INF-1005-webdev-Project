@@ -636,36 +636,36 @@
                             . "</div>";
 
                     $html_output .= '
-                    <div class="review-item-row row d-none">
-                        <form action="catalogue.php" method="POST">
+                    <div class="review-item-row row d-none" role="form" title="\'Add Reviews\' Form.">
+                        <form action="catalogue.php" method="POST" title="Let us know how you found the product">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="review-row-form col-sm-12 col-md-12 col-lg-12">
+                                        <div class="review-row-form col-sm-12 col-md-12 col-lg-12" role="form" title="\'Add Reviews\' Headings.">
                                             <h6>Please let us know how you found the product.</h6>
                                         </div>
-                                        <div class="review-row-form col-sm-12 col-md-12 col-lg-12">
+                                        <div class="review-row-form col-sm-12 col-md-12 col-lg-12" role="form" title="\'Add Reviews\' Ratings.">
                                             <label class="">1 <i class="fa-solid fa-star"></i></label>
-                                            <input class="" type="radio" name="rating" value="1" required>
+                                            <input class="" type="radio" name="rating" value="1" placeholder="1" required>
                                             <label class="">2 <i class="fa-solid fa-star"></i></label>
-                                            <input class="" type="radio" name="rating" value="2" required>
+                                            <input class="" type="radio" name="rating" value="2" placeholder="2" required>
                                             <label class="">3 <i class="fa-solid fa-star"></i></label>
-                                            <input class="" type="radio" name="rating" value="3" required>
+                                            <input class="" type="radio" name="rating" value="3" placeholder="3" required>
                                             <label class="">4 <i class="fa-solid fa-star"></i></label>
-                                            <input class="" type="radio" name="rating" value="4" required>
+                                            <input class="" type="radio" name="rating" value="4" placeholder="4"required>
                                             <label class="">5 <i class="fa-solid fa-star"></i></label>
-                                            <input class="" type="radio" name="rating" value="5" required>
+                                            <input class="" type="radio" name="rating" value="5" placeholder="5" required>
                                         </div>
-                                        <div class="review-row-form col-lg-12 col-xl-12">
+                                        <div class="review-row-form col-lg-12 col-xl-12" role="form" title="\'Add Reviews\' Review.">
                                             <label class="">Review: </label>
                                             <textarea name="review_text" placeholder="Please let us know how you found the product." maxlength="150" required ></textarea>
 
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="review-header-button-row review-row-form col-sm-12 col-md-12 col-lg-12">
+                                        <div class="review-header-button-row review-row-form col-sm-12 col-md-12 col-lg-12" role="form" title="\'Add Reviews\' Save Review Button.">
                                         ';
-                    $html_output .= "<button class=\"btn btn-outline-success\" tabindex=\"0\" name=\"add_review_" . $results_array[$i][0] . "\" aria-pressed=\"false\"><i class=\"fa-solid fa-floppy-disk\"></i>&nbsp; Save </button>";
+                    $html_output .= "<button class=\"btn btn-outline-success save-review\" tabindex=\"0\" name=\"add_review_" . $results_array[$i][0] . "\" aria-pressed=\"false\"><i class=\"fa-solid fa-floppy-disk\"></i>&nbsp; Save </button>";
 
                     $html_output .= '                        
                                         </div>
@@ -759,32 +759,32 @@
                             // Edit Reviews
                             if (check_if_bought_before($results_array[$i][0]) && in_array($results_array[$i][0], check_if_review_exist($_SESSION['email'])) && $reviews[$k][0] == getusername($_SESSION['email'])) {
                                 $html_output .= '
-                            <div class="review-display-row d-none">
+                            <div class="review-display-row d-none" role="form" title="\'Edit Reviews\' Form.">
                                 <form action="catalogue.php" method="POST">
                                     <div class="review-item-line row">
-                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="col-sm-12 col-md-12 col-lg-12" role="form" title="\'Edit Reviews\' Headings.">
                                             <h6>Please let us know how you found the product.</h6>
                                         </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="col-sm-12 col-md-12 col-lg-12" role="form" title="\'Edit Reviews\' Ratings.">
                                     ';
 
                                 for ($j = 1; $j < 6; $j++) {
                                     if ($reviews[$k][1] == $j) {
                                         $html_output .= "<label class=\"\" for=\"rating_edit\">" . $j . " <i class=\"fa-solid fa-star\"></i></label>"
-                                                . "<input class=\"\" type=\"radio\" name=\"rating_edit\" value=\"" . $reviews[$k][1] . "\" required checked>";
+                                                . "<input class=\"\" type=\"radio\" name=\"rating_edit\" value=\"" . $reviews[$k][1] . "\" placeholder=\"". $reviews[$k][1] ."\" required checked>";
                                     } else {
                                         $html_output .= "<label class=\"\" for=\"rating_edit\">" . $j . " <i class=\"fa-solid fa-star\"></i></label>"
-                                                . "<input class=\"\" type=\"radio\" name=\"rating_edit\" value=\"" . $j . "\" required>";
+                                                . "<input class=\"\" type=\"radio\" name=\"rating_edit\" value=\"" . $j . "\" placeholder=\"". $reviews[$k][1] ."\" required>";
                                     }
                                 }
                                 $html_output .= "</div>"
-                                        . "<div class=\"review-display-row col-sm-12 col-md-12 col-lg-12\">"
+                                        . "<div class=\"review-display-row col-sm-12 col-md-12 col-lg-12\" role=\"form\" title=\"\'Edit Reviews\' Reviews.\">"
                                         . "<label class=\"\" for=\"review_text_edit\">Review: </label>";
                                 $html_output .= "<textarea name=\"review_text_edit\" placeholder=\"Please let us know how you found the product.\" aria-labelledby=\"review_text_edit\" maxlength=\"150\" required >" . $reviews[$k][2] . "</textarea>"
                                         . "</div>"
-                                        . "<div class=\"review-header-button-row review-row-form col-sm-12 col-md-12 col-lg-12\">";
+                                        . "<div class=\"review-header-button-row review-row-form col-sm-12 col-md-12 col-lg-12\" title=\"\'Edit Reviews\' Update Review Button.\">";
 
-                                $html_output .= "<button class=\"btn btn-outline-success\" tabindex=\"0\" name=\"edit_review_" . $results_array[$i][0] . "\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-floppy-disk\"></i>&nbsp; Save </button>";
+                                $html_output .= "<button class=\"btn btn-outline-success save-review\" tabindex=\"0\" name=\"edit_review_" . $results_array[$i][0] . "\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-floppy-disk\"></i>&nbsp; Save </button>";
 
                                 $html_output .= '
                                         </div>
