@@ -400,7 +400,6 @@
 
                     // Identifies which "Add to Cart" button is called
                     if (isset($_POST[$add_cart_btn])) {
-                        
                         // "Add to Cart" Access Control
                         if (isset($_SESSION['username']) && !empty($_SESSION['username']) && $_SESSION['priority'] == 1 || $_SESSION['priority'] == 2) {
                             array_push($error_msg, "Only customers are allowed to add items to cart.");
@@ -427,19 +426,19 @@
 
                         $accepted_ratings = array(1, 2, 3, 4, 5);
 
-                        // Input Validation - Add Reviews
-                        $error_msg = review_input_validation($user_review_text, $user_review_rating, $error_msg);
-
                         // Validates if customer has purchase the product
                         if (!check_if_bought_before($results_array[$i][0])) {
                             $msg = "Please purchase the product before leaving a review.";
                             array_push($error_msg, $msg);
-                        }
+                        } else {
+                            // Input Validation - Add Reviews
+                            $error_msg = review_input_validation($user_review_text, $user_review_rating, $error_msg);
 
-                        // Ensure that user does NOT have an existing review of the product
-                        if (in_array($results_array[$i][0], check_if_review_exist($_SESSION['email']))) {
-                            $msg = "You have an existing review of the product. Please consider editing your review.";
-                            array_push($error_msg, $msg);
+                            // Ensure that user does NOT have an existing review of the product
+                            if (in_array($results_array[$i][0], check_if_review_exist($_SESSION['email']))) {
+                                $msg = "You have an existing review of the product. Please consider editing your review.";
+                                array_push($error_msg, $msg);
+                            }
                         }
 
                         if (!empty($error_msg)) {
@@ -553,7 +552,7 @@
                             . "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" data-toggle=\"modal\" data-target=\"#catalogue_detail_item_" . $results_array[$i][0] . "\">"
                             . "More Details"
                             . "</button>"
-                            . "<button type=\"submit\" class=\"btn btn-outline-success btn-sm" . $results_array[$i][0] . "\" name=\"add_cart_item_" . $results_array[$i][0] . "\">"
+                            . "<button type=\"submit\" class=\"btn btn-outline-success btn-sm\" name=\"add_cart_item_" . $results_array[$i][0] . "\">"
                             . "+ Add to Cart <i class=\"fa-solid fa-cart-shopping\"></i>"
                             . "</button>"
                             . "</div>"
@@ -565,13 +564,13 @@
                 // Generate and Output product details into Modal
                 for ($i = 0; $i < sizeof($results_array); $i++) {
 
-                    $html_output .= "<div class=\"product-item modal fade\" id=\"catalogue_detail_item_" . $results_array[$i][0] . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"catalogue_detail_item_" . $results_array[$i][0] . "\" aria-hidden=\"true\">"
+                    $html_output .= "<div class=\"product-item modal fade\" id=\"catalogue_detail_item_" . $results_array[$i][0] . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"catalogue_detail_item_" . $results_array[$i][0] . "\" aria-hidden=\"true\" title=\"Product catalogue details for ". $results_array[$i][0] .".\">"
                             . "<div class=\"modal-dialog modal-xl modal-dialog-scrollable\" role=\"document\">"
                             . "<div class=\"modal-content\">"
                             . "<div class=\"modal-body\">"
                             . "<div class=\"container-fluid\">"
                             . "<div class=\"product-item-btn row\">"
-                            . "<button type=\"button\" data-dismiss=\"modal\"><i class=\"fa-solid fa-xmark\"></i></button>"
+                            . "<button type=\"button\" data-dismiss=\"modal\" aria-labelledby=\"modal_close_btn\" title=\"Click to close the Product Modal.\"><i class=\"fa-solid fa-xmark\"></i></button>"
                             . "</div>"
                             . "<div class=\"row\">"
                             . "<div class=\"product-item-img col-md-12 col-lg-6\">"

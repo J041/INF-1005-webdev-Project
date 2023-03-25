@@ -83,7 +83,7 @@
             $category_output .= "<div class=\"col-sm-4 categories\" >" .
                     "<div class=\"thumbnail d-flex align-items-center justify-content-center categories\">" .
                     "<a href=\"catalogue.php?search_bar=".$category_array[$i]."\">" .
-                    "<img src=\"" .$categoryImgSrc. "\" alt=\"" . $category_array[$i] . "\" class=\"category-icon\">" .
+                    "<img src=\"" .$categoryImgSrc. "\" alt=\"\" class=\"category-icon\">" .
                     "<p class=\"text-center\"><strong>" .ucfirst($category_array[$i]). "<strong></p>" .
                     "</a>" .
                     "</div>" .
@@ -271,9 +271,9 @@
             
             $trending_items_output .= "<div class=\"col-lg productbox\">" .
                     "<div class=\"thumbnail productitem\">" .
-                    "<img src=\"" .$trendingItemsImgSrc. "\" alt=\"" . $trending_items_array[$i] . "\">" .
+                    "<img src=\"" .$trendingItemsImgSrc. "\" alt=\"\">" .
                     "<div class=\"caption\">" .
-                    "<h3>" . ucfirst($trending_items_array[$i]) . "</h3>" .
+                    "<h1>" . ucfirst($trending_items_array[$i]) . "</h1>" .
                     "<p class=\"card-description\">Price: \$$product_price</p>" .
                     "<div class=\"flex-box cartbutton\">" .
                     "<form action = \"catalogue.php\">" .
