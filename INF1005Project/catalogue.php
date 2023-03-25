@@ -94,10 +94,6 @@
                         $errorMsg = "Connection failed: " . $conn->connect_error;
                         $success = false;
                     } else {
-                        mysqli_error(MYSQLI_ERROR_OFF);
-                        ini_set("display_errors", 1);
-                        error_reporting(E_ALL);
-
                         // Prepare the statement:
                         $addreviewstmt = $conn->prepare("INSERT INTO Feedback (Products_product_id, Users_email, comments, ratings) VALUES (?,?,?,?)");
 
@@ -629,6 +625,7 @@
                             . "<div class=\"review-header-button-row col-md-12 col-xl-12\">";
 
                     // Checks if Current User has purchased the product and have NOT left a review
+                    // maybe error ? - $reviews and $k not defined
                     if (check_if_bought_before($results_array[$i][0]) && !in_array($results_array[$i][0], check_if_review_exist($_SESSION['email'])) && !($reviews[$k][0] == getusername($_SESSION['email']))) {
                         $html_output .= "<button class=\"btn btn-outline-primary new-review-add\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\" title=\"Leave a review\"><i class=\"fa-solid fa-plus\"></i>&nbsp; Add </button>"
                                 . "<button class=\"btn btn-outline-secondary new-review-add-close d-none\" tabindex=\"0\" role=\"button\" aria-pressed=\"false\"><i class=\"fa-solid fa-xmark\"></i>&nbsp; Close </button>";
