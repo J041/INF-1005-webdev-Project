@@ -190,3 +190,49 @@ function displayHideToggle(element, main_btn, secondary_btn, main_display, secon
 function reloadPage(add_btn, close_btn, save_btn, add_form) {
     console.log(php_error_msg[0]);
 }
+function sanitizeRegexInput(data) {
+    // Regular Expression that only allow accepts alphanumeric, hyphen (-) & whitespace characters
+    if (/[^A-Za-z0-9\- ]/.test(data)) {
+        return "Unidentified Character";
+    } else {
+        return "No Issues!";
+    }
+}
+function sanitizeRegexDesc(data) {
+    // Regular Expression that only allow accepts alphanumeric & whitespace characters, hyphen (-), commas (-), full-stop (.) & exclamation mark (!).
+    if (/[^A-Za-z0-9\-.,! ]/.test(data)) {
+        return "Unidentified Character";
+    } else {
+        return "No Issues!";
+    }
+}
+
+function sanitizeRegexAlpha(data) {
+    // Regular Expression that only allow accepts alphabets
+    if (/[^A-Za-z]/.test(data)) {
+        return "Unidentified Character";
+    } else {
+        return "No Issues!";
+    }
+}
+
+function sanitizeRegexFloat(data) {
+    // Regular Expression that only allow accepts numeric characters and dots (.)
+    if (/[^0-9. ]/.test(data)) {
+        return "Unidentified Character";
+    } else {
+        return "No Issues!";
+    }
+}
+
+function sanitizeRegexInt(data) {
+    // Regular Expression that only allow accepts numeric characters
+    if (/[^0-9 ]/.test(data)) {
+        return "Unidentified Character";
+    } else {
+        return "No Issues!";
+    }
+}
+function redirectPage(url) {
+    window.location.href = url;
+}
