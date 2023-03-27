@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <label for="username">Username:</label>
                         <input class="form-control" type="text" id="username"
-                        name="username" placeholder="Enter username">
+                        name="username" pattern="[A-Za-z0-9]" title="only letters and numbers are allowed" placeholder="Enter username">
                     </div>
                     <div class="form-group">
                         <label for="old_pwd">Current Password:</label>

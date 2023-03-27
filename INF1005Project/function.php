@@ -400,7 +400,7 @@ function UpdateUser($new_username, $old_password, $new_password) {
 
             if (!preg_match("/^[a-zA-Z0-9]*$/", $new_username)) {
                 $updatedusername = 2;
-                $usernameErr = "Only letters, numbers and white space allowed";
+                $usernameErr = "Only letters and numbers are allowed";
             } else {
                 $stmt = $conn->prepare("UPDATE Users SET username=? where email = ?");
                 $sanitize_username = sanitize_input($new_username);
