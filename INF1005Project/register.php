@@ -59,7 +59,7 @@
 // Execute the query and check if any rows were returned
                         $result = $stmt->get_result();
                         if ($result->num_rows > 0) {
-                            echo "The email address exists in the database.";
+                            // echo "The email address exists in the database.";
                             $usernameErr = "Duplicate username or Email";
                             $success = false;
                         } else {
