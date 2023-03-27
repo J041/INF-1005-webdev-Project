@@ -3,7 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
-// Intitializing JS Functions
+// Initializing JS Functions
+$(document).ready(function () {
+    formValidation();
+});
+
 $(document).ready(function () {
     catalogueToggles();
 });
@@ -24,6 +28,27 @@ function CreditCardFormat() {
         ;
     else if (x.length === 4)
         cardnum.value = cardnum.value + '-';
+}
+
+function formValidation() {
+    // Catalogue - Search Bar
+    const search_bar = document.querySelector(".navb-search").children[0].children[0].children[0].children[0].children[0];
+    
+    // Catalogue - Reviews
+    const review_input_add_btns = document.getElementsByClassName("review_input");
+
+    search_bar.addEventListener("input", () => {
+        sanitizeRegexInput(search_bar, search_bar.value);
+    });
+
+    Array.prototype.forEach.call(review_input_add_btns, function (data, input) {
+        element.addEventListener('input', () => {
+            data = element.value;
+            input = element;
+
+            sanitizeRegexInput(data, input);
+        });
+    });
 }
 
 function backendCatalogueToggles() {
@@ -186,18 +211,18 @@ function displayHideToggle(element, main_btn, secondary_btn, main_display, secon
 
 }
 
-// Work in Progress 
-function reloadPage(add_btn, close_btn, save_btn, add_form) {
-    console.log(php_error_msg[0]);
-}
-function sanitizeRegexInput(data) {
+// // Work in Progress
+// function reloadPage(add_btn, close_btn, save_btn, add_form) {
+//     console.log(php_error_msg[0]);
+// }
+
+function sanitizeRegexInput(input, data) {
     // Regular Expression that only allow accepts alphanumeric, hyphen (-) & whitespace characters
     if (/[^A-Za-z0-9\- ]/.test(data)) {
-        return "Unidentified Character";
-    } else {
-        return "No Issues!";
+        input.setCustomValidity("Only alphanumeric, hyphen (-) & whitespace characters are accepted.");
     }
 }
+
 function sanitizeRegexDesc(data) {
     // Regular Expression that only allow accepts alphanumeric & whitespace characters, hyphen (-), commas (-), full-stop (.) & exclamation mark (!).
     if (/[^A-Za-z0-9\-.,! ]/.test(data)) {
@@ -233,6 +258,7 @@ function sanitizeRegexInt(data) {
         return "No Issues!";
     }
 }
+
 function redirectPage(url) {
     window.location.href = url;
 }

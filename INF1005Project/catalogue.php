@@ -658,7 +658,7 @@
                                         </div>
                                         <div class="review-row-form col-lg-12 col-xl-12" role="form" title="\'Add Reviews\' Review.">
                                             <label class="">Review: </label>
-                                            <textarea name="review_text" placeholder="Please let us know how you found the product." maxlength="150" required ></textarea>
+                                            <textarea class="review_input" name="review_text" placeholder="Please let us know how you found the product." maxlength="150" required ></textarea>
 
                                         </div>
                                     </div>
@@ -780,7 +780,7 @@
                                 $html_output .= "</div>"
                                         . "<div class=\"review-display-row col-sm-12 col-md-12 col-lg-12\" role=\"form\" title=\"\'Edit Reviews\' Reviews.\">"
                                         . "<label class=\"\" for=\"review_text_edit\">Review: </label>";
-                                $html_output .= "<textarea name=\"review_text_edit\" placeholder=\"Please let us know how you found the product.\" aria-labelledby=\"review_text_edit\" maxlength=\"150\" required >" . $reviews[$k][2] . "</textarea>"
+                                $html_output .= "<textarea class=\"review_input_edit\" name=\"review_text_edit\" placeholder=\"Please let us know how you found the product.\" aria-labelledby=\"review_text_edit\" maxlength=\"150\" required >" . $reviews[$k][2] . "</textarea>"
                                         . "</div>"
                                         . "<div class=\"review-header-button-row review-row-form col-sm-12 col-md-12 col-lg-12\" title=\"\'Edit Reviews\' Update Review Button.\">";
 
