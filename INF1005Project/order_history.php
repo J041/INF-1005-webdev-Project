@@ -211,7 +211,7 @@
     
                     foreach ($order_ids as $order_id => $value) {
                         $total_price = 0;
-                        $html_output .= "<div aria-hidden=\"true\" aria-labelledby=\"order_details_item_" . $order_id . "\" class=\"order-history-item modal fade\" id=\"order_details_item_" . $order_id . "\" role=\"dialog\" tabindex=\"-1\">";
+                        $html_output .= "<div aria-hidden=\"true\" aria-labelledby=\"order_details_item_" . $order_id . "\" class=\"order-history-item modal fade\" id=\"order_details_item_" . $order_id . "\" role=\"dialog\" aria-label=\"item. $order_id .\" tabindex=\"-1\">";
     
                         $html_output .= '
                         <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
@@ -219,7 +219,7 @@
                                 <div class="modal-body">
                                     <div class="container-fluid">
                                         <div class="order-history-item-btn row">
-                                            <button data-dismiss="modal" type="button"><i class="fa-solid fa-xmark"></i></button>
+                                            <button data-dismiss="modal" type="button" aria-label="close btn"><i class="fa-solid fa-xmark"></i></button>
                                         </div>
                         <div class="order-history-data-details row">
                                 ';

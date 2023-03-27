@@ -6,10 +6,10 @@
         ?>
     </head>
     <body>
+        <main>
         <?php
             include "nav.inc.php";
         ?>
-        <main>
         <?php 
             require 'function.php';
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -30,7 +30,7 @@
         ?>
 
         <div class="container">
-
+            <h1>Update profile</h1>
             <?php
             if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
                 echo '<form action="updateprofile.php" method="post">
@@ -50,7 +50,8 @@
                         name="new_pwd" placeholder="Enter password">
                     </div>
                     <div class="form-group">
-                            <button class="btn btn-primary" type="submit">Update</button>
+                            <!-- <button class="btn btn-primary" type="submit">Update</button> -->
+                            <button class="btn updateprofilebtn" type="submit">Update</button>
                     </div>
                 </form>';
                 

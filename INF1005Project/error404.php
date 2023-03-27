@@ -15,10 +15,11 @@
                 <div class="row">
                     <div class="output-msg card">
                         <div class="card-body">
+                            <h1>404 Not Found</h1>
                             <p class="text-danger">Oops! Page Not Found.</p>
                             <p class="text-danger">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
                             <form action="index.php" method="get">
-                                <button class="btn btn-primary" type="submit">Go to Homepage</button>
+                                <button class="btn updateprofilebtn" type="submit">Go to Homepage</button>
                             </form>
                         </div>
                     </div>
