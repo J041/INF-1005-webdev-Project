@@ -97,6 +97,7 @@
                 $stmt->bind_param("s",$outputemail);
                 $stmt->execute();
                 $result = $stmt->get_result();
+                $cartempty = 0;
                 if ($result->num_rows > 0)
                 {
                     $total = 0;
@@ -135,6 +136,10 @@
                     echo "</div>";
                     $conn->close();
                 }
+                else
+                {
+                    $cartempty += 1;
+                }
             }
             ?>
             <hr>
@@ -151,7 +156,7 @@
             <div class="checkoutbtns">
                 <a href='catalogue.php' class='btn btn-warning'>Continue Browsing</a>
                 <?php
-                if ($outofstock>0)
+                if ($outofstock>0 || $cartempty>0)
                 {
                     echo "<a href='#' class='btn btn-default'>Pay Now</a>";
                 }
