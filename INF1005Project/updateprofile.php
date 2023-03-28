@@ -50,8 +50,8 @@
                         name="new_pwd" placeholder="Enter password">
                     </div>
                     <div class="form-group">
-                            <!-- <button class="btn btn-primary" type="submit">Update</button> -->
-                            <button class="btn updateprofilebtn" type="submit">Update</button>
+                            <button class="btn btn-primary" type="submit">Update</button>
+                            <!-- <button class="btn updateprofilebtn" type="submit">Update</button> -->
                     </div>
                 </form>';
                 
