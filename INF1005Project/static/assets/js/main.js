@@ -33,21 +33,9 @@ function CreditCardFormat() {
 function formValidation() {
     // Catalogue - Search Bar
     const search_bar = document.querySelector(".navb-search").children[0].children[0].children[0].children[0].children[0];
-    
-    // Catalogue - Reviews
-    const review_input_add_btns = document.getElementsByClassName("review_input");
 
     search_bar.addEventListener("input", () => {
         sanitizeRegexInput(search_bar, search_bar.value);
-    });
-
-    Array.prototype.forEach.call(review_input_add_btns, function (data, input) {
-        element.addEventListener('input', () => {
-            data = element.value;
-            input = element;
-
-            sanitizeRegexInput(data, input);
-        });
     });
 }
 
@@ -217,18 +205,20 @@ function displayHideToggle(element, main_btn, secondary_btn, main_display, secon
 // }
 
 function sanitizeRegexInput(input, data) {
-    // Regular Expression that only allow accepts alphanumeric, hyphen (-) & whitespace characters
+    // Regular Expression that only allow accepts alphanumeric , hyphen (-) & whitespace characters .
     if (/[^A-Za-z0-9\- ]/.test(data)) {
         input.setCustomValidity("Only alphanumeric, hyphen (-) & whitespace characters are accepted.");
+    } else {
+        input.setCustomValidity("");
     }
 }
 
-function sanitizeRegexDesc(data) {
+function sanitizeRegexDesc(input, data) {
     // Regular Expression that only allow accepts alphanumeric & whitespace characters, hyphen (-), commas (-), full-stop (.) & exclamation mark (!).
     if (/[^A-Za-z0-9\-.,! ]/.test(data)) {
-        return "Unidentified Character";
+        return "Only alphanumeric & whitespace characters, hyphen (-), commas (-), full-stop (.) & exclamation mark (!) are accepted.";
     } else {
-        return "No Issues!";
+        input.setCustomValidity("");
     }
 }
 

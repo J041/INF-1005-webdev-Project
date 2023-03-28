@@ -111,8 +111,8 @@
         }
         ?>
         <?php
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
+        // ini_set('display_errors', 1);
+        // error_reporting(E_ALL);
         // display form data on submission if no errors
         if (isset($_POST['submit'])) {
             if (empty($usernameErr) && empty($emailErr) && empty($passwordErr) && empty($pwd_confirmErr)) {
