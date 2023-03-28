@@ -63,7 +63,7 @@
                             $usernameErr = "Duplicate username or Email";
                             $success = false;
                         } else {
-                            echo "The email address  does not exist in the database.";
+                            
                         }
                     }
                     $stmt->close();
@@ -84,31 +84,24 @@
                 // Check connection
             }
 
-
             if (empty($_POST["pwd"])) {
                 $passwordErr = "password is required.<br>";
-
-                $success = false;
             } else {
-                if ($_POST["pwd"] != $_POST["pwd_confirm"]) {
-                    $pwd_confirmErr = "password dont match with confirm pass";
+                $name = test_input($_POST["username"]);
+                // check if name only contains letters and whitespace
+                if (!preg_match("/^[a-zA-Z0-9]*$/", $_POST["pwd"])) {
+                    $passwordErr . "Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.";
                     $success = false;
+                } else {
+                    if ($_POST["pwd"] != $_POST["pwd_confirm"]) {
+                        $pwd_confirmErr = "password dont match with confirm pass";
+                        $success = false;
+                    }
                 }
             }
-            // Given password
-            $password = $_POST["pwd"];
-
-//            //Validate password strength
-//            $uppercase = preg_match('@[A-Z]@', $_POST["pwd"]);
-//            $lowercase = preg_match('@[a-z]@',$_POST["pwd"]);
-//            $number = preg_match('@[0-9]@', $_POST["pwd"]);
-//            $specialChars = preg_match('@[^\w]@', $_POST["pwd"]);
-//
-//            if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
-//                $passwordErr . "Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.";
-//                $success = false;
-//            }
         }
+        // Given password
+        $password = $_POST["pwd"];
 
         function test_input($data) {
             $data = trim($data);
@@ -142,7 +135,6 @@
             $config = parse_ini_file('../private/db-config.ini');
             $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
             // echo "test1";
-
             // Check connection
             if ($conn->connect_error) {
                 $errorMsg = "Connection failed: " . $conn->connect_error;
@@ -233,8 +225,8 @@
         }
         ?>
     </main>
-        <?php
-        include "footer.inc.php";
-        ?>
+    <?php
+    include "footer.inc.php";
+    ?>
 </body>
 </html>
