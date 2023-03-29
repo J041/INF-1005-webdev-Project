@@ -39,10 +39,10 @@
                                             <div class="search-container">
                                                 <div class="row">
                                                     <div class="col-xs-11">
-                                                        <input class="search-bar" id="search_bar" type="text" name="search_bar" placeholder="Search for Products..." data-toggle="tooltip" data-placement="bottom" aria-labelledby="Only alphanumeric, whitespaces and hyphen (&quot;-&quot;) are allowed." maxlength = "100">
+                                                        <input class="search-bar" id="search_bar" type="text" name="search_bar" placeholder="Search for Products..." data-toggle="tooltip" data-placement="bottom" aria-label="Only alphanumeric, whitespaces and hyphen (&quot;-&quot;) are allowed." maxlength = "100">
                                                     </div>
                                                     <div class="col-xs-1">
-                                                        <button class="search-bar-icon btn btn-outline-primary" aria-labelledby="search_btn" title="Click here to search for product."><i class="fa-solid fa-magnifying-glass"></i></button>
+                                                        <button class="search-bar-icon btn btn-outline-primary" aria-label="search_btn" title="Click here to search for product."><i class="fa-solid fa-magnifying-glass"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -77,9 +77,10 @@
                 }
 
                 // Prepare, Bind & Execute SELECT statement to retrieve all active products categories:
-                $stmt = $conn->prepare("SELECT DISTINCT product_category FROM Products WHERE is_active=? ORDER BY product_category");
+                $stmt = $conn->prepare("SELECT DISTINCT product_category FROM Products WHERE is_active=? AND quantity>? ORDER BY product_category");
                 $is_active = 1;
-                $stmt->bind_param("i", $is_active);
+                $quantity = 0;
+                $stmt->bind_param("ii", $is_active, $quantity);
                 $stmt->execute();
 
                 // Storing Product Categories into a list
@@ -97,7 +98,7 @@
                     $html_output .= '
                     
                                     <div class="item nav-item dropdown">
-                                        <a class="" href="/catalogue.php" id="dropdownCatalogue" aria-labelledby="catalogue" title="Click here to view our Product Catalogue.">
+                                        <a class="" href="/catalogue.php" id="dropdownCatalogue" aria-label="catalogue" title="Click here to view our Product Catalogue.">
                                             <i class="fa-solid fa-book"></i>
                                             <span class="responsive_text">Catalogue</span>
                                         </a>
@@ -107,7 +108,7 @@
                     $html_output .= '
                     
                                     <div class="item nav-item dropdown">
-                                        <a class="dropdown-toggle" href="#" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" aria-labelledby="catalogue" title="Click here to view our Product Catalogue.">
+                                        <a class="dropdown-toggle" href="#" id="dropdownCatalogue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" aria-label="catalogue" title="Click here to view our Product Catalogue.">
                                             <i class="fa-solid fa-book"></i>
                                             <span class="responsive_text">Catalogue</span>
                                         </a>
@@ -120,7 +121,7 @@
                         $html_output .= '
                                         <div class="item row">
                                             <div class="col-xs-12">' . 
-                                                "<input type=\"submit\" name=\"search_bar\" value=\"" . $category_array[$i] . "\" aria-labelledby=\"catalogue_listing_". $category_array[$i] ."\">" .
+                                                "<input type=\"submit\" name=\"search_bar\" value=\"" . $category_array[$i] . "\" aria-label=\"catalogue_listing_". $category_array[$i] ."\">" .
                                             '</div>
                                         </div>
                                         ';
@@ -131,7 +132,7 @@
 
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <input type="submit" name="search_bar" value="All Products" aria-labelledby="catalogue_list_all_products">
+                                                <input type="submit" name="search_bar" value="All Products" aria-label="catalogue_list_all_products">
                                             </div>
                                         </div>
                                         ';
@@ -160,7 +161,7 @@
                 // Generating Backend Catalogue in HTML
                 $html_output .= '
                                 <div class="item nav-item">
-                                    <a href="/catalogue_backend.php" aria-labelledby="catalogue_backend" title="Click here to view our Backend Catalogue.">
+                                    <a href="/catalogue_backend.php" aria-label="catalogue_backend" title="Click here to view our Backend Catalogue.">
                                         <i class="fa-solid fa-book-open-reader"></i>
                                         <span class="responsive_text">Edit Catalogue</span>
                                     </a>
@@ -175,7 +176,7 @@
                 // Generating Admin Dashboard in HTML
                 $html_output .= '
                                 <div class="item nav-item">
-                                    <a href="/admin_dashboard.php" aria-labelledby="admin_dashboard" title="Click here to view our Admin Dashboard.">
+                                    <a href="/admin_dashboard.php" aria-label="admin_dashboard" title="Click here to view our Admin Dashboard.">
                                         <i class="fa-solid fa-chart-line"></i>
                                         <span class="responsive_text">Dashboard</span>
                                     </a>
@@ -190,7 +191,7 @@
                 // Generating Cart in HTML
                 $html_output .= '
                                 <div class="item nav-item">
-                                    <a href="/cart.php" aria-labelledby="shopping_cart" title="Click here to view your shopping cart.">
+                                    <a href="/cart.php" aria-label="shopping_cart" title="Click here to view your shopping cart.">
                                         <i class="fa-solid fa-cart-shopping"></i>
                                         <span class="responsive_text">Cart</span>
                                     </a>
@@ -205,7 +206,7 @@
                 // Generating About Us in HTML
                 $html_output .= '
                                 <div class="item nav-item">
-                                    <a href="/about_us.php" aria-labelledby="about_us" title="Learn more about us.">
+                                    <a href="/about_us.php" aria-label="about_us" title="Learn more about us.">
                                         <i class="fa-solid fa-circle-info"></i>
                                         <span class="responsive_text">About Us</span>
                                     </a>
@@ -220,7 +221,7 @@
                 // Generating Login in HTML
                 $html_output .= '
                                 <div class="item nav-item">
-                                    <a href="/login.php" aria-labelledby="login" title="Log into your account.">
+                                    <a href="/login.php" aria-label="login" title="Log into your account.">
                                         <i class="fa-solid fa-right-to-bracket"></i>
                                         <span class="responsive_text">Login</span>
                                     </a>

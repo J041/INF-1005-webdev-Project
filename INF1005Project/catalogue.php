@@ -6,11 +6,12 @@
         ?>
     </head>
     <body>
+    <main>
         <?php
         include "nav.inc.php";
         include "function.php";
         ?>
-        <main>
+        
             <?php
 
             function check_if_bought_before($product_id) {
@@ -343,6 +344,7 @@
 
                     // Prepare, Bind & Execute SELECT statement to retrieve all active products
                     $is_active = 1;
+                    $quantity = 0;
 
                     // SQL Query Logic
                     if (sizeof($category_array) == 0) {
@@ -351,24 +353,24 @@
                     } elseif (in_array($search_query, $category_array)) {
                         // Users clicks on product category in the dropdown --> Logic = 1
                         $logic = 1;
-                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_category=?");
-                        $stmt->bind_param("is", $is_active, $search_query);
+                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND quantity>? AND product_category=?");
+                        $stmt->bind_param("iis", $is_active, $quantity, $search_query);
                     } elseif ($search_query == "All Products") {
                         // clicks on Show all on catalogue.php in dropdown --> Logic = 2
                         $logic = 2;
-                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
-                        $stmt->bind_param("i", $is_active);
+                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND quantity>?");
+                        $stmt->bind_param("ii", $is_active, $quantity);
                     } elseif ($search_query == "") {
                         // Manually enters catalogue.php in URL --> Logic = 2
                         $logic = 2;
-                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
-                        $stmt->bind_param("i", $is_active);
+                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND quantity>?");
+                        $stmt->bind_param("ii", $is_active, $quantity);
                     } else {
                         // Search for specific items --> Logic = 3
                         $logic = 3;
                         $param = "{$search_query}%";
-                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_name LIKE ?");
-                        $stmt->bind_param("is", $is_active, $param);
+                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND quantity>? AND product_name LIKE ?");
+                        $stmt->bind_param("iis", $is_active, $quantity, $param);
                     }
                     $stmt->execute();
 
@@ -498,35 +500,37 @@
                     // Display Error/Success Messages
                     output_messages($success_msg, $error_msg);
 
-                    $html_output .= "<div class=\"row\">"
+                    $html_output .= "<div class=\"row\" role=\"list\" title=\"Backend Catalogue Headings\">"
                             . "<div class=\"container catalogue-display\">"
                             . "<h1>Search result for </h1>"
                             . "<h2>\"" . $search_query . "\"</h2>"
                             . "</div>"
                             . "</div>";
                 } elseif ($logic == 0) {
-                    $html_output .= "<div class=\"row\">"
+                    $html_output .= "<div class=\"row\" role=\"list\" title=\"Backend Catalogue Headings\">"
                             . "<div class=\"container catalogue-display\">"
                             . "<h1>Please try a different search term/product category.</h1>"
                             . "<h2>No results found!</h2>"
                             . "</div>"
                             . "</div>";
                 } elseif ($logic == 1) {
-                    $html_output .= "<div class=\"row\">"
+                    $html_output .= "<div class=\"row\" role=\"list\" title=\"Backend Catalogue Headings\">"
                             . "<div class=\"container catalogue-display\">"
                             . "<h1>Home/Products/" . $search_query . "</h1>"
                             . "<h2>" . $search_query . "</h2>"
                             . "</div>"
                             . "</div>";
                 } elseif ($logic == 2) {
-                    $html_output .= "<div class=\"row\">"
-                            . "<div class=\"container catalogue-display\">"
+                    $html_output .= "<div class=\"row\" role=\"list\" title=\"Backend Catalogue Headings\">"
+                            . "<div class=\"container catalogue-display\" role=\"listitem\">"
                             . "<h1>Returning results for </h1>"
+                            . "</div>"
+                            . "<div class=\"container catalogue-display\" role=\"listitem\">"
                             . "<h2>All Products</h2>"
                             . "</div>"
                             . "</div>";
                 } else {
-                    $html_output .= "<div class=\"row\">"
+                    $html_output .= "<div class=\"row\" role=\"list\" title=\"Backend Catalogue Headings\">"
                             . "<div class=\"container catalogue-display\">"
                             . "<h1>Search result for </h1>"
                             . "<h2>\"" . $search_query . "\"</h2>"
@@ -564,13 +568,13 @@
                 // Generate and Output product details into Modal
                 for ($i = 0; $i < sizeof($results_array); $i++) {
 
-                    $html_output .= "<div class=\"product-item modal fade\" id=\"catalogue_detail_item_" . $results_array[$i][0] . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"catalogue_detail_item_" . $results_array[$i][0] . "\" aria-hidden=\"true\" title=\"Product catalogue details for ". $results_array[$i][0] .".\">"
+                    $html_output .= "<div class=\"product-item modal fade\" id=\"catalogue_detail_item_" . $results_array[$i][0] . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"catalogue_detail_item_" . $results_array[$i][0] . "\" aria-hidden=\"true\" title=\"Product catalogue details for " . $results_array[$i][0] . ".\">"
                             . "<div class=\"modal-dialog modal-xl modal-dialog-scrollable\" role=\"document\">"
                             . "<div class=\"modal-content\">"
                             . "<div class=\"modal-body\">"
                             . "<div class=\"container-fluid\">"
                             . "<div class=\"product-item-btn row\">"
-                            . "<button type=\"button\" data-dismiss=\"modal\" aria-labelledby=\"modal_close_btn\" title=\"Click to close the Product Modal.\"><i class=\"fa-solid fa-xmark\"></i></button>"
+                            . "<button type=\"button\" data-dismiss=\"modal\" aria-label=\"modal_close_btn\" title=\"Click to close the Product Modal.\"><i class=\"fa-solid fa-xmark\"></i></button>"
                             . "</div>"
                             . "<div class=\"row\">"
                             . "<div class=\"product-item-img col-md-12 col-lg-6\">"
@@ -646,15 +650,15 @@
                                         </div>
                                         <div class="review-row-form col-sm-12 col-md-12 col-lg-12" role="form" title="\'Add Reviews\' Ratings.">
                                             <label class="">1 <i class="fa-solid fa-star"></i></label>
-                                            <input class="" type="radio" name="rating" value="1" placeholder="1" required>
+                                            <input class="" type="radio" name="rating" value="1" aria-label="1" required>
                                             <label class="">2 <i class="fa-solid fa-star"></i></label>
-                                            <input class="" type="radio" name="rating" value="2" placeholder="2" required>
+                                            <input class="" type="radio" name="rating" value="2" aria-label="2" required>
                                             <label class="">3 <i class="fa-solid fa-star"></i></label>
-                                            <input class="" type="radio" name="rating" value="3" placeholder="3" required>
+                                            <input class="" type="radio" name="rating" value="3" aria-label="3" required>
                                             <label class="">4 <i class="fa-solid fa-star"></i></label>
-                                            <input class="" type="radio" name="rating" value="4" placeholder="4"required>
+                                            <input class="" type="radio" name="rating" value="4" aria-label="4" required>
                                             <label class="">5 <i class="fa-solid fa-star"></i></label>
-                                            <input class="" type="radio" name="rating" value="5" placeholder="5" required>
+                                            <input class="" type="radio" name="rating" value="5" aria-label="5" required>
                                         </div>
                                         <div class="review-row-form col-lg-12 col-xl-12" role="form" title="\'Add Reviews\' Review.">
                                             <label class="">Review: </label>
@@ -771,10 +775,10 @@
                                 for ($j = 1; $j < 6; $j++) {
                                     if ($reviews[$k][1] == $j) {
                                         $html_output .= "<label class=\"\" for=\"rating_edit\">" . $j . " <i class=\"fa-solid fa-star\"></i></label>"
-                                                . "<input class=\"\" type=\"radio\" name=\"rating_edit\" value=\"" . $reviews[$k][1] . "\" placeholder=\"". $reviews[$k][1] ."\" required checked>";
+                                                . "<input class=\"\" type=\"radio\" name=\"rating_edit\" value=\"" . $reviews[$k][1] . "\" aria-label=\"" . $reviews[$k][1] . "\" required checked>";
                                     } else {
                                         $html_output .= "<label class=\"\" for=\"rating_edit\">" . $j . " <i class=\"fa-solid fa-star\"></i></label>"
-                                                . "<input class=\"\" type=\"radio\" name=\"rating_edit\" value=\"" . $j . "\" placeholder=\"". $reviews[$k][1] ."\" required>";
+                                                . "<input class=\"\" type=\"radio\" name=\"rating_edit\" value=\"" . $j . "\" aria-label=\"" . $reviews[$k][1] . "\" required>";
                                     }
                                 }
                                 $html_output .= "</div>"
@@ -813,10 +817,12 @@
 
                 echo $html_output
                 ?>
+        
 
-                <?php
-                include "footer.inc.php";
-                ?>
-            </div>
-    </body>
+        <?php
+        include "footer.inc.php";
+        ?>
+    </div>
+    </main>
+</body>
 </html>
