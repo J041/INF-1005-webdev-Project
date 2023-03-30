@@ -77,10 +77,9 @@
                 }
 
                 // Prepare, Bind & Execute SELECT statement to retrieve all active products categories:
-                $stmt = $conn->prepare("SELECT DISTINCT product_category FROM Products WHERE is_active=? AND quantity>? ORDER BY product_category");
+                $stmt = $conn->prepare("SELECT DISTINCT product_category FROM Products WHERE is_active=? ORDER BY product_category");
                 $is_active = 1;
-                $quantity = 0;
-                $stmt->bind_param("ii", $is_active, $quantity);
+                $stmt->bind_param("i", $is_active);
                 $stmt->execute();
 
                 // Storing Product Categories into a list

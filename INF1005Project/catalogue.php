@@ -344,7 +344,6 @@
 
                     // Prepare, Bind & Execute SELECT statement to retrieve all active products
                     $is_active = 1;
-                    $quantity = 0;
 
                     // SQL Query Logic
                     if (sizeof($category_array) == 0) {
@@ -353,24 +352,24 @@
                     } elseif (in_array($search_query, $category_array)) {
                         // Users clicks on product category in the dropdown --> Logic = 1
                         $logic = 1;
-                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND quantity>? AND product_category=?");
-                        $stmt->bind_param("iis", $is_active, $quantity, $search_query);
+                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_category=?");
+                        $stmt->bind_param("is", $is_active, $search_query);
                     } elseif ($search_query == "All Products") {
                         // clicks on Show all on catalogue.php in dropdown --> Logic = 2
                         $logic = 2;
-                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND quantity>?");
-                        $stmt->bind_param("ii", $is_active, $quantity);
+                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
+                        $stmt->bind_param("i", $is_active, $quantity);
                     } elseif ($search_query == "") {
                         // Manually enters catalogue.php in URL --> Logic = 2
                         $logic = 2;
-                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND quantity>?");
-                        $stmt->bind_param("ii", $is_active, $quantity);
+                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
+                        $stmt->bind_param("i", $is_active);
                     } else {
                         // Search for specific items --> Logic = 3
                         $logic = 3;
                         $param = "{$search_query}%";
-                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND quantity>? AND product_name LIKE ?");
-                        $stmt->bind_param("iis", $is_active, $quantity, $param);
+                        $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_name LIKE ?");
+                        $stmt->bind_param("is", $is_active, $param);
                     }
                     $stmt->execute();
 
