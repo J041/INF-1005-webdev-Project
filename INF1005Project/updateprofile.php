@@ -139,9 +139,6 @@
                     }
                 }
             } else {
-                // echo    '<div class="alert alert-danger" role="alert">'.
-                //             '<p>You must be logged in to access this page</p>' . 
-                //         '</div>';
                 $html_output = "<div class=\"container-fluid\" role=\"alert\">"
                         . "<div class=\"row\">"
                         . "<div class=\"output-msg card\">"

@@ -94,7 +94,6 @@ function addtocart($product_id, $quantity) {
             // Prepare the statement:
             $selectpricestmt = $conn->prepare("SELECT price FROM Products where product_id = ?");
             // Bind & execute the query statement:
-            // $product_id = $product_id;
             $selectpricestmt->bind_param("i", $product_id);
             if (!$selectpricestmt->execute()) {
                 $errorMsg = "Execute failed: (" . $selectpricestmt->errno . ") " . $selectpricestmt->error;
@@ -105,7 +104,6 @@ function addtocart($product_id, $quantity) {
                 if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
                     $product_price = $row["price"];
-                    // echo "product_price is:" . $product_price . '<br>';
                 } else {
                     $errorMsg = "less than 1 result";
                     $success = false;
@@ -127,7 +125,6 @@ function addtocart($product_id, $quantity) {
                 if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
                     $order_id = $row["order_id"];
-                    // echo "order_id is:" . $order_id . '<br>';
                 } else {
                     $errorMsg = "less than 1 result";
                     $success = false;
@@ -196,8 +193,6 @@ function addtocart($product_id, $quantity) {
                     // Prepare the statement:
                     $putincartstmt = $conn->prepare("INSERT INTO mydb.Cart_Item (Products_product_id,Order_History_order_id,quantity,price) VALUES (?,?,?,?)");
                     // Bind & execute the query statement:
-                    // $quantity = 2;
-                    // echo $product_price;
                     $putincartstmt->bind_param("iiid", $product_id, $order_id, $quantity, $product_price);
                     if (!$putincartstmt->execute()) {
                         $errorMsg = "Execute failed: (" . $putincartstmt->errno . ") " . $putincartstmt->error;
@@ -229,7 +224,6 @@ function removefromcart($product_id, $quantity) {
             // Prepare the statement:
             $selectpricestmt = $conn->prepare("SELECT price FROM Products where product_id = ?");
             // Bind & execute the query statement:
-            // $product_id = $product_id;
             $selectpricestmt->bind_param("i", $product_id);
             if (!$selectpricestmt->execute()) {
                 $errorMsg = "Execute failed: (" . $selectpricestmt->errno . ") " . $selectpricestmt->error;
@@ -240,7 +234,6 @@ function removefromcart($product_id, $quantity) {
                 if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
                     $product_price = $row["price"];
-                    // echo "product_price is:" . $product_price . '<br>';
                 } else {
                     $errorMsg = "less than 1 result";
                     $success = false;
@@ -262,7 +255,6 @@ function removefromcart($product_id, $quantity) {
                 if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
                     $order_id = $row["order_id"];
-                    // echo "order_id is:" . $order_id . '<br>';
                 } else {
                     $errorMsg = "less than 1 result";
                     $success = false;
@@ -285,7 +277,6 @@ function removefromcart($product_id, $quantity) {
                     $prev_quantity = $row["quantity"];
                     $incart = true;
                 }
-                // echo "prev_quantity is:" . $prev_quantity . '<br>';
             }
             $check_if_in_cart_stmt->close();
 
@@ -300,7 +291,6 @@ function removefromcart($product_id, $quantity) {
                 $result = $getitemquantitystmt->get_result();
                 $row = $result->fetch_assoc();
                 $backend_quantity = $row["quantity"];
-                // echo "backend_quantity is:" . $backend_quantity . '<br>';
                 $success = true;
             }
             $getitemquantitystmt->close();
@@ -331,13 +321,11 @@ function removefromcart($product_id, $quantity) {
 
                 if ($quantity > $backend_quantity) {
                     $errorMsg = "Insufficient quantity";
-                    // echo $errorMsg;
                     $success = false;
                 } else {
                     // Prepare the statement:
                     $putincartstmt = $conn->prepare("INSERT INTO mydb.Cart_Item (Products_product_id,Order_History_order_id,quantity,price) VALUES (?,?,?,?)");
                     // Bind & execute the query statement:
-                    // $quantity = 2;
                     $putincartstmt->bind_param("iiid", $product_id, $order_id, $quantity, $product_price);
                     if (!$putincartstmt->execute()) {
                         $errorMsg = "Execute failed: (" . $putincartstmt->errno . ") " . $putincartstmt->error;
@@ -364,17 +352,9 @@ function logout() {
     session_unset();
     session_destroy();
     $_SESSION = array();
-    // if (isset($_COOKIE[session_name()])) {
-    //     setcookie(session_name(), '', time() - 3600, '/');
-    //     header('Location: logout.php');
-    // }
 }
 
 function UpdateUser($new_username, $old_password, $new_password) {
-    // mysqli_error(MYSQLI_ERROR_OFF);
-    // ini_set("display_errors", 1);
-    // error_reporting(E_ALL);
-
     session_start();
     // Create database connection.
     $config = parse_ini_file('../private/db-config.ini');
@@ -415,19 +395,6 @@ function UpdateUser($new_username, $old_password, $new_password) {
                 }
                 $stmt->close();
             }
-
-            // $stmt = $conn->prepare("UPDATE Users SET username=? where email = ?");
-            // $sanitize_username = sanitize_input($new_username);
-            // $stmt->bind_param("ss", $sanitize_username, $email);
-            // if (!$stmt->execute()) {
-            //     $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-            //     $iserror = true;
-            // } else {
-            //     $result = $stmt->get_result();
-            //     $_SESSION['username'] = $sanitize_username;
-            //     $updatedusername = 1;
-            // }
-            // $stmt->close();
         }
 
 
@@ -463,9 +430,6 @@ function UpdateUser($new_username, $old_password, $new_password) {
     }
     $conn->close();
 
-    // array_push( $returnval, $errorMsg );
-    // array_push( $returnval, $updatedpassword );
-
     if ($iserror) {
         $returnval['errorMsg'] = $errorMsg;
         $returnval['iserror'] = $iserror;
@@ -476,24 +440,6 @@ function UpdateUser($new_username, $old_password, $new_password) {
     }
 
     return $returnval;
-
-    // if ($success){
-    //     if ($updatedusername && $updatedpassword){
-    //         $errorMsg = "Update Successful! Username and Password has been updated";
-    //     } elseif ($updatedusername && !$updatedpassword){
-    //         $errorMsg = "Update successful!. Username has been updated";
-    //     } elseif (!$updatedusername && $updatedpassword){
-    //         $errorMsg = "Update Successful!. Password has been updated";
-    //     }
-    //     $returnval['errorMsg'] = $errorMsg;
-    //     $returnval['updatedpassword'] = $updatedpassword;
-    //     $returnval['success'] = $success;
-    //     return $returnval;
-    // } else {
-    //     $returnval['errorMsg'] = $errorMsg;
-    //     $returnval['success'] = $success;
-    //     return $returnval;
-    // }
 }
 
 ?>
