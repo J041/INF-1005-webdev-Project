@@ -358,7 +358,7 @@
                         // clicks on Show all on catalogue.php in dropdown --> Logic = 2
                         $logic = 2;
                         $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=?");
-                        $stmt->bind_param("i", $is_active, $quantity);
+                        $stmt->bind_param("i", $is_active);
                     } elseif ($search_query == "") {
                         // Manually enters catalogue.php in URL --> Logic = 2
                         $logic = 2;
