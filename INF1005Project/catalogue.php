@@ -344,12 +344,9 @@
 
                     // Prepare, Bind & Execute SELECT statement to retrieve all active products
                     $is_active = 1;
-
+                    
                     // SQL Query Logic
-                    if (sizeof($category_array) == 0) {
-                        // No active product categories found --> Logic = 0
-                        $logic = 0;
-                    } elseif (in_array($search_query, $category_array)) {
+                    if (in_array($search_query, $category_array)) {
                         // Users clicks on product category in the dropdown --> Logic = 1
                         $logic = 1;
                         $stmt = $conn->prepare("SELECT * FROM Products WHERE is_active=? AND product_category=?");
@@ -494,8 +491,15 @@
 
                 // Output Header of Catalogue Page
                 $html_output = "";
-
-                if ($logic == null) {
+                
+                if (sizeof($category_array) == 0) {
+                    $html_output .= "<div class=\"row\" role=\"list\" title=\"Backend Catalogue Headings\">"
+                            . "<div class=\"container catalogue-display\">"
+                            . "<h1>Please try a different search term/product category.</h1>"
+                            . "<h2>No results found!</h2>"
+                            . "</div>"
+                            . "</div>";
+                } elseif ($logic == null) {
                     // Display Error/Success Messages
                     output_messages($success_msg, $error_msg);
 
@@ -503,13 +507,6 @@
                             . "<div class=\"container catalogue-display\">"
                             . "<h1>Search result for </h1>"
                             . "<h2>\"" . $search_query . "\"</h2>"
-                            . "</div>"
-                            . "</div>";
-                } elseif ($logic == 0) {
-                    $html_output .= "<div class=\"row\" role=\"list\" title=\"Backend Catalogue Headings\">"
-                            . "<div class=\"container catalogue-display\">"
-                            . "<h1>Please try a different search term/product category.</h1>"
-                            . "<h2>No results found!</h2>"
                             . "</div>"
                             . "</div>";
                 } elseif ($logic == 1) {
